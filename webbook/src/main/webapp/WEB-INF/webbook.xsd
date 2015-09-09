@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="webbook">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="book" maxOccurs="unbounded"/>
+        <xsd:element ref="gaiji" minOccurs="0"/>
+        <xsd:element ref="cache" minOccurs="0"/>
+        <xsd:element ref="redirect" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="book">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="data">
+          <xsd:complexType>
+            <xsd:attribute name="path" type="xsd:token" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="appendix" minOccurs="0">
+          <xsd:complexType>
+            <xsd:attribute name="path" type="xsd:token" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element ref="acl" minOccurs="1"/>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="acl">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="addr" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:attribute name="allow" type="xsd:token"/>
+            <xsd:attribute name="deny" type="xsd:token"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="host" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:attribute name="allow" type="xsd:token"/>
+            <xsd:attribute name="deny" type="xsd:token"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="user" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:attribute name="allow" type="xsd:token"/>
+            <xsd:attribute name="deny" type="xsd:token"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="role" minOccurs="0" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:attribute name="allow" type="xsd:token"/>
+            <xsd:attribute name="deny" type="xsd:token"/>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="policy" type="policyType" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="gaiji">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="foreground" minOccurs="0">
+          <xsd:complexType>
+            <xsd:attribute name="color" type="colorType" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="background" minOccurs="0">
+          <xsd:complexType>
+            <xsd:attribute name="color" type="colorType" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="keyword" minOccurs="0">
+          <xsd:complexType>
+            <xsd:attribute name="color" type="colorType" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="anchor" minOccurs="0">
+          <xsd:complexType>
+            <xsd:attribute name="color" type="colorType" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="cache">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="dir" minOccurs="0">
+          <xsd:complexType>
+            <xsd:attribute name="path" type="xsd:token" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:all>
+      <xsd:attribute name="gaiji" type="xsd:boolean"/>
+      <xsd:attribute name="image" type="xsd:boolean"/>
+      <xsd:attribute name="sound" type="xsd:boolean"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="redirect">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="urn" minOccurs="0">
+          <xsd:complexType>
+            <xsd:attribute name="url" type="xsd:token" use="required"/>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:simpleType name="policyType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="allow"/>
+      <xsd:enumeration value="deny"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="colorType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="#[0-9a-fA-F]{6}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>
+
+<!-- end of webbook.xsd -->

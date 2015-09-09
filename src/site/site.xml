@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="eb4j">
+
+  <publishDate format="yyyy/MM/dd"/>
+  <version position="right"/>
+
+  <poweredBy>
+    <logo name="SourceForge.jp"
+          href="http://sourceforge.jp/"
+          img="http://sourceforge.jp/sflogo.php?group_id=420"/>
+    <logo name="Apache Maven"
+          href="http://maven.apache.org/"
+          img="images/logos/maven-feather.png"/>
+  </poweredBy>
+
+  <body>
+    <links>
+      <item name="プロジェクトホーム"
+            href="http://sourceforge.jp/projects/eb4j/"/>
+    </links>
+
+    <menu name="CONTENTS">
+      <item name="トップ" href="index.html"/>
+      <item name="更新情報" href="news.html"/>
+      <item name="スクリーンショット" href="screenshot.html"/>
+      <item name="WebBookについて" href="webbook.html"/>
+      <item name="XML2EBについて" href="xml2eb.html"/>
+      <item name="書籍変換ツールについて" href="converter.html"/>
+      <item name="APIドキュメント" href="apidocs/overview-summary.html"/>
+      <item name="参考資料" href="link.html"/>
+      <item name="ダウンロード"
+            href="http://sourceforge.jp/projects/eb4j/files/"/>
+    </menu>
+
+    <menu ref="modules"/>
+    <menu ref="reports"/>
+
+    <menu name="FindBugsレポート">
+      <item name="EB4J Core" href="eb4j-core/findbugs.html"/>
+      <item name="EB4J Tools" href="eb4j-tools/findbugs.html"/>
+      <item name="WebBook" href="webbook/findbugs.html"/>
+      <item name="XML2EB" href="xml2eb/findbugs.html"/>
+      <item name="WDIC Converter" href="conv-wdic/findbugs.html"/>
+      <item name="ZipCode Converter" href="conv-zipcode/findbugs.html"/>
+    </menu>
+  </body>
+</project>
+
+<!-- end of site.xml -->

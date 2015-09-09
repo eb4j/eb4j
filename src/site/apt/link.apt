@@ -1,0 +1,41 @@
+ ------
+LINK
+ ------
+Hisaya FUKUMOTO
+ ------
+2007/06/08
+
+
+参考資料
+
+* 組織/団体
+
+  * {{{http://www.jisc.go.jp/}日本工業標準調査会}}
+
+  * {{{http://www.epwing.or.jp/}EPWINGコンソーシアム}}
+
+* 技術資料
+
+  * {{{http://www.nerimadors.or.jp/~jiro/cdrom2/doc/spec}
+    12cmＣＤ(EPWING)と、電子ブック(EB)のデータ構造について}}
+
+  * {{{http://www.sra.co.jp/people/m-kasahr/dict-compress/epwing-compress.html}
+    EPWINGの圧縮形式について}}
+
+  * {{{http://www.sra.co.jp/people/m-kasahr/dict-compress/sebxa-compress.html}
+    S-EBXAの圧縮形式について}}
+
+  * {{{http://www31.ocn.ne.jp/~h_ishida/tech/EPWING_MMDATA.txt}
+    EPWINGのマルチメディアデータについて}}
+
+  * {{{http://www31.ocn.ne.jp/~h_ishida/EBStudio/Tech.html}
+    EBStudioにおけるJIS X4081の実装について}}
+
+* 参考ソフトウェア
+
+  * {{{http://www.sra.co.jp/people/m-kasahr/eb/index.html}EBライブラリ}}
+
+  * {{{http://www.sra.co.jp/people/m-kasahr/freepwing/index.html}FreePWING}}
+
+
+~~ end on link.apt

@@ -1,0 +1,113 @@
+ ------
+WEBBOOK
+ ------
+Hisaya FUKUMOTO
+ ------
+2007/06/08
+
+
+WebBookの設定
+
+  WebBookの設定は WEB-INF/webbook.xml ファイルで行います。
+  webbook要素をルート要素とし、以下の要素を順に設定します。
+
+
+* book要素
+
+  書籍の設定を行います。book要素には属性はなく、以下の要素で詳細を設定します。
+
+  [data] 書籍データ
+
+  [appendix] 付録データ
+
+  [acl] アクセス制御リスト
+
+
+** data/appendix要素
+
+   書籍/付録データのパスを path属性で設定します。
+
+
+** acl要素
+
+  書籍のアクセス制御を行います。
+  policy属性に子要素の条件に一致しなかった場合のデフォルト制御(allow/deny)を指定します。
+  acl要素の子要素には以下の要素を指定し、これらの要素の組合せでアクセス制御を行います。
+
+  また、acl要素はアクセス制限の有無に関わらず、必ず設定する必要があります。
+  アクセス制限を行わない場合は \<acl policy="allow"/\> と指定してください。
+
+  [addr] IPv4アドレスによる制御
+
+  [host] ホスト名による制御
+
+  [user] ユーザ名による制御
+
+  [role] ロール名による制御
+
+
+** addr/host/user/role要素
+
+  allow属性に許可リストを、deny属性に拒否リストを設定します。
+
+  許可/拒否リストはカンマ(,)区切りで複数の項目を記述することができます。
+  IPアドレスの記述には
+  xxx.xxx.xxx.xxx, xxx.xxx.xxx.xxx/mm, xxx.xxx.xxx.xxx/yyy.yyy.yyy.yyy
+  の形式が使用でき、ホスト名の記述には正規表現が使用できます。
+
+
+* gaiji要素
+
+  外字表示色の設定を行います。gaiji要素には属性はなく、
+  以下の要素で詳細を設定します。
+
+  [foreground] 前景色
+
+  [background] 背景色
+
+  [keyword] キーワード表示色
+
+  [anchor] アンカー表示色
+
+
+** foreground/background/keyword/anchor要素
+
+  表示色を color属性で設定します。
+  色は #RRGGBB 形式の16進数で記述します。
+
+
+* cache要素
+
+  キャッシュ有無の設定を行います。
+  gaiji/image/soundの各属性で各データのキャッシュ有無(true/false)を設定します。
+
+  また、dir要素にてキャッシュデータの保存先を設定します。
+  dir要素の指定がない場合は
+  ServletContext#getAttribute("javax.servlet.context.tempdir")
+  で返されるディレクトリに保存されます。
+
+
+** dir要素
+
+  キャッシュ保存先のパスを path属性で設定します。
+
+
+* redirect要素
+
+  URIのリダイレクト先の設定を行います。redirect要素には属性はなく、
+  以下の要素で詳細を設定します。
+
+  [urn] urn:のリダイレクト先
+
+  []
+
+  各要素の指定がない場合は、その要素が示すURIにアンカーが追加されません。
+
+
+** urn要素
+
+  urnのリダイレクト先URLをurl属性で設定します。
+  url属性の値に "?urn:..." を付加したものがアンカーのhref属性に使用されます。
+
+
+~~ end on webbook.apt

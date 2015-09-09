@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fuku.eb4j</groupId>
+  <artifactId>eb4j</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.5</version>
+
+  <name>EB4J</name>
+  <description>
+    電子辞書関連ソフトウェアパッケージ。
+  </description>
+
+  <url>http://eb4j.sourceforge.jp/</url>
+  <inceptionYear>2002</inceptionYear>
+  <licenses>
+    <license>
+      <name>LGPL</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>manual</distribution>
+    </license>
+  </licenses>
+  <organization>
+    <name>EB4J Project</name>
+    <url>http://www.sourceforge.jp/projects/eb4j/</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>fukumoto</id>
+      <name>Hisaya FUKUMOTO</name>
+      <email>fukumoto@users.sourceforge.jp</email>
+      <roles>
+        <role>Maintainer</role>
+        <role>Developer</role>
+      </roles>
+      <timezone>+9</timezone>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <site>
+      <id>localhost</id>
+      <url>file://${user.home}/public_html/eb4j</url>
+    </site>
+  </distributionManagement>
+
+  <issueManagement>
+    <system>SourceForge.jp</system>
+    <url>http://sourceforge.jp/tracker/?group_id=420</url>
+  </issueManagement>
+
+  <scm>
+    <connection>
+      scm:svn:http://localhost/svn/svnroot/eb4j/trunk
+    </connection>
+    <developerConnection>
+      scm:svn:http://localhost/svn/svnroot/eb4j/trunk
+    </developerConnection>
+    <url>
+      http://localhost/svn/svnroot/eb4j/trunk
+    </url>
+  </scm>
+
+  <modules>
+    <module>eb4j-core</module>
+    <module>eb4j-tools</module>
+    <module>webbook</module>
+    <module>xml2eb</module>
+    <module>conv-wdic</module>
+    <module>conv-zipcode</module>
+  </modules>
+
+  <build>
+    <defaultGoal>package</defaultGoal>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <inherited>false</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>clean</id>
+            <phase>clean</phase>
+            <configuration>
+              <tasks>
+                <delete dir="${user.home}/public_html/eb4j"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <encoding>UTF-8</encoding>
+          <debug>true</debug>
+          <optimize>false</optimize>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <compilerArgument>-Xlint:unchecked</compilerArgument>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>target/classes/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <locales>ja</locales>
+          <inputEncoding>UTF-8</inputEncoding>
+          <outputEncoding>UTF-8</outputEncoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <inherited>false</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
+            <descriptor>src/main/assembly/src.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <inherited>false</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>summary</report>
+              <report>license</report>
+              <report>project-team</report>
+              <report>dependency-convergence</report>
+              <report>scm</report>
+              <report>issue-tracking</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <inherited>false</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-only</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>pmd</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+              <sourceEncoding>UTF-8</sourceEncoding>
+              <targetJdk>1.5</targetJdk>
+              <linkXRef>true</linkXRef>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>findbugs</report>
+            </reports>
+            <configuration>
+              <threshold>Low</threshold>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>jxr</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+              <inputEncoding>UTF-8</inputEncoding>
+              <outputEncoding>UTF-8</outputEncoding>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+            <configuration>
+              <source>1.6</source>
+              <encoding>UTF-8</encoding>
+              <charset>UTF-8</charset>
+              <locale>ja_JP</locale>
+              <author>true</author>
+              <version>true</version>
+              <use>false</use>
+              <nodeprecatedlist>true</nodeprecatedlist>
+              <notree>false</notree>
+              <nohelp>true</nohelp>
+              <splitindex>true</splitindex>
+              <breakiterator>true</breakiterator>
+              <quiet>true</quiet>
+              <show>protected</show>
+              <detectJavaApiLink>false</detectJavaApiLink>
+              <groups>
+                <group>
+                  <title>EB4J Core</title>
+                  <packages>fuku.eb4j*</packages>
+                </group>
+                <group>
+                  <title>EB4J Tools</title>
+                  <packages>fuku.eb4j.tool</packages>
+                </group>
+                <group>
+                  <title>WebBook</title>
+                  <packages>fuku.webbook*</packages>
+                </group>
+                <group>
+                  <title>XML2EB</title>
+                  <packages>fuku.xml2eb*</packages>
+                </group>
+                <group>
+                  <title>WDIC Converter</title>
+                  <packages>fuku.xml2eb.converter.wdic</packages>
+                </group>
+                <group>
+                  <title>ZipCode Converter</title>
+                  <packages>fuku.xml2eb.converter.zipcode</packages>
+                </group>
+              </groups>
+              <links>
+                <link>
+                  http://java.sun.com/javase/ja/6/docs/ja/api
+                </link>
+                <link>
+                  http://java.sun.com/javaee/5/docs/api
+                </link>
+                <link>
+                  http://static.springframework.org/spring/docs/2.5.x/api
+                </link>
+              </links>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <properties>
+    <eb4j-core.version>1.0.5</eb4j-core.version>
+    <eb4j-tools.version>1.0.5</eb4j-tools.version>
+    <webbook.version>1.0.5</webbook.version>
+    <xml2eb.version>1.0.5</xml2eb.version>
+    <conv-wdic.version>1.0.5</conv-wdic.version>
+    <conv-zipcode.version>1.0.5</conv-zipcode.version>
+  </properties>
+</project>
+
+<!-- end of pom.xml -->

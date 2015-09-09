@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<assembly>
+  <id>bin</id>
+  <formats>
+    <format>tar.bz2</format>
+  </formats>
+
+  <moduleSets>
+    <moduleSet>
+      <includes>
+        <include>fuku.eb4j:eb4j-core</include>
+        <include>fuku.eb4j:eb4j-tools</include>
+        <include>fuku.eb4j:xml2eb</include>
+        <include>fuku.eb4j:conv-wdic</include>
+        <include>fuku.eb4j:conv-zipcode</include>
+      </includes>
+      <binaries>
+        <outputDirectory>/lib</outputDirectory>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
+
+  <fileSets>
+    <fileSet>
+      <outputDirectory>/</outputDirectory>
+      <directory>${basedir}</directory>
+      <includes>
+        <include>*.txt</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <outputDirectory>/bin</outputDirectory>
+      <directory>${basedir}/eb4j-tools/src/main/bin</directory>
+      <includes>
+        <include>*.sh</include>
+      </includes>
+      <fileMode>0755</fileMode>
+    </fileSet>
+
+    <fileSet>
+      <outputDirectory>/bin</outputDirectory>
+      <directory>${basedir}/xml2eb/src/main/bin</directory>
+      <includes>
+        <include>*.sh</include>
+      </includes>
+      <fileMode>0755</fileMode>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>/bin</outputDirectory>
+      <directory>${basedir}/xml2eb/src/main/bin</directory>
+      <includes>
+        <include>log4j.xml</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <outputDirectory>/bin</outputDirectory>
+      <directory>${basedir}/conv-wdic/src/main/bin</directory>
+      <includes>
+        <include>*.sh</include>
+      </includes>
+      <fileMode>0755</fileMode>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>/bin</outputDirectory>
+      <directory>${basedir}/conv-wdic/src/main/bin</directory>
+      <includes>
+        <include>wdic*.properties</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <outputDirectory>/bin</outputDirectory>
+      <directory>${basedir}/conv-zipcode/src/main/bin</directory>
+      <includes>
+        <include>*.sh</include>
+      </includes>
+      <fileMode>0755</fileMode>
+    </fileSet>
+
+    <fileSet>
+      <outputDirectory>/webapps/webbook</outputDirectory>
+      <directory>${basedir}/webbook/target/webbook</directory>
+      <excludes>
+        <exclude>META-INF/**</exclude>
+      </excludes>
+    </fileSet>
+  </fileSets>
+
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/lib</outputDirectory>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+    </dependencySet>
+  </dependencySets>
+</assembly>
+
+<!-- end of bin.xml -->

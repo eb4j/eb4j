@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<webbook xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="webbook.xsd">
+
+  <!-- book definitions -->
+  <book>
+    <data path="/usr/share/eb/data/chujiten"/>
+    <!-- <appendix path="/usr/share/eb/appendix/chujiten"/> -->
+    <acl policy="deny">
+      <addr allow="127.0.0.1,192.168.254.0/24"/>
+    </acl>
+  </book>
+
+  <book>
+    <data path="/usr/share/eb/data/daijirin"/>
+    <!-- <appendix path="/usr/share/eb/appendix/daijirin"/> -->
+    <acl policy="deny">
+      <addr allow="127.0.0.1,192.168.254.0/24"/>
+    </acl>
+  </book>
+
+  <book>
+    <data path="/usr/share/eb/data/wdic"/>
+    <acl policy="allow"/>
+  </book>
+
+  <book>
+    <data path="/usr/share/eb/data/zipcode"/>
+    <acl policy="allow"/>
+  </book>
+
+  <!-- gaiji color definitions -->
+  <gaiji>
+    <foreground color="#000000"/>
+    <background color="#ffffff"/>
+    <keyword color="#dd0000"/>
+    <anchor color="#3366aa"/>
+  </gaiji>
+
+  <!-- cache definitions -->
+  <cache gaiji="false" image="false" sound="false">
+    <!-- <dir path="/usr/share/java/jboss/server/default/tmp"/> -->
+  </cache>
+
+  <!-- redirect url -->
+  <redirect>
+    <!-- <urn url="http://www.alib.jp/cgi-bin/urn.cgi"/> -->
+    <urn url="urn"/>
+  </redirect>
+
+</webbook>
+
+<!-- end of webbook.xml -->

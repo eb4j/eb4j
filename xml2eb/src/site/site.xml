@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="xml2eb">
+
+  <publishDate format="yyyy/MM/dd"/>
+  <version position="right"/>
+
+  <poweredBy>
+    <logo name="SourceForge.jp"
+          href="http://sourceforge.jp/"
+          img="http://sourceforge.jp/sflogo.php?group_id=420"/>
+  </poweredBy>
+
+  <body>
+    <links>
+      <item name="プロジェクトホーム"
+            href="http://sourceforge.jp/projects/eb4j/"/>
+    </links>
+
+    <menu ref="parent"/>
+    <menu ref="reports"/>
+  </body>
+</project>
+
+<!-- end of site.xml -->

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>fuku.eb4j</groupId>
+    <artifactId>eb4j</artifactId>
+    <version>1.0.5</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fuku.eb4j</groupId>
+  <artifactId>conv-wdic</artifactId>
+  <packaging>jar</packaging>
+  <version>${conv-wdic.version}</version>
+
+  <name>WDIC Converter</name>
+  <description>
+    通信用語(等)の基礎知識のデータをXML2EB用の辞書データに変換するプロ
+    グラム。
+  </description>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>summary</report>
+              <report>dependencies</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <dependencies>
+    <dependency>
+      <groupId>fuku.eb4j</groupId>
+      <artifactId>xml2eb</artifactId>
+      <version>${xml2eb.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+  </dependencies>
+</project>
+
+<!-- end of pom.xml -->

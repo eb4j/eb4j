@@ -1,0 +1,8 @@
+Main-Class: fuku.xml2eb.Xml2Eb
+Extension-Name: fuku.xml2eb
+Implementation-Title: XML to JIS X4081 format converter
+Implementation-Version: ${pom.version}
+Implementation-Vendor: Hisaya FUKUMOTO <fukumoto@users.sourceforge.jp>
+Implementation-Vendor-Id: fuku.xml2eb
+Implementation-URL: ${pom.url}
+Sealed: false

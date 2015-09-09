@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                             http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+  <!-- general description of web application -->
+  <display-name>WebBook</display-name>
+  <description>WebBook WebApplication.</description>
+
+  <!-- context initialization parameters -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/applicationContext.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>config</param-name>
+    <param-value>/WEB-INF/webbook.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>schema</param-name>
+    <param-value>/WEB-INF/webbook.xsd</param-value>
+  </context-param>
+
+  <!-- define events listeners -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>fuku.webbook.WebBookContextListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>fuku.webbook.WebBookRequestListener</listener-class>
+  </listener>
+
+  <!-- define filters -->
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+
+  <!-- define filter mappings -->
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- define servlets -->
+  <servlet>
+    <servlet-name>webbook</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>resource</servlet-name>
+    <servlet-class>fuku.webbook.ResourceServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>urn</servlet-name>
+    <servlet-class>fuku.webbook.URNServlet</servlet-class>
+    <load-on-startup>3</load-on-startup>
+  </servlet>
+
+  <!-- define servlet mappings -->
+  <servlet-mapping>
+    <servlet-name>webbook</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>resource</servlet-name>
+    <url-pattern>/resources/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>urn</servlet-name>
+    <url-pattern>/urn/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- define the default session timeout for this application -->
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+
+  <!-- default welcome file list -->
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+  <!-- define a security constraint on this application -->
+<!--
+  <security-constraint>
+    <display-name>WebBook Security Constraint</display-name>
+    <web-resource-collection>
+      <web-resource-name>Protected Area</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>webbook</role-name>
+    </auth-constraint>
+  </security-constraint>
+-->
+
+  <!-- define the login configuration for this application -->
+<!--
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <realm-name>WebBook</realm-name>
+    <form-login-config>
+      <form-login-page>/WEB-INF/jsp/login.jsp</form-login-page>
+      <form-error-page>/WEB-INF/jsp/login.jsp?incorrect=true</form-error-page>
+    </form-login-config>
+  </login-config>
+-->
+
+  <!-- security roles referenced by this web application -->
+<!--
+  <security-role>
+    <description>
+      The role that is required to log in to the WebBook Application
+    </description>
+    <role-name>webbook</role-name>
+  </security-role>
+-->
+
+</web-app>
+
+<!-- end of web.xml -->

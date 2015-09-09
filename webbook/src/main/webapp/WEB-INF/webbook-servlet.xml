@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="handlerMapping"
+        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="urlMap">
+      <map>
+        <entry key="/index.html">
+          <idref local="searchFormController"/>
+        </entry>
+        <entry key="/search.html">
+          <idref local="searchFormController"/>
+        </entry>
+        <entry key="/multiSearch.html">
+          <idref local="multiSearchFormController"/>
+        </entry>
+        <entry key="/preference.html">
+          <idref local="preferenceFormController"/>
+        </entry>
+        <entry key="/searchResult.html">
+          <idref local="webbookController"/>
+        </entry>
+        <entry key="/multiSearchResult.html">
+          <idref local="webbookController"/>
+        </entry>
+        <entry key="/multiSearchList.html">
+          <idref local="webbookController"/>
+        </entry>
+        <entry key="/bookMenu.html">
+          <idref local="webbookController"/>
+        </entry>
+        <entry key="/bookCopyright.html">
+          <idref local="webbookController"/>
+        </entry>
+        <entry key="/bookInformation.html">
+          <idref local="webbookController"/>
+        </entry>
+        <entry key="/about.html">
+          <idref local="webbookController"/>
+        </entry>
+        <entry key="/logout.html">
+          <idref local="webbookController"/>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="viewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass"
+              value="org.springframework.web.servlet.view.JstlView"/>
+    <property name="prefix" value="/WEB-INF/jsp/"/>
+    <property name="suffix" value=".jsp"/>
+  </bean>
+
+
+  <bean id="abstractController"
+        class="org.springframework.web.servlet.mvc.AbstractController"
+        abstract="true">
+    <property name="cacheSeconds" value="-1"/>
+  </bean>
+
+  <bean id="searchFormValidator"
+        class="fuku.webbook.SearchFormValidator"/>
+  <bean id="searchFormController"
+        class="fuku.webbook.SearchFormController"
+        parent="abstractController">
+    <property name="commandClass" value="fuku.webbook.SearchForm"/>
+    <property name="validator" ref="searchFormValidator"/>
+    <property name="formView" value="search"/>
+    <property name="successView" value="search"/>
+  </bean>
+
+  <bean id="multiSearchFormValidator"
+        class="fuku.webbook.MultiSearchFormValidator"/>
+  <bean id="multiSearchFormController"
+        class="fuku.webbook.MultiSearchFormController"
+        parent="abstractController">
+    <property name="commandClass" value="fuku.webbook.MultiSearchForm"/>
+    <property name="validator" ref="multiSearchFormValidator"/>
+    <property name="formView" value="multiSearch"/>
+    <property name="successView" value="multiSearch"/>
+  </bean>
+
+  <bean id="preferenceFormValidator"
+        class="fuku.webbook.PreferenceFormValidator"/>
+  <bean id="preferenceFormController"
+        class="fuku.webbook.PreferenceFormController"
+        parent="abstractController">
+    <property name="commandClass" value="fuku.webbook.PreferenceForm"/>
+    <property name="validator" ref="preferenceFormValidator"/>
+    <property name="formView" value="preference"/>
+    <property name="successView" value="preference"/>
+  </bean>
+
+  <bean id="webbookController"
+        class="fuku.webbook.WebBookController"
+        parent="abstractController">
+    <property name="methodNameResolver" ref="methodNameResolver"/>
+  </bean>
+
+  <bean id="methodNameResolver"
+        class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+    <property name="mappings">
+      <props>
+        <prop key="/searchResult.html">resultHandler</prop>
+        <prop key="/multiSearchResult.html">multiResultHandler</prop>
+        <prop key="/multiSearchList.html">multiListHandler</prop>
+        <prop key="/bookMenu.html">menuHandler</prop>
+        <prop key="/bookCopyright.html">copyrightHandler</prop>
+        <prop key="/bookInformation.html">informationHandler</prop>
+        <prop key="/about.html">aboutHandler</prop>
+        <prop key="/logout.html">logoutHandler</prop>
+      </props>
+    </property>
+  </bean>
+
+</beans>
+
+<!-- end of webbook-servlet.xml -->
