@@ -110,7 +110,9 @@ public class SubBook {
             _setupEPWING(path, fname, format, narrow, wide);
         }
 
-        _load();
+        if (_text != null) {
+            _load();
+        }
 
         // 半角/全角両方存在するものを選択
         int len = _fonts.length;
@@ -167,9 +169,22 @@ public class SubBook {
         _name = dir.getName();
 
         // データディレクトリ
-        File dataDir = EBFile.searchDirectory(dir, "data");
-        // 本文データファイル
-        _text = new EBFile(dataDir, fname[0], format[0]);
+        // 存在しない場合がある。ebライブラリのsubbook.cから：
+        /*
+         * If a subbook has stream data only, its index_page has been set to 0.
+         * In this case, we must not try to open a text file of the subbook,
+         * since the text file may be for another subbook. Remember that
+         * subbooks can share a `data' sub-directory.
+         */
+        File dataDir = null;
+        try {
+            dataDir = EBFile.searchDirectory(dir, "data");
+        } catch (EBException e) {
+        }
+        if (dataDir != null) {
+            // 本文データファイル
+            _text = new EBFile(dataDir, fname[0], format[0]);
+        }
         // 画像データファイル
         if (fname[1] != null) {
             try {
