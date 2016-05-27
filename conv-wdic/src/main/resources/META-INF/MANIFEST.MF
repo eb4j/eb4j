@@ -1,8 +1,0 @@
-Main-Class: fuku.xml2eb.converter.wdic.Wdic2Xml
-Extension-Name: fuku.xml2eb.converter.wdic
-Implementation-Title: WDIC to Book XML format converter
-Implementation-Version: ${pom.version}
-Implementation-Vendor: Hisaya FUKUMOTO <fukumoto@users.sourceforge.jp>
-Implementation-Vendor-Id: fuku.xml2eb.converter.wdic
-Implementation-URL: ${pom.url}
-Sealed: false
