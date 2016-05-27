@@ -1,0 +1,42 @@
+apply plugin: 'signing'
+
+boolean validProperty(propertyName) {
+  try { project.property(propertyName) != null }
+  catch (MissingPropertyException) { false }
+}
+assert validProperty('signing.keyId'),             'properties for signing must be provided'
+assert validProperty('signing.secretKeyRingFile'), 'properties for signing must be provided'
+
+String askPassword(prompt) {
+  "${System.console().readPassword(prompt)}"
+}
+ext.'signing.password' = askPassword("Enter password for PGP key ${property('signing.keyId')}: ")
+
+signing {
+  sign configurations.archives
+}
+
+github {
+    owner = projectOwner
+    repo = 'eb4j'
+    token = githubToken
+    tagName = projectTag
+    targetCommitish = 'master'
+    name = projectTag
+    draft = true
+    body = projectReleaseBody
+    assets = [
+            'eb4j-core/build/libs/eb4j-core-' + projectVersion + '.jar',
+            'eb4j-core/build/libs/eb4j-core-' + projectVersion + '-sources.jar',
+            'eb4j-core/build/libs/eb4j-core-' + projectVersion + '-javadoc.jar',
+            'xml2eb/build/libs/xml2eb-' + projectVersion + '.jar',
+            'xml2eb/build/libs/xml2eb-' + projectVersion + '-sorces.jar',
+            'xml2eb/build/libs/xml2eb-' + projectVersion + '-javadoc.jar',
+            'eb4j-tools/build/distributions/eb4j-tools-' + projectVersion + '.tgz',
+            'eb4j-tools/build/distributions/eb4j-tools-' + projectVersion + '.zip',
+            'conv-wdic/build/distributions/conv-wdic-' + projectVersion + 'tgz',
+            'conv-wdic/build/distributions/conv-wdic-' + projectVersion + 'zip',
+            'conv-zipcode/build/distributions/conv-zipcode-' + projectVersion + 'tgz',
+            'conv-zipcode/build/distributions/conv-zipcode-' + projectVersion + 'zip',
+    ]
+}
