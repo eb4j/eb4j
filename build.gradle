@@ -68,9 +68,11 @@ subprojects {
       from javadoc.destinationDir
   }
   artifacts {
+    if (!project.name.equals('webbook')) {
       archives jar
       archives sourceJar
       archives javadocJar
+    }
   }
 }
 
