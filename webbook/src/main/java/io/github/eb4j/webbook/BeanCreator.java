@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -8,9 +8,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.util.WebUtils;
 
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
-import static fuku.webbook.WebBookConstants.COOKIE_WEBBOOK;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
+import static io.github.eb4j.webbook.WebBookConstants.COOKIE_WEBBOOK;
 
 /**
  * Bean生成クラス。

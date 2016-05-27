@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.ArrayList;
 import java.util.List;

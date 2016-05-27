@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Validator;

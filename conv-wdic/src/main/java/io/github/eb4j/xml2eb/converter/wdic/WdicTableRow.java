@@ -1,4 +1,4 @@
-package fuku.xml2eb.converter.wdic;
+package io.github.eb4j.xml2eb.converter.wdic;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.List;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.WebUtils;
 
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
-import static fuku.webbook.WebBookConstants.KEY_RESULT_MAP;
-import static fuku.webbook.WebBookConstants.KEY_RESULT_LIST;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_RESULT_MAP;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_RESULT_LIST;
 
 /**
  * WebBookコントローラ。

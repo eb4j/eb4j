@@ -1,9 +1,9 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import javax.servlet.http.Cookie;
 
-import fuku.eb4j.util.HexUtil;
-import static fuku.webbook.WebBookConstants.COOKIE_WEBBOOK;
+import io.github.eb4j.util.HexUtil;
+import static io.github.eb4j.webbook.WebBookConstants.COOKIE_WEBBOOK;
 
 /**
  * WebBookクッキー管理Beanクラス。

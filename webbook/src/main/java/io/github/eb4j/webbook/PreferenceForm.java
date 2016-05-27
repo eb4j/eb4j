@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 /**
  * 表示設定コマンドクラス。

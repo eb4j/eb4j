@@ -1,4 +1,4 @@
-package fuku.xml2eb.util;
+package io.github.eb4j.xml2eb.util;
 
 import java.awt.Image;
 import java.awt.image.ImageObserver;

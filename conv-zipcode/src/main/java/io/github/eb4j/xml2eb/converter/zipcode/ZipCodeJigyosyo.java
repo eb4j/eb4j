@@ -1,4 +1,4 @@
-package fuku.xml2eb.converter.zipcode;
+package io.github.eb4j.xml2eb.converter.zipcode;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +19,7 @@ import org.apache.commons.lang.text.StrTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.xml2eb.util.UnicodeUtil;
+import io.github.eb4j.xml2eb.util.UnicodeUtil;
 
 /**
  * 事業所個別郵便番号クラス。

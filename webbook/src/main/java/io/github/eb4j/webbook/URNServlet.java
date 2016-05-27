@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

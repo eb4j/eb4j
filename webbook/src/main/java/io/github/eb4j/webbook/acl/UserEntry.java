@@ -1,4 +1,4 @@
-package fuku.webbook.acl;
+package io.github.eb4j.webbook.acl;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;

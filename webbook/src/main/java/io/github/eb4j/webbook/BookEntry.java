@@ -1,11 +1,11 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletRequest;
 
-import fuku.eb4j.SubBook;
-import fuku.webbook.acl.ACL;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.webbook.acl.ACL;
 
 /**
  * 書籍エントリクラス。

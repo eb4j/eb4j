@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.awt.Color;
 import java.io.File;
@@ -8,10 +8,10 @@ import java.util.Stack;
 import org.apache.commons.lang.CharUtils;
 import org.springframework.web.util.HtmlUtils;
 
-import fuku.eb4j.SubBook;
-import fuku.eb4j.hook.HookAdapter;
-import fuku.eb4j.util.ByteUtil;
-import fuku.eb4j.util.HexUtil;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.hook.HookAdapter;
+import io.github.eb4j.util.ByteUtil;
+import io.github.eb4j.util.HexUtil;
 
 /**
  * HTML用エスケープシーケンス加工クラス。

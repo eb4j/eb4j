@@ -1,4 +1,4 @@
-package fuku.webbook.acl;
+package io.github.eb4j.webbook.acl;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 

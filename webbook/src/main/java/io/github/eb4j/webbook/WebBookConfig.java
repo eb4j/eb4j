@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.awt.Color;
 import java.io.File;
@@ -29,15 +29,15 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.eb4j.Book;
-import fuku.eb4j.SubBook;
-import fuku.eb4j.EBException;
-import fuku.webbook.acl.ACL;
-import fuku.webbook.acl.ACLEntry;
-import fuku.webbook.acl.AddressEntry;
-import fuku.webbook.acl.HostEntry;
-import fuku.webbook.acl.UserEntry;
-import fuku.webbook.acl.RoleEntry;
+import io.github.eb4j.Book;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.EBException;
+import io.github.eb4j.webbook.acl.ACL;
+import io.github.eb4j.webbook.acl.ACLEntry;
+import io.github.eb4j.webbook.acl.AddressEntry;
+import io.github.eb4j.webbook.acl.HostEntry;
+import io.github.eb4j.webbook.acl.UserEntry;
+import io.github.eb4j.webbook.acl.RoleEntry;
 
 /**
  * WebBook設定ファイル読み込みクラス。

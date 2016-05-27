@@ -1,13 +1,13 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fuku.eb4j.Book;
-import fuku.eb4j.SubBook;
-import fuku.eb4j.ExtFont;
-import fuku.eb4j.EBException;
-import fuku.eb4j.util.HexUtil;
+import io.github.eb4j.Book;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.ExtFont;
+import io.github.eb4j.EBException;
+import io.github.eb4j.util.HexUtil;
 
 /**
  * コンテント表示Beanクラス。

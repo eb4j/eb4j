@@ -1,10 +1,10 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.List;
 
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import fuku.eb4j.Result;
+import io.github.eb4j.Result;
 
 /**
  * 検索コントローラ基底クラス。

@@ -1,4 +1,4 @@
-package fuku.webbook.taglib;
+package io.github.eb4j.webbook.taglib;
 
 import java.util.List;
 import javax.servlet.jsp.JspException;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.tags.form.SelectTag;
 import org.springframework.web.servlet.tags.form.TagWriter;
 import org.springframework.web.util.TagUtils;
 
-import fuku.webbook.Candidate;
+import io.github.eb4j.webbook.Candidate;
 
 /**
  * 候補タグ。

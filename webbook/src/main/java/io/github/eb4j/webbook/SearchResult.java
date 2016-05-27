@@ -1,8 +1,8 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
-import fuku.eb4j.SubBook;
-import fuku.eb4j.Result;
-import fuku.eb4j.EBException;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.Result;
+import io.github.eb4j.EBException;
 
 /**
  * 単語検索結果クラス。

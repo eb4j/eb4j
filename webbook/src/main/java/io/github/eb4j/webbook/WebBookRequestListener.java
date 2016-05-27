@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.util.WebUtils;
 
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
 
 /**
  * WebBookリクエストリスナ。

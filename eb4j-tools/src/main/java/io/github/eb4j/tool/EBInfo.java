@@ -1,4 +1,4 @@
-package fuku.eb4j.tool;
+package io.github.eb4j.tool;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
@@ -8,11 +8,11 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang.ArrayUtils;
 
-import fuku.eb4j.Book;
-import fuku.eb4j.SubBook;
-import fuku.eb4j.ExtFont;
-import fuku.eb4j.EBException;
-import fuku.eb4j.util.HexUtil;
+import io.github.eb4j.Book;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.ExtFont;
+import io.github.eb4j.EBException;
+import io.github.eb4j.util.HexUtil;
 
 /**
  * 書籍情報表示プログラム。

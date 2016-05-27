@@ -1,11 +1,11 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import fuku.eb4j.SubBook;
-import fuku.eb4j.EBException;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.EBException;
 
 /**
  * 複合検索Beanクラス。

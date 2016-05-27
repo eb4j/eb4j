@@ -1,4 +1,4 @@
-package fuku.xml2eb.converter.wdic;
+package io.github.eb4j.xml2eb.converter.wdic;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,8 +15,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.eb4j.util.HexUtil;
-import fuku.xml2eb.util.WaitImageObserver;
+import io.github.eb4j.util.HexUtil;
+import io.github.eb4j.xml2eb.util.WaitImageObserver;
 
 /**
  * テーブル要素クラス。

@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,14 +12,14 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import fuku.eb4j.SubBook;
-import fuku.eb4j.Searcher;
-import fuku.eb4j.Result;
-import fuku.eb4j.EBException;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.Searcher;
+import io.github.eb4j.Result;
+import io.github.eb4j.EBException;
 
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
-import static fuku.webbook.WebBookConstants.KEY_RESULT_LIST;
-import static fuku.webbook.WebBookConstants.COOKIE_WEBBOOK;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_RESULT_LIST;
+import static io.github.eb4j.webbook.WebBookConstants.COOKIE_WEBBOOK;
 
 /**
  * 複合検索コントローラ。

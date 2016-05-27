@@ -1,4 +1,4 @@
-package fuku.xml2eb;
+package io.github.eb4j.xml2eb;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -9,8 +9,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.eb4j.util.ByteUtil;
-import fuku.xml2eb.util.UnicodeUtil;
+import io.github.eb4j.util.ByteUtil;
+import io.github.eb4j.xml2eb.util.UnicodeUtil;
 
 /**
  * 検索語セット。

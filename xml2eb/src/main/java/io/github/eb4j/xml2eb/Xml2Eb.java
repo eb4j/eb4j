@@ -1,4 +1,4 @@
-package fuku.xml2eb;
+package io.github.eb4j.xml2eb;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.eb4j.util.ByteUtil;
+import io.github.eb4j.util.ByteUtil;
 
 /**
  * XML→EB変換クラス。

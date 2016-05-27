@@ -1,4 +1,4 @@
-package fuku.webbook.acl;
+package io.github.eb4j.webbook.acl;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;

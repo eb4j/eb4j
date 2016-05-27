@@ -1,4 +1,4 @@
-package fuku.xml2eb.util;
+package io.github.eb4j.xml2eb.util;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -18,7 +18,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.eb4j.util.HexUtil;
+import io.github.eb4j.util.HexUtil;
 
 /**
  * フォントユーティリティクラス。

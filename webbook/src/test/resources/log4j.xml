@@ -12,7 +12,7 @@
     </layout>
   </appender>
 
-  <category name="fuku.webbook">
+  <category name="io.github.eb4j.webbook">
     <priority value="DEBUG"/>
   </category>
 

@@ -1,4 +1,4 @@
-package fuku.xml2eb;
+package io.github.eb4j.xml2eb;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

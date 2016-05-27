@@ -1,4 +1,4 @@
-package fuku.xml2eb.converter.wdic;
+package io.github.eb4j.xml2eb.converter.wdic;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -32,12 +32,12 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.eb4j.util.HexUtil;
-import fuku.xml2eb.CatalogInfo;
-import fuku.xml2eb.util.BmpUtil;
-import fuku.xml2eb.util.FontUtil;
-import fuku.xml2eb.util.WordUtil;
-import fuku.xml2eb.util.XmlUtil;
+import io.github.eb4j.util.HexUtil;
+import io.github.eb4j.xml2eb.CatalogInfo;
+import io.github.eb4j.xml2eb.util.BmpUtil;
+import io.github.eb4j.xml2eb.util.FontUtil;
+import io.github.eb4j.xml2eb.util.WordUtil;
+import io.github.eb4j.xml2eb.util.XmlUtil;
 
 /**
  * WDIC→XML変換クラス。

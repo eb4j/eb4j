@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.io.File;
 import java.net.URL;
@@ -11,7 +11,7 @@ import org.springframework.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
 
 /**
  * WebBookコンテキストリスナ。

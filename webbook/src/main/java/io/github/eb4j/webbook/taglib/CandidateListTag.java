@@ -1,4 +1,4 @@
-package fuku.webbook.taglib;
+package io.github.eb4j.webbook.taglib;
 
 import java.io.IOException;
 import java.util.List;
@@ -6,7 +6,7 @@ import javax.servlet.jsp.JspWriter;
 
 import org.springframework.web.servlet.tags.HtmlEscapingAwareTag;
 
-import fuku.webbook.Candidate;
+import io.github.eb4j.webbook.Candidate;
 
 /**
  * 候補タグ。

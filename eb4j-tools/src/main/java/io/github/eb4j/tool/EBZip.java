@@ -1,4 +1,4 @@
-package fuku.eb4j.tool;
+package io.github.eb4j.tool;
 
 import java.io.File;
 import java.io.BufferedReader;
@@ -27,14 +27,14 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang.ArrayUtils;
 
-import fuku.eb4j.Book;
-import fuku.eb4j.SubBook;
-import fuku.eb4j.ExtFont;
-import fuku.eb4j.EBException;
-import fuku.eb4j.io.EBFile;
-import fuku.eb4j.io.BookInputStream;
-import fuku.eb4j.io.EBZipInputStream;
-import fuku.eb4j.io.EBZipConstants;
+import io.github.eb4j.Book;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.ExtFont;
+import io.github.eb4j.EBException;
+import io.github.eb4j.io.EBFile;
+import io.github.eb4j.io.BookInputStream;
+import io.github.eb4j.io.EBZipInputStream;
+import io.github.eb4j.io.EBZipConstants;
 
 /**
  * 書籍の圧縮/伸張プログラム。

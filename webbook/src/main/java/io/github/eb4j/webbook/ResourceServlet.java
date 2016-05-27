@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.awt.Color;
 import java.io.BufferedInputStream;
@@ -21,12 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.util.WebUtils;
 
-import fuku.eb4j.SubBook;
-import fuku.eb4j.EBException;
-import fuku.eb4j.util.ImageUtil;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.EBException;
+import io.github.eb4j.util.ImageUtil;
 
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
 
 /**
  * リソースデータサーブレットクラス。

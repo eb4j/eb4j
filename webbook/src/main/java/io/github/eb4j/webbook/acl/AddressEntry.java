@@ -1,4 +1,4 @@
-package fuku.webbook.acl;
+package io.github.eb4j.webbook.acl;
 
 import java.net.InetAddress;
 import java.net.Inet4Address;

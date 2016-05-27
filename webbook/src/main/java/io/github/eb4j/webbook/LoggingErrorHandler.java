@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

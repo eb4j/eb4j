@@ -1,4 +1,4 @@
-package fuku.xml2eb.converter.zipcode;
+package io.github.eb4j.xml2eb.converter.zipcode;
 
 import java.awt.Font;
 import java.awt.image.BufferedImage;
@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fuku.eb4j.util.HexUtil;
-import fuku.xml2eb.util.FontUtil;
+import io.github.eb4j.util.HexUtil;
+import io.github.eb4j.xml2eb.util.FontUtil;
 
 /**
  * ユーティリティクラス。

@@ -1,4 +1,4 @@
-package fuku.webbook.acl;
+package io.github.eb4j.webbook.acl;
 
 import java.util.ArrayList;
 import java.util.Collection;

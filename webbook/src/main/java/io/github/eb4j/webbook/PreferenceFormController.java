@@ -1,4 +1,4 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.util.WebUtils;
 
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
-import static fuku.webbook.WebBookConstants.COOKIE_WEBBOOK;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_BEAN;
+import static io.github.eb4j.webbook.WebBookConstants.COOKIE_WEBBOOK;
 
 /**
  * 表示設定コントローラ。

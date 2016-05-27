@@ -103,14 +103,14 @@ project(':eb4j-core') {
 
 project(':eb4j-tools') {
   apply plugin: 'application'
-  mainClassName = 'fuku.eb4j.tool.EBZip'
+  mainClassName = 'io.github.eb4j.tool.EBZip'
   applicationName = 'ebzip'
 
   task createAllStartScripts() << {
        // just a placeholder
   }
-  def scripts = [ 'ebdump': 'fuku.eb4j.tool.EBDump',
-                  'ebinfo':'fuku.eb4j.tool.EBInfo'
+  def scripts = [ 'ebdump': 'io.github.eb4j.tool.EBDump',
+                  'ebinfo':'io.github.eb4j.tool.EBInfo'
   ]
   scripts.each() { scriptName, className ->
         def t = tasks.create(name: scriptName+'StartScript', type: CreateStartScripts) {
@@ -193,7 +193,7 @@ project(':xml2eb') {
 
 project(':conv-wdic') {
   apply plugin: 'application'
-  mainClassName = 'fuku.eb4j.xml2eb.converter.wdic.Wdic2Xml'
+  mainClassName = 'io.github.eb4j.xml2eb.converter.wdic.Wdic2Xml'
   applicationName = 'conv-wdic'
 
   dependencies {
@@ -240,7 +240,7 @@ project(':conv-wdic') {
 
 project(':conv-zipcode') {
   apply plugin: 'application'
-  mainClassName = 'fuku.eb4j.xml2eb.converter.zipcode.ZipCode2Xml'
+  mainClassName = 'io.github.eb4j.xml2eb.converter.zipcode.ZipCode2Xml'
   applicationName = 'conv-zipcode'
 
   dependencies {

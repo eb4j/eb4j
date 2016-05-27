@@ -1,9 +1,9 @@
-package fuku.webbook;
+package io.github.eb4j.webbook;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fuku.eb4j.SubBook;
+import io.github.eb4j.SubBook;
 
 /**
  * 複合検索エントリクラス。

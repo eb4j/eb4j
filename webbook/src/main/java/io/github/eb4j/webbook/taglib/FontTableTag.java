@@ -1,4 +1,4 @@
-package fuku.webbook.taglib;
+package io.github.eb4j.webbook.taglib;
 
 import java.io.IOException;
 import javax.servlet.jsp.JspWriter;
@@ -6,13 +6,13 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import fuku.eb4j.Book;
-import fuku.eb4j.SubBook;
-import fuku.eb4j.ExtFont;
-import fuku.eb4j.util.HexUtil;
-import fuku.webbook.BookEntry;
-import fuku.webbook.WebBookConfig;
-import static fuku.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
+import io.github.eb4j.Book;
+import io.github.eb4j.SubBook;
+import io.github.eb4j.ExtFont;
+import io.github.eb4j.util.HexUtil;
+import io.github.eb4j.webbook.BookEntry;
+import io.github.eb4j.webbook.WebBookConfig;
+import static io.github.eb4j.webbook.WebBookConstants.KEY_WEBBOOK_CONFIG;
 
 /**
  * 外字一覧テーブルタグ。
