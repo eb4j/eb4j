@@ -93,11 +93,22 @@ project(':eb4j-core') {
       }
   }
 
- dependencies {
-    compile 'commons-lang:commons-lang:2.4',
-            'org.slf4j:slf4j-api:1.5.10',
-            'org.slf4j:slf4j-nop:1.5.10'
+  configurations {
+    provided
   }
+
+  dependencies {
+    compile 'commons-lang:commons-lang:2.4',
+            'org.slf4j:slf4j-api:1.5.10'
+    provided 'org.slf4j:slf4j-nop:1.5.10'
+  }
+
+  sourceSets {
+      main.compileClasspath += configurations.provided
+      test.compileClasspath += configurations.provided
+      test.runtimeClasspath += configurations.provided
+  }
+
   task githubRelease(overwrite: true) << {}
 }
 
@@ -191,6 +202,7 @@ project(':xml2eb') {
           publicDownloadNumbers = true
       }
   }
+
   dependencies {
     compile project(':eb4j-core'),
             'commons-io:commons-io:1.4',
