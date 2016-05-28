@@ -167,8 +167,17 @@ project(':eb4j-tools') {
 }
 
 project(':xml2eb') {
+  apply plugin: 'application'
+  mainClassName = 'io.github.eb4j.xml2eb.Xml2Eb'
+  applicationName = 'xml2eb'
+
+  startScripts{
+    defaultJvmOpts = ['-Xmx2048M']
+  }
+
   version = projectVersion
   group = projectGroup
+
   bintray {
       user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
       key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
@@ -195,6 +204,21 @@ project(':conv-wdic') {
   apply plugin: 'application'
   mainClassName = 'io.github.eb4j.xml2eb.converter.wdic.Wdic2Xml'
   applicationName = 'conv-wdic'
+
+  // Expected options
+  // -Dttf.dir=$TTF_DIR
+  // -Dwdic-fonts.properties=$FONTS_PROPERTIES
+  // -Dwdic-chars.properties=$CHARS_PROPERTIES
+
+  run {
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
+  }
+
+  startScripts{
+    defaultJvmOpts = ['-Xmx2048M']
+  }
 
   dependencies {
     compile project(':xml2eb'),
@@ -242,6 +266,17 @@ project(':conv-zipcode') {
   apply plugin: 'application'
   mainClassName = 'io.github.eb4j.xml2eb.converter.zipcode.ZipCode2Xml'
   applicationName = 'conv-zipcode'
+
+  run {
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
+  }
+
+  startScripts{
+    defaultJvmOpts = ['-Xmx1024M']
+  }
+
 
   dependencies {
     compile project(':xml2eb'),

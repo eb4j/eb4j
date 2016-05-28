@@ -23,10 +23,10 @@
     </layout>
   </appender>
 
-  <category name="fuku.eb4j">
+  <category name="io.github.eb4j">
     <priority value="WARN"/>
   </category>
-  <category name="fuku.xml2eb">
+  <category name="io.github.eb4j.xml2eb">
     <priority value="WARN"/>
   </category>
 
