@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -85,6 +86,10 @@ public class WdicUtil {
         }
 
         String propFile = System.getProperty("wdic-fonts.properties");
+        if (StringUtils.isBlank(propFile)) {
+          URL url = WdicUtil.class.getClassLoader().getResource("wdic-fonts.properties");
+          propFile = url.getPath();
+        }
         if (StringUtils.isNotBlank(propFile)) {
             File file = new File(propFile);
             FileInputStream fis = null;
@@ -144,6 +149,10 @@ public class WdicUtil {
         }
 
         propFile = System.getProperty("wdic-chars.properties");
+        if (StringUtils.isBlank(propFile)) {
+          URL url = WdicUtil.class.getClassLoader().getResource("ewdic-chars.properties");
+          propFile = url.getPath();
+        }
         if (StringUtils.isNotBlank(propFile)) {
             File file = new File(propFile);
             FileInputStream fis = null;
