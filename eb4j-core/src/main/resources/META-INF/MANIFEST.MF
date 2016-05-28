@@ -1,7 +1,0 @@
-Extension-Name: fuku.eb4j
-Implementation-Title: EB for Java
-Implementation-Version: ${pom.version}
-Implementation-Vendor: Hisaya FUKUMOTO <fukumoto@users.sourceforge.jp>
-Implementation-Vendor-Id: fuku.eb4j
-Implementation-URL: ${pom.url}
-Sealed: false

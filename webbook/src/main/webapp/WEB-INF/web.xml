@@ -28,10 +28,10 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <listener>
-    <listener-class>fuku.webbook.WebBookContextListener</listener-class>
+    <listener-class>io.github.eb4j.webbook.WebBookContextListener</listener-class>
   </listener>
   <listener>
-    <listener-class>fuku.webbook.WebBookRequestListener</listener-class>
+    <listener-class>io.github.eb4j.webbook.WebBookRequestListener</listener-class>
   </listener>
 
   <!-- define filters -->
@@ -58,12 +58,12 @@
   </servlet>
   <servlet>
     <servlet-name>resource</servlet-name>
-    <servlet-class>fuku.webbook.ResourceServlet</servlet-class>
+    <servlet-class>io.github.eb4j.webbook.ResourceServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>urn</servlet-name>
-    <servlet-class>fuku.webbook.URNServlet</servlet-class>
+    <servlet-class>io.github.eb4j.webbook.URNServlet</servlet-class>
     <load-on-startup>3</load-on-startup>
   </servlet>
 

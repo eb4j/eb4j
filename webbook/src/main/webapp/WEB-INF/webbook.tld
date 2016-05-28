@@ -16,7 +16,7 @@
 
   <tag>
     <name>candidateOption</name>
-    <tag-class>fuku.webbook.taglib.CandidateOptionTag</tag-class>
+    <tag-class>io.github.eb4j.webbook.taglib.CandidateOptionTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
       <name>candidate</name>
@@ -34,7 +34,7 @@
 
   <tag>
     <name>candidateList</name>
-    <tag-class>fuku.webbook.taglib.CandidateListTag</tag-class>
+    <tag-class>io.github.eb4j.webbook.taglib.CandidateListTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
       <name>candidate</name>
@@ -52,13 +52,13 @@
 
   <tag>
     <name>fontTable</name>
-    <tag-class>fuku.webbook.taglib.FontTableTag</tag-class>
+    <tag-class>io.github.eb4j.webbook.taglib.FontTableTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
       <name>bookEntry</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
-      <type>fuku.webbook.BookEntry</type>
+      <type>io.github.eb4j.webbook.BookEntry</type>
     </attribute>
     <attribute>
       <name>fontType</name>

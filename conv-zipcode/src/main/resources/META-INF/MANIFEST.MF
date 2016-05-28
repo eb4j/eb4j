@@ -1,8 +1,0 @@
-Main-Class: fuku.xml2eb.converter.zipcode.Zipcode2Xml
-Extension-Name: fuku.xml2eb.converter.zipcode
-Implementation-Title: ZipCode to Book XML format converter
-Implementation-Version: ${pom.version}
-Implementation-Vendor: Hisaya FUKUMOTO <fukumoto@users.sourceforge.jp>
-Implementation-Vendor-Id: fuku.xml2eb.converter.zipcode
-Implementation-URL: ${pom.url}
-Sealed: false

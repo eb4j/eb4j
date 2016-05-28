@@ -65,40 +65,40 @@
   </bean>
 
   <bean id="searchFormValidator"
-        class="fuku.webbook.SearchFormValidator"/>
+        class="io.github.eb4j.webbook.SearchFormValidator"/>
   <bean id="searchFormController"
-        class="fuku.webbook.SearchFormController"
+        class="io.github.eb4j.webbook.SearchFormController"
         parent="abstractController">
-    <property name="commandClass" value="fuku.webbook.SearchForm"/>
+    <property name="commandClass" value="io.github.eb4j.webbook.SearchForm"/>
     <property name="validator" ref="searchFormValidator"/>
     <property name="formView" value="search"/>
     <property name="successView" value="search"/>
   </bean>
 
   <bean id="multiSearchFormValidator"
-        class="fuku.webbook.MultiSearchFormValidator"/>
+        class="io.github.eb4j.webbook.MultiSearchFormValidator"/>
   <bean id="multiSearchFormController"
-        class="fuku.webbook.MultiSearchFormController"
+        class="io.github.eb4j.webbook.MultiSearchFormController"
         parent="abstractController">
-    <property name="commandClass" value="fuku.webbook.MultiSearchForm"/>
+    <property name="commandClass" value="io.github.eb4j.webbook.MultiSearchForm"/>
     <property name="validator" ref="multiSearchFormValidator"/>
     <property name="formView" value="multiSearch"/>
     <property name="successView" value="multiSearch"/>
   </bean>
 
   <bean id="preferenceFormValidator"
-        class="fuku.webbook.PreferenceFormValidator"/>
+        class="io.github.eb4j.webbook.PreferenceFormValidator"/>
   <bean id="preferenceFormController"
-        class="fuku.webbook.PreferenceFormController"
+        class="io.github.eb4j.webbook.PreferenceFormController"
         parent="abstractController">
-    <property name="commandClass" value="fuku.webbook.PreferenceForm"/>
+    <property name="commandClass" value="io.github.eb4j.webbook.PreferenceForm"/>
     <property name="validator" ref="preferenceFormValidator"/>
     <property name="formView" value="preference"/>
     <property name="successView" value="preference"/>
   </bean>
 
   <bean id="webbookController"
-        class="fuku.webbook.WebBookController"
+        class="io.github.eb4j.webbook.WebBookController"
         parent="abstractController">
     <property name="methodNameResolver" ref="methodNameResolver"/>
   </bean>
