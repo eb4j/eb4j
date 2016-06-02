@@ -1,2 +1,0 @@
-rootProject.name = 'xml2eb'
-include 'conv-wdic', 'conv-zipcode'
