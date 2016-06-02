@@ -1,0 +1,224 @@
+plugins {
+    // github
+    id "co.riiid.gradle" version "0.4.2"
+    // bintray
+    id "com.jfrog.bintray" version "1.6"
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+// apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'co.riiid.gradle'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
+
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.bootClasspath = "$JDK_HOME/jre/lib/rt.jar"
+
+// checkstyle {
+//  config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
+//  ignoreFailures = true
+//  toolVersion = '6.16.1'
+// }
+
+findbugs {
+  ignoreFailures = true
+}
+
+// Force prevent checkstyle/findbugs on Test.
+// task checkstyleTest(overwrite: true) << {}
+task findbugsTest(overwrite: true) << {}
+tasks.withType(FindBugs) {
+  reports {
+    xml.enabled = false
+    html.enabled = true
+  }
+}
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  testCompile 'org.testng:testng:6.9.10'
+}
+
+test {
+  useTestNG()
+}
+
+javadoc {
+  options.locale = 'en_US'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+  if (! project.name in ['webbook']) {
+    archives jar
+    archives sourceJar
+    archives javadocJar
+  }
+}
+apply plugin: 'application'
+mainClassName = 'io.github.eb4j.xml2eb.Xml2Eb'
+applicationName = 'xml2eb'
+
+startScripts{
+  defaultJvmOpts = ['-Xmx2048M']
+}
+
+version = projectVersion
+group = projectGroup
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'xml2eb'
+        licenses = ['LGPL-2.1']
+        vcsUrl = projectUrl
+        labels = ['java','EPWING', 'ebook', 'xml']
+        publicDownloadNumbers = true
+    }
+}
+
+dependencies {
+  compile project(':eb4j-core'),
+          'commons-io:commons-io:1.4',
+          'org.slf4j:slf4j-log4j12:1.5.10'
+}
+
+task githubRelease(overwrite: true) << {}
+
+project(':conv-wdic') {
+  apply plugin: 'application'
+  mainClassName = 'io.github.eb4j.xml2eb.converter.wdic.Wdic2Xml'
+  applicationName = 'conv-wdic'
+
+  // Expected options
+  // -Dttf.dir=$TTF_DIR
+  // -Dwdic-fonts.properties=$FONTS_PROPERTIES
+  // -Dwdic-chars.properties=$CHARS_PROPERTIES
+
+  run {
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
+  }
+
+  startScripts{
+    defaultJvmOpts = ['-Xmx2048M']
+  }
+
+  dependencies {
+    compile project(':xml2eb'),
+            'commons-io:commons-io:1.4',
+            'commons-cli:commons-cli:1.2',
+            'commons-collections:commons-collections:3.2.2'
+  }
+  version = projectVersion
+  group = projectGroup
+  bintray {
+      user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+      key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+      configurations = ['archives']
+      pkg {
+          repo = 'maven'
+          name = 'conv-wdic'
+          licenses = ['LGPL-2.1']
+          vcsUrl = projectUrl
+          labels = ['java','EPWING', 'ebook']
+          publicDownloadNumbers = true
+      }
+  }
+
+  distTar {
+    compression = Compression.GZIP
+  }
+
+  distributions {
+      main {
+          baseName = 'conv-wdic'
+          contents {
+              from(javadocJar) {
+                  into 'docs'
+              }
+              from(sourceJar) {
+                  into 'source'
+              }
+          }
+      }
+  }
+  task githubRelease(overwrite: true) << {}
+}
+
+project(':conv-zipcode') {
+  apply plugin: 'application'
+  mainClassName = 'io.github.eb4j.xml2eb.converter.zipcode.ZipCode2Xml'
+  applicationName = 'conv-zipcode'
+
+  run {
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
+  }
+
+  startScripts{
+    defaultJvmOpts = ['-Xmx1024M']
+  }
+
+
+  dependencies {
+    compile project(':xml2eb'),
+            'commons-io:commons-io:1.4',
+            'commons-cli:commons-cli:1.2',
+            'commons-collections:commons-collections:3.2.2'
+  }
+  version = projectVersion
+  group = projectGroup
+  bintray {
+      user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+      key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+      configurations = ['archives']
+      pkg {
+          repo = 'maven'
+          name = 'conv-zipcode'
+          licenses = ['LGPL-2.1']
+          vcsUrl = projectUrl
+          labels = ['java','EPWING', 'ebook', 'xml', 'zipcode']
+          publicDownloadNumbers = true
+      }
+  }
+
+  distTar {
+    compression = Compression.GZIP
+  }
+
+  distributions {
+      main {
+          baseName = 'conv-zipcode'
+          contents {
+              from(javadocJar) {
+                  into 'docs'
+              }
+              from(sourceJar) {
+                  into 'source'
+              }
+          }
+      }
+  }
+  task githubRelease(overwrite: true) << {}
+}
