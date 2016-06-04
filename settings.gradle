@@ -1,2 +1,2 @@
 rootProject.name = 'eb4j'
-include 'eb4j-core', 'eb4j-tools', 'xml2eb', 'conv-wdic', 'conv-zipcode', 'webbook'
+include 'eb4j-core', 'eb4j-tools'

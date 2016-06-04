@@ -29,14 +29,7 @@ github {
             'eb4j-core/build/libs/eb4j-core-' + projectVersion + '.jar',
             'eb4j-core/build/libs/eb4j-core-' + projectVersion + '-sources.jar',
             'eb4j-core/build/libs/eb4j-core-' + projectVersion + '-javadoc.jar',
-            'xml2eb/build/libs/xml2eb-' + projectVersion + '.jar',
-            'xml2eb/build/libs/xml2eb-' + projectVersion + '-sorces.jar',
-            'xml2eb/build/libs/xml2eb-' + projectVersion + '-javadoc.jar',
             'eb4j-tools/build/distributions/eb4j-tools-' + projectVersion + '.tgz',
             'eb4j-tools/build/distributions/eb4j-tools-' + projectVersion + '.zip',
-            'conv-wdic/build/distributions/conv-wdic-' + projectVersion + 'tgz',
-            'conv-wdic/build/distributions/conv-wdic-' + projectVersion + 'zip',
-            'conv-zipcode/build/distributions/conv-zipcode-' + projectVersion + 'tgz',
-            'conv-zipcode/build/distributions/conv-zipcode-' + projectVersion + 'zip',
     ]
 }
