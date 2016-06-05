@@ -1,8 +1,6 @@
 # EB4j
 EPWING/Ebook access library and utilities.
 
-[_![Download](https://api.bintray.com/packages/miurahr/maven/eb4j/images/download.svg) ](https://bintray.com/miurahr/maven/eb4j/_latestVersion)
-
 ## Build
 
 EB4j uses Gradle for build system. You can build library and utilities
@@ -30,8 +28,10 @@ It is recommended to post an issue before sending a patch.
 ## Copyrights and License
 
 EB4j, an access library for EPWING/Ebook.
-    Copyright(C) 2003-2010 Hisaya FUKUMOTO
-    Copyright(C) 2016 Hiroshi Miura
+
+Copyright(C) 2003-2010 Hisaya FUKUMOTO
+
+Copyright(C) 2016 Hiroshi Miura
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free
