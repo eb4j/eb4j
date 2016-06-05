@@ -21,9 +21,9 @@ public class GraphicData {
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param file 画像データファイル
+     * @param file image data file.
      */
     protected GraphicData(final EBFile file) {
         super();

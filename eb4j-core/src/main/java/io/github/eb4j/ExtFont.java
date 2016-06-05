@@ -52,15 +52,15 @@ public class ExtFont {
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param sub 副本
-     * @param type 外字の種類
+     * @param sub sub book.
+     * @param type type of Gaiji font.
      * @see ExtFont#FONT_16
      * @see ExtFont#FONT_24
      * @see ExtFont#FONT_30
      * @see ExtFont#FONT_48
-     * @exception IllegalArgumentException 外字の種類が不当な場合
+     * @exception IllegalArgumentException if type of gaiji font is invalid.
      */
     protected ExtFont(final SubBook sub, final int type) {
         super();
@@ -74,10 +74,10 @@ public class ExtFont {
 
 
     /**
-     * 外字の情報を読み込みます。
+     * Reading a gaiji properties.
      *
-     * @param kind 半角/全角
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param kind Narrow/Wide.
+     * @exception EBException if file read error is happended.
      * @see ExtFont#WIDE
      * @see ExtFont#NARROW
      */
@@ -125,9 +125,9 @@ public class ExtFont {
     }
 
     /**
-     * 半角外字ファイルを返します。
+     * Returns a Gaiji file for half-width font.
      *
-     * @return 外字ファイル
+     * @return Gaiji font file.
      */
     public EBFile getNarrowFontFile() {
         if (_file[NARROW] == null) {
@@ -137,7 +137,7 @@ public class ExtFont {
     }
 
     /**
-     * 全角外字ファイルを返します。
+     * Returns a Gaiji file for full width font.
      *
      * @return 外字ファイル
      */
@@ -149,11 +149,11 @@ public class ExtFont {
     }
 
     /**
-     * 半角外字を設定します。
+     * Set a gaiji font for half-width.
      *
-     * @param file 外字ファイル
-     * @param page 開始ページ
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param file Gaiji font file.
+     * @param page Start page.
+     * @exception EBException if file read error is happened.
      */
     protected void setNarrowFont(final EBFile file, final long page) throws EBException {
         _file[NARROW] = file;
@@ -162,11 +162,11 @@ public class ExtFont {
     }
 
     /**
-     * 全角外字を設定します。
+     * Set a gaiji font for full-width.
      *
-     * @param file 外字ファイル
-     * @param page 開始ページ
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param file Gaiji font file.
+     * @param page Start page.
+     * @exception EBException if file read error is happened.
      */
     protected void setWideFont(final EBFile file, final long page) throws EBException {
         _file[WIDE] = file;
@@ -175,9 +175,9 @@ public class ExtFont {
     }
 
     /**
-     * 外字が存在するかどうかを返します。
+     * Check whether Gaiji font is exist.
      *
-     * @return 外字が存在する場合はtrue、そうでない場合はfalse
+     * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasFont() {
         if (_file[NARROW] == null && _file[WIDE] == null) {
@@ -187,9 +187,9 @@ public class ExtFont {
     }
 
     /**
-     * 半角外字が存在するかどうかを返します。
+     * Check whether Gaiji font is exist for half-width.
      *
-     * @return 半角外字が存在する場合はtrue、そうでない場合はfalse
+     * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasNarrowFont() {
         if (_file[NARROW] == null) {
@@ -199,9 +199,9 @@ public class ExtFont {
     }
 
     /**
-     * 全角外字が存在するかどうかを返します。
+     * Check whether Gaiji font is exist for full-width.
      *
-     * @return 全角外字が存在する場合はtrue、そうでない場合はfalse
+     * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasWideFont() {
         if (_file[WIDE] == null) {
@@ -211,9 +211,9 @@ public class ExtFont {
     }
 
     /**
-     * 外字の種類を返します。
+     * Returns type of gaiji font.
      *
-     * @return 外字の種類
+     * @return Type of gaiji.
      * @see ExtFont#FONT_16
      * @see ExtFont#FONT_24
      * @see ExtFont#FONT_30
@@ -224,103 +224,103 @@ public class ExtFont {
     }
 
     /**
-     * フォントの高さを返します。
+     * Returns height of a font.
      *
-     * @return フォントの高さ
+     * @return height of font.
      */
     public int getFontHeight() {
         return FONT_HEIGHT[_fontType];
     }
 
     /**
-     * 半角外字の開始文字コードを返します。
+     * Returns a start point in character codes of half-width Gaiji.
      *
-     * @return 半角外字の開始文字コード
+     * @return Start of character code of a half-width gaiji.
      */
     public int getNarrowFontStart() {
         return _start[NARROW];
     }
 
     /**
-     * 全角外字の開始文字コードを返します。
+     * Returns a start point in character codes of full-width Gaiji.
      *
-     * @return 全角外字の開始文字コード
+     * @return Start of character code of a full-width gaiji.
      */
     public int getWideFontStart() {
         return _start[WIDE];
     }
 
     /**
-     * 半角外字の終了文字コードを返します。
+     * Returns a end point in character codes of half-width Gaiji.
      *
-     * @return 半角外字の終了文字コード
+     * @return End of character code of a half-width gaiji.
      */
     public int getNarrowFontEnd() {
         return _end[NARROW];
     }
 
     /**
-     * 全角外字の終了文字コードを返します。
+     * Returns a end point in character codes of full-width Gaiji.
      *
-     * @return 全角外字の終了文字コード
+     * @return End of character code of a full-width gaiji.
      */
     public int getWideFontEnd() {
         return _end[WIDE];
     }
 
     /**
-     * 半角外字の幅を返します。
+     * Returns a width of half-width Gaiji.
      *
-     * @return 半角外字の幅
+     * @return a width of half-width Gaiji.
      */
     public int getNarrowFontWidth() {
         return FONT_WIDTH[NARROW][_fontType];
     }
 
     /**
-     * 全角外字の幅を返します。
+     * Returns a width of full-width Gaiji.
      *
-     * @return 全角外字の幅
+     * @return a width of full-width Gaiji.
      */
     public int getWideFontWidth() {
         return FONT_WIDTH[WIDE][_fontType];
     }
 
     /**
-     * 半角外字のサイズを返します。
+     * Returns a size of half-width Gaiji.
      *
-     * @return 半角外字のサイズ
+     * @return size of half-width Gaiji.
      */
     public int getNarrowFontSize() {
         return FONT_SIZE[NARROW][_fontType];
     }
 
     /**
-     * 全角外字のサイズを返します。
+     * Returns a size of full-width Gaiji.
      *
-     * @return 全角外字のサイズ
+     * @return size of full-width Gaiji.
      */
     public int getWideFontSize() {
         return FONT_SIZE[WIDE][_fontType];
     }
 
     /**
-     * 指定された文字コードの半角外字ビットマップデータを返します。
+     * Returns a bitmap data of half-width Gaiji specified.
      *
-     * @param code 文字コード
-     * @return 半角外字のビットマップデータ
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param code character code.
+     * @return bitmap data of half-width Gaiji.
+     * @exception EBException if file read error is happened.
      */
     public byte[] getNarrowFont(final int code) throws EBException {
         return _getFont(NARROW, code);
     }
 
     /**
-     * 指定された文字コードの全角外字ビットマップデータを返します。
+     * Returns a bitmap data of full-width Gaiji specified.
      *
-     * @param code 文字コード
-     * @return 全角外字のビットマップデータ
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param code character code.
+     * @return bitmap data of full-width Gaiji.
+     * @exception EBException if file read error is happened.
      */
     public byte[] getWideFont(final int code) throws EBException {
         return _getFont(WIDE, code);

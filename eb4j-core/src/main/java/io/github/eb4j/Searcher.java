@@ -8,10 +8,10 @@ package io.github.eb4j;
 public interface Searcher {
 
     /**
-     * 次の検索結果を返します。
+     * Returns a next search result.
      *
-     * @return 検索結果 (次の検索結果がない場合null)
-     * @exception EBException 検索中にエラーが発生した場合
+     * @return a search result or null when no valude to return.
+     * @exception EBException if error happended.
      */
     Result getNextResult() throws EBException;
 }

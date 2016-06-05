@@ -9,41 +9,40 @@ import io.github.eb4j.util.ByteUtil;
 import io.github.eb4j.util.HexUtil;
 
 /**
- * デフォルトエスケープシーケンス加工クラス。
+ * Default class for processing escape sequences.
  *
  * @author Hisaya FUKUMOTO
  */
 public class DefaultHook extends HookAdapter<String> {
 
-    /** 最大入力行数 */
+    /** maximum number of lines for input. */
     private int _maxLine = 500;
 
-    /** 半角表示が開始されているかどうかを示すフラグ */
+    /** flag to indicate HANKAKU display started. */
     private boolean _narrow = false;
-    /** 行数 */
+    /** line number */
     private int _line = 0;
 
-    /** 文字列バッファ */
     private StringBuilder _buf = new StringBuilder(2048);
 
-    /** 付録パケージ */
+    /** appendix package */
     private SubAppendix _appendix = null;
 
 
     /**
-     * コンストラクタ。
+     * Creates a hook object for sub-book.
      *
-     * @param sub 副本
+     * @param sub sub-book.
      */
     public DefaultHook(final SubBook sub) {
         this(sub, 500);
     }
 
     /**
-     * コンストラクタ。
+     * Creates a hook object for sub-book.
      *
-     * @param sub 副本
-     * @param maxLine 最大読み込み行数
+     * @param sub sub-book.
+     * @param maxLine maximum number of lines to read.
      */
     public DefaultHook(final SubBook sub, final int maxLine) {
         super();
@@ -53,7 +52,7 @@ public class DefaultHook extends HookAdapter<String> {
 
 
     /**
-     * すべての入力をクリアし、初期化します。
+     * Clears all input and initialize object.
      *
      */
     @Override
@@ -64,9 +63,9 @@ public class DefaultHook extends HookAdapter<String> {
     }
 
     /**
-     * フックによって加工されたオブジェクトを返します。
+     * Returns processed article in String object.
      *
-     * @return 文字列オブジェクト
+     * @return string object.
      */
     @Override
     public String getObject() {
@@ -74,9 +73,9 @@ public class DefaultHook extends HookAdapter<String> {
     }
 
     /**
-     * 次の入力が可能かどうかを返します。
+     * Returns possibility for next input.
      *
-     * @return まだ入力を受けつける場合はtrue、そうでない場合はfalse
+     * @return true when the hook can accept more input, otherwise false.
      */
     @Override
     public boolean isMoreInput() {
@@ -87,9 +86,9 @@ public class DefaultHook extends HookAdapter<String> {
     }
 
     /**
-     * 文字列を追加します。
+     * Add string to be processed.
      *
-     * @param str 文字列
+     * @param str string.
      */
     @Override
     public void append(final String str) {
@@ -101,11 +100,12 @@ public class DefaultHook extends HookAdapter<String> {
     }
 
     /**
-     * 外字を追加します。<BR>
-     * 付録パッケージに代替文字があれば使用し、なければ
-     * "[GAIJI=Ncode]", "[GAIJI=Wcode]"に変換して追加します。
+     * Add GAIJI character.
+     * <BR>
+     * Use alternative character when it is in appendix package. Otherwise,
+     * convert to string "[GAIJI=Ncode]", "[GAIJI=Wcode]".
      *
-     * @param code 外字の文字コード
+     * @param code character code for GAIJI.
      */
     @Override
     public void append(final int code) {
@@ -135,7 +135,7 @@ public class DefaultHook extends HookAdapter<String> {
     }
 
     /**
-     * 半角表示の開始を表すエスケープシーケンスに対するフックです。
+     * Hook to indicate start of HANKAKU, half-width character.
      *
      */
     @Override
@@ -144,7 +144,7 @@ public class DefaultHook extends HookAdapter<String> {
     }
 
     /**
-     * 半角表示の終了を表すエスケープシーケンスに対するフックです。
+     * Hook to indicate end of HANKAKU, half-width character.
      *
      */
     @Override
@@ -153,7 +153,7 @@ public class DefaultHook extends HookAdapter<String> {
     }
 
     /**
-     * 改行を表すエスケープシーケンスに対するフックです。
+     * Hook to indicate a line feed.
      *
      */
     @Override

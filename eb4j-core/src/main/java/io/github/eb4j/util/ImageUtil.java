@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * イメージ操作ユーティリティクラス。
+ * Image manipulation utility.
  *
  * @author Hisaya FUKUMOTO
  */

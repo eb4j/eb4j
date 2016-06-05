@@ -11,7 +11,7 @@ import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * 付録パッケージの副本クラス。
+ * Subbook class for Appendix package.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -43,11 +43,11 @@ public class SubAppendix {
 
 
     /**
-     * コンストラクタ。
+     * Construct object from appendix package and subbook path.
      *
-     * @param appendix 付録パッケージ
-     * @param path 副本のディレクトリ名
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param appendix appendix package.
+     * @param path directory name of sub book.
+     * @exception EBException if file read error is happened.
      */
     protected SubAppendix(final Appendix appendix, final String path) throws EBException {
         super();

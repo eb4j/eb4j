@@ -6,7 +6,7 @@ import io.github.eb4j.io.BookInputStream;
 import java.nio.charset.Charset;
 
 /**
- * 音声データクラス。
+ * Sound data class.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -19,10 +19,10 @@ public class SoundData {
 
 
     /**
-     * コンストラクタ。
+     * Sound data object constructed from a sound data file and index style.
      *
-     * @param file 音声データファイル
-     * @param style インデックススタイル
+     * @param file sound data file.
+     * @param style index style.
      */
     protected SoundData(final EBFile file, final IndexStyle style) {
         super();
@@ -32,12 +32,12 @@ public class SoundData {
 
 
     /**
-     * 指定位置のWAVE音声データを返します。
+     * Returns specified WAVE sound data.
      *
-     * @param pos1 データ開始位置
-     * @param pos2 データ終了位置
-     * @return WAVE音声データのバイト配列
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param pos1 start position of a sound data.
+     * @param pos2 end position of a sound data.
+     * @return Byte array of WAVE sound data.
+     * @exception EBException if file read error is happends.
      */
     public byte[] getWaveSound(final long pos1, final long pos2) throws EBException {
         long size;
@@ -100,7 +100,7 @@ public class SoundData {
     }
 
     /**
-     * 指定位置のMIDI音声データを返します。
+     * Returns specified MIDI sound data.
      *
      * @param pos1 データ開始位置
      * @param pos2 データ終了位置
