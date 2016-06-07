@@ -39,7 +39,7 @@ public class SubBookTest {
 
     @Test(dependsOnGroups = {"init"})
     public void testGetTitle() throws Exception {
-        assertEquals(subbooks[0].getTitle(), "test");
+        assertEquals(subbooks[0].getTitle(), "\uFF34\uFF25\uFF33\uFF34"); // TEST in zenkaku
     }
 
     @Test(dependsOnGroups = {"init"})
@@ -246,7 +246,7 @@ public class SubBookTest {
 
     @Test(dependsOnGroups = {"init"})
     public void testToString() throws Exception {
-        assertEquals(subbooks[0].toString(), subbooks[0].getName());
+        assertEquals(subbooks[0].toString(), subbooks[0].getTitle());
     }
 
 }
