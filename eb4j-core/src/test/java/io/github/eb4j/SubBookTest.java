@@ -2,6 +2,9 @@ package io.github.eb4j;
 
 import org.testng.annotations.Test;
 
+import io.github.eb4j.hook.Hook;
+import io.github.eb4j.hook.DefaultHook;
+
 import java.io.File;
 
 import static org.testng.Assert.*;
@@ -21,6 +24,7 @@ public class SubBookTest {
         subbooks = book.getSubBooks();
         assertNotNull(subbooks, "Subbook constructor should not return null.");
     }
+
 
     @Test(dependsOnGroups = {"init"})
     public void testGetBook() throws Exception {
@@ -136,105 +140,116 @@ public class SubBookTest {
 
     @Test
     public void testGetEndwordIndexStyle() throws Exception {
-
+        // TODO need test data.
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testSearchExactword() throws Exception {
-
+        // TODO need test data.
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testSearchWord() throws Exception {
-
+        assertTrue(subbooks[1].hasWordSearch());
+        Hook<String> hook = new DefaultHook(subbooks[1]);
+        Searcher sh = subbooks[1].searchWord("Tokyo");
+        Result sr;
+        String article;
+        Boolean res = false;
+        while ((sr = sh.getNextResult()) != null) {
+            article = sr.getText(hook);
+            assertEquals(article, "Tokyo\n\u6771\u4eac\n");
+            res = true;
+        }
+        assertTrue(res, "Fail to search word.");
     }
 
     @Test
     public void testSearchEndword() throws Exception {
-
+        // TODO need test data.
     }
 
     @Test
     public void testSearchKeyword() throws Exception {
-
+        // TODO need test data.
     }
 
     @Test
     public void testSearchCross() throws Exception {
-
+        // TODO need test data.
     }
 
     @Test
     public void testSearchMulti() throws Exception {
-
+        // TODO need test data.
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasMenu() throws Exception {
-
+        assertFalse(subbooks[0].hasMenu());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasImageMenu() throws Exception {
-
+        assertFalse(subbooks[0].hasImageMenu());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasCopyright() throws Exception {
-
+        assertFalse(subbooks[0].hasCopyright());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasExactwordSearch() throws Exception {
-
+        assertTrue(subbooks[0].hasExactwordSearch());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasWordSearch() throws Exception {
-
+        assertTrue(subbooks[0].hasWordSearch());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasEndwordSearch() throws Exception {
-
+        assertFalse(subbooks[0].hasEndwordSearch());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasKeywordSearch() throws Exception {
-
+        assertFalse(subbooks[0].hasKeywordSearch());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasCrossSearch() throws Exception {
-
+        assertFalse(subbooks[0].hasCrossSearch());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testHasMultiSearch() throws Exception {
-
+        assertFalse(subbooks[0].hasMultiSearch());
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testGetMultiCount() throws Exception {
 
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testGetMultiTitle() throws Exception {
 
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testGetMultiEntryCount() throws Exception {
 
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testGetMultiEntryLabel() throws Exception {
 
     }
 
-    @Test
+    @Test(dependsOnGroups = {"init"})
     public void testGetCandidate() throws Exception {
 
     }
