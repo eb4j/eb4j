@@ -29,3 +29,9 @@ task integrationTest(type: Test) {
 
 // Make sure 'check' task calls integration test
 check.dependsOn integrationTest
+
+idea {
+    module {
+        testSourceDirs += file('src/integration-test/java')
+    }
+}

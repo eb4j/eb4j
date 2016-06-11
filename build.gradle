@@ -23,25 +23,7 @@ subprojects {
   [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
   [compileJava, compileTestJava]*.options*.bootClasspath = "$JDK_HOME/jre/lib/rt.jar"
 
-  checkstyle {
-    config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
-    ignoreFailures = true
-    toolVersion = '6.16.1'
-  }
-
-  findbugs {
-    ignoreFailures = true
-  }
-
-  // Force prevent checkstyle/findbugs on Test.
-  task checkstyleTest(overwrite: true) << {}
-  task findbugsTest(overwrite: true) << {}
-  tasks.withType(FindBugs) {
-    reports {
-      xml.enabled = false
-      html.enabled = true
-    }
-  }
+  apply from: "${rootProject.projectDir}/gradle/quality-check.gradle"
 
   repositories {
     jcenter()
@@ -75,11 +57,6 @@ subprojects {
       archives javadocJar
   }
 
-  idea {
-    module {
-      testSourceDirs += file('src/integration-test/java')
-    }
-  }
 }
 
 project(':eb4j-core') {
@@ -99,20 +76,12 @@ project(':eb4j-core') {
       }
   }
 
-  configurations {
-    provided
-  }
+  apply from: "${rootProject.projectDir}/gradle/provided-compile.gradle"
 
   dependencies {
     compile 'commons-lang:commons-lang:2.4',
             'org.slf4j:slf4j-api:1.5.10'
     provided 'org.slf4j:slf4j-nop:1.5.10'
-  }
-
-  sourceSets {
-      main.compileClasspath += configurations.provided
-      test.compileClasspath += configurations.provided
-      test.runtimeClasspath += configurations.provided
   }
 
   task githubRelease(overwrite: true) << {}
