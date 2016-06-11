@@ -20,7 +20,34 @@ public class CompareUtilTest {
 
     @Test
     public void testCompareToLatin() throws Exception {
+        byte[] key = {0x21, 0x23, '\0'};
+        byte[] pattern = {0x21, 0x23, '\0'};
+        boolean presearch = false;
+        assertEquals(CompareUtil.compareToLatin(key, pattern, presearch), 0);
+    }
 
+    @Test
+    public void testCompareToLatin_presearch() throws Exception {
+        byte[] key = {0x21, 0x23, 0x41, '\0'};
+        byte[] pattern = {0x21, 0x23};
+        boolean presearch = true;
+        assertEquals(CompareUtil.compareToLatin(key, pattern, presearch), 0);
+    }
+
+    @Test
+    public void testCompareToLatin_false() throws Exception {
+        byte[] key = {0x21, 0x23, 0x44, '\0'};
+        byte[] pattern = {0x21, 0x23};
+        boolean presearch = false;
+        assertEquals(CompareUtil.compareToLatin(key, pattern, presearch), 0x44);
+    }
+
+    @Test
+    public void testCompareToLatin_presearch_false() throws Exception {
+        byte[] key = {0x21, 0x23, 0x44, '\0'};
+        byte[] pattern = {0x21, 0x23, 0x45};
+        boolean presearch = true;
+        assertEquals(CompareUtil.compareToLatin(key, pattern, presearch), -1);
     }
 
     @Test
