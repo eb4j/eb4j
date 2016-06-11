@@ -9,13 +9,14 @@ plugins {
 
 // common settings
 subprojects {
-  apply plugin: 'java'
-  apply plugin: 'jacoco'
-  apply plugin: 'checkstyle'
-  apply plugin: 'findbugs'
-  apply plugin: 'co.riiid.gradle'
-  apply plugin: 'com.jfrog.bintray'
-  apply plugin: 'maven'
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+    apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'maven'
+    apply plugin: 'idea'
+    apply from: "${rootProject.projectDir}/gradle/integration-test.gradle"
 
   sourceCompatibility = jdkVersion
   targetCompatibility = jdkVersion
@@ -67,10 +68,17 @@ subprojects {
       classifier = 'javadoc'
       from javadoc.destinationDir
   }
+
   artifacts {
       archives jar
       archives sourceJar
       archives javadocJar
+  }
+
+  idea {
+    module {
+      testSourceDirs += file('src/integration-test/java')
+    }
   }
 }
 
@@ -179,5 +187,5 @@ task bintrayUpload(overwrite: true) << {}
 
 if (gradle.startParameter.taskNames.contains('bintrayUpload')  ||
     gradle.startParameter.taskNames.contains('githubRelease')) {
-  apply from: 'build.publish.gradle'
+        apply from: "${rootProject.projectDir}/gradle/build.publish.gradle"
 }
