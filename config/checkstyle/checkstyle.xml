@@ -97,8 +97,12 @@
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
-        <module name="MemberName"/>
-        <module name="MethodName"/>
+        <module name="MemberName">
+            <property name="applyToPrivate" value="false"/>
+        </module>
+        <module name="MethodName">
+            <property name="applyToPrivate" value="false"/>
+        </module>
         <module name="PackageName"/>
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
@@ -132,8 +136,10 @@
         <module name="OperatorWrap"/>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
-        <module name="WhitespaceAfter"/>
-        <module name="WhitespaceAround"/>
+        <module name="WhitespaceAfter">
+            <property name="tokens" value="COMMA,SEMI"/>
+        </module>
+        <!--<module name="WhitespaceAround"/> -->
 
         <!-- Modifier Checks                                    -->
         <!-- See http://checkstyle.sf.net/config_modifiers.html -->
