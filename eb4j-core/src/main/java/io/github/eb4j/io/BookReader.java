@@ -40,7 +40,7 @@ public class BookReader<T> {
      * @param hook フック
      * @exception EBException 入出力エラーが発生した場合
      */
-    public BookReader(SubBook sub, Hook<T> hook) throws EBException {
+    public BookReader(final SubBook sub, final Hook<T> hook) throws EBException {
         super();
         _sub = sub;
         _file = sub.getTextFile();
@@ -78,7 +78,7 @@ public class BookReader<T> {
      * @return フックで加工されたオブジェクト
      * @exception EBException 入出力エラーが発生した場合
      */
-    public T readHeading(long page, int offset) throws EBException {
+    public T readHeading(final long page, final int offset) throws EBException {
         _hook.clear();
         _read(BookInputStream.getPosition(page, offset), HEADING, false);
         return _hook.getObject();
@@ -91,7 +91,7 @@ public class BookReader<T> {
      * @return フックで加工されたオブジェクト
      * @exception EBException 入出力エラーが発生した場合
      */
-    public T readHeading(long pos) throws EBException {
+    public T readHeading(final long pos) throws EBException {
         _hook.clear();
         _read(pos, HEADING, false);
         return _hook.getObject();
@@ -104,7 +104,7 @@ public class BookReader<T> {
      * @return 次の見出し位置 (ストリームの終りに達っしている場合は-1)
      * @exception EBException 入出力エラーが発生した場合
      */
-    public long nextHeadingPosition(long pos) throws EBException {
+    public long nextHeadingPosition(final long pos) throws EBException {
         return _read(pos, HEADING, true);
     }
 
@@ -116,7 +116,7 @@ public class BookReader<T> {
      * @return フックで加工されたオブジェクト
      * @exception EBException 入出力エラーが発生した場合
      */
-    public T readText(long page, int offset) throws EBException {
+    public T readText(final long page, final int offset) throws EBException {
         _hook.clear();
         _read(BookInputStream.getPosition(page, offset), TEXT, false);
         return _hook.getObject();
@@ -129,7 +129,7 @@ public class BookReader<T> {
      * @return フックで加工されたオブジェクト
      * @exception EBException 入出力エラーが発生した場合
      */
-    public T readText(long pos) throws EBException {
+    public T readText(final long pos) throws EBException {
         _hook.clear();
         _read(pos, TEXT, false);
         return _hook.getObject();

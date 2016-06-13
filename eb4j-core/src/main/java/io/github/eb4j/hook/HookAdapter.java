@@ -3,7 +3,7 @@ package io.github.eb4j.hook;
 /**
  * エスケープシーケンス加工の抽象アダプタクラス。
  *
- * @author Hisaya FUKUMOTO
+ * @author Hisaya FUKUMOTO0000000000000000000000000000000000000000
  * @param <T> フックから取得されるオブジェクト
  */
 public abstract class HookAdapter<T> implements Hook<T> {
@@ -51,7 +51,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param ch 文字
      */
     @Override
-    public void append(char ch) {
+    public void append(final char ch) {
         append(Character.toString(ch));
     }
 
@@ -61,7 +61,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param str 文字列
      */
     @Override
-    public void append(String str) {
+    public void append(final String str) {
     }
 
     /**
@@ -70,7 +70,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param code 外字の文字コード
      */
     @Override
-    public void append(int code) {
+    public void append(final int code) {
     }
 
     /**
@@ -143,7 +143,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param indent 字下げ量
      */
     @Override
-    public void setIndent(int indent) {
+    public void setIndent(final int indent) {
     }
 
     /**
@@ -194,7 +194,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @see #ITALIC
      */
     @Override
-    public void beginDecoration(int type) {
+    public void beginDecoration(final int type) {
     }
 
     /**
@@ -220,7 +220,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param pos 次の階層の候補一覧データの位置
      */
     @Override
-    public void endCandidateGroup(long pos) {
+    public void endCandidateGroup(final long pos) {
     }
 
     /**
@@ -246,7 +246,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param pos 参照先の位置
      */
     @Override
-    public void endReference(long pos) {
+    public void endReference(final long pos) {
     }
 
     /**
@@ -272,7 +272,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param height 画像の高さ
      */
     @Override
-    public void beginMonoGraphic(int width, int height) {
+    public void beginMonoGraphic(final int width, final int height) {
     }
 
     /**
@@ -281,7 +281,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param pos 画像データの位置
      */
     @Override
-    public void endMonoGraphic(long pos) {
+    public void endMonoGraphic(final long pos) {
     }
 
     /**
@@ -293,7 +293,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @see #JPEG
      */
     @Override
-    public void beginInlineColorGraphic(int format, long pos) {
+    public void beginInlineColorGraphic(final int format, final long pos) {
     }
 
     /**
@@ -313,7 +313,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @see #JPEG
      */
     @Override
-    public void beginColorGraphic(int format, long pos) {
+    public void beginColorGraphic(final int format, final long pos) {
     }
 
     /**
@@ -334,7 +334,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @see #MIDI
      */
     @Override
-    public void beginSound(int format, long start, long end) {
+    public void beginSound(final int format, final long start, final long end) {
     }
 
     /**
@@ -354,7 +354,8 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param filename 動画ファイル名
      */
     @Override
-    public void beginMovie(int format, int width, int height, String filename) {
+    public void beginMovie(final int format, final int width, final int height,
+                           final String filename) {
     }
 
     /**
@@ -371,7 +372,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param pos 参照先の位置
      */
     @Override
-    public void beginGraphicReference(long pos) {
+    public void beginGraphicReference(final long pos) {
     }
 
     /**
@@ -388,7 +389,7 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param pos 参照先の位置
      */
     @Override
-    public void setGraphicReference(long pos) {
+    public void setGraphicReference(final long pos) {
     }
 
     /**
@@ -417,7 +418,8 @@ public abstract class HookAdapter<T> implements Hook<T> {
      * @param pos 参照先の位置
      */
     @Override
-    public void beginClickableArea(int x, int y, int w, int h, long pos) {
+    public void beginClickableArea(final int x, final int y, final int w, final int h,
+                                   final long pos) {
     }
 
     /**

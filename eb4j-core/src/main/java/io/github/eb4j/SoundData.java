@@ -22,7 +22,7 @@ public class SoundData {
      * @param file 音声データファイル
      * @param style インデックススタイル
      */
-    protected SoundData(EBFile file, IndexStyle style) {
+    protected SoundData(final EBFile file, final IndexStyle style) {
         super();
         _file = file;
         _style = style;
@@ -37,7 +37,7 @@ public class SoundData {
      * @return WAVE音声データのバイト配列
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public byte[] getWaveSound(long pos1, long pos2) throws EBException {
+    public byte[] getWaveSound(final long pos1, final long pos2) throws EBException {
         long size;
         if (pos1 < pos2) {
             size = pos2 - pos1 + 1;
@@ -105,7 +105,7 @@ public class SoundData {
      * @return MIDI音声データのバイト配列
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public byte[] getMidiSound(long pos1, long pos2) throws EBException {
+    public byte[] getMidiSound(final long pos1, final long pos2) throws EBException {
         long size;
         if (pos1 < pos2) {
             size = pos2 - pos1;

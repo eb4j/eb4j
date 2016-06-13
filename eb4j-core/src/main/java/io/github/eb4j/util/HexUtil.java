@@ -7,7 +7,7 @@ import java.util.Locale;
  *
  * @author Hisaya FUKUMOTO
  */
-public class HexUtil {
+public final class HexUtil {
 
     /**
      * コンストラクタ。
@@ -24,7 +24,7 @@ public class HexUtil {
      * @param val 値
      * @return 16進数表現の文字列
      */
-    public static String toHexString(long val) {
+    public static String toHexString(final long val) {
         return toHexString(val, 6);
     }
 
@@ -35,7 +35,7 @@ public class HexUtil {
      * @param length 桁数
      * @return 16進数表現の文字列
      */
-    public static String toHexString(long val, int length) {
+    public static String toHexString(final long val, final int length) {
         return toHexString(Long.toHexString(val), length);
     }
 
@@ -45,7 +45,7 @@ public class HexUtil {
      * @param val 値
      * @return 16進数表現の文字列
      */
-    public static String toHexString(int val) {
+    public static String toHexString(final int val) {
         return toHexString(val, 4);
     }
 
@@ -56,7 +56,7 @@ public class HexUtil {
      * @param length 桁数
      * @return 16進数表現の文字列
      */
-    public static String toHexString(int val, int length) {
+    public static String toHexString(final int val, final int length) {
         return toHexString(Integer.toHexString(val), length);
     }
 
@@ -66,7 +66,7 @@ public class HexUtil {
      * @param val 値
      * @return 16進数表現の文字列
      */
-    public static String toHexString(byte val) {
+    public static String toHexString(final byte val) {
         return toHexString(val, 2);
     }
 
@@ -77,7 +77,7 @@ public class HexUtil {
      * @param length 桁数
      * @return 16進数表現の文字列
      */
-    public static String toHexString(byte val, int length) {
+    public static String toHexString(final byte val, final int length) {
         return toHexString(Integer.toHexString(val&0xff), length);
     }
 
@@ -88,7 +88,7 @@ public class HexUtil {
      * @param length 桁数
      * @return 変換後の文字列
      */
-    public static String toHexString(String str, int length) {
+    public static String toHexString(final String str, final int length) {
         StringBuilder buf = new StringBuilder(str.toUpperCase(Locale.ENGLISH));
         int len = length - str.length();
         for (int i=0; i<len; i++) {

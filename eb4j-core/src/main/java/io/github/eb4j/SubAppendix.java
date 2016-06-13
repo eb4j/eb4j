@@ -37,8 +37,8 @@ public class SubAppendix {
     private int[] _stopCode = new int[2];
 
     /** 代替文字のキャッシュ */
-    private Map<Integer,Map<Integer,String>> _cache =
-        new HashMap<Integer,Map<Integer,String>>(2, 1.0f);
+    private Map<Integer, Map<Integer, String>> _cache =
+        new HashMap<Integer, Map<Integer, String>>(2, 1.0f);
 
 
     /**
@@ -48,7 +48,7 @@ public class SubAppendix {
      * @param path 副本のディレクトリ名
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected SubAppendix(Appendix appendix, String path) throws EBException {
+    protected SubAppendix(final Appendix appendix, final String path) throws EBException {
         super();
         _appendix = appendix;
 
@@ -66,7 +66,7 @@ public class SubAppendix {
      * @param path パス名
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEB(String path) throws EBException {
+    private void _setupEB(final String path) throws EBException {
         File dir = EBFile.searchDirectory(_appendix.getPath(), path);
         _file = new EBFile(dir, "appendix", EBFile.FORMAT_PLAIN);
     }
@@ -77,7 +77,7 @@ public class SubAppendix {
      * @param path パス名
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEPWING(String path) throws EBException {
+    private void _setupEPWING(final String path) throws EBException {
         File dir = EBFile.searchDirectory(_appendix.getPath(), path);
         File dataDir = EBFile.searchDirectory(dir, "data");
         _file = new EBFile(dataDir, "furoku", EBFile.FORMAT_PLAIN);
@@ -134,7 +134,7 @@ public class SubAppendix {
                     }
                 }
                 _cache.put(Integer.valueOf(i),
-                           new HashMap<Integer,String>(charCount, 1.0f));
+                           new HashMap<Integer, String>(charCount, 1.0f));
             }
 
             // ストップコード情報の取得
@@ -196,7 +196,7 @@ public class SubAppendix {
      * @return 半角外字の代替文字 (存在しない場合はnull)
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public String getNarrowFontAlt(int code) throws EBException {
+    public String getNarrowFontAlt(final int code) throws EBException {
         return _getFontAlt(ExtFont.NARROW, code);
     }
 
@@ -207,7 +207,7 @@ public class SubAppendix {
      * @return 全角外字の代替文字 (存在しない場合はnull)
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public String getWideFontAlt(int code) throws EBException {
+    public String getWideFontAlt(final int code) throws EBException {
         return _getFontAlt(ExtFont.WIDE, code);
     }
 
@@ -221,7 +221,7 @@ public class SubAppendix {
      * @see ExtFont#WIDE
      * @see ExtFont#NARROW
      */
-    private String _getFontAlt(int kind, int code) throws EBException {
+    private String _getFontAlt(final int kind, final int code) throws EBException {
         long page = _page[kind];
         if (page <= 0) {
             return null;
@@ -233,7 +233,7 @@ public class SubAppendix {
             return null;
         }
 
-        Map<Integer,String> map = _cache.get(Integer.valueOf(kind));
+        Map<Integer, String> map = _cache.get(Integer.valueOf(kind));
         String ret = map.get(Integer.valueOf(code));
         if (ret != null) {
             return ret;
@@ -290,7 +290,7 @@ public class SubAppendix {
      * @param code1 コード1
      * @return ストップコードの場合はtrue、そうでない場合はfalse
      */
-    public boolean isStopCode(int code0, int code1) {
+    public boolean isStopCode(final int code0, final int code1) {
         if (_stopCode[0] == code0 && _stopCode[1] == code1) {
             return true;
         }

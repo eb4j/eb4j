@@ -64,7 +64,7 @@ public class IndexStyle {
      *
      * @param indexID インデックスID
      */
-    protected void setIndexID(int indexID) {
+    protected void setIndexID(final int indexID) {
         _indexID = indexID;
     }
 
@@ -82,7 +82,7 @@ public class IndexStyle {
      *
      * @param startPage 開始ページ位置
      */
-    protected void setStartPage(long startPage) {
+    protected void setStartPage(final long startPage) {
         _startPage = startPage;
     }
 
@@ -100,7 +100,7 @@ public class IndexStyle {
      *
      * @param endPage 終了ページ位置
      */
-    protected void setEndPage(long endPage) {
+    protected void setEndPage(final long endPage) {
         _endPage = endPage;
     }
 
@@ -118,7 +118,7 @@ public class IndexStyle {
      *
      * @param candidatePage 候補ページ位置
      */
-    protected void setCandidatePage(long candidatePage) {
+    protected void setCandidatePage(final long candidatePage) {
         _candidatePage = candidatePage;
     }
 
@@ -136,7 +136,7 @@ public class IndexStyle {
      *
      * @param style 空白のスタイル
      */
-    protected void setSpaceStyle(int style) {
+    protected void setSpaceStyle(final int style) {
         _space = style;
     }
 
@@ -145,7 +145,7 @@ public class IndexStyle {
      *
      * @param style 片仮名のスタイル
      */
-    protected void setKatakanaStyle(int style) {
+    protected void setKatakanaStyle(final int style) {
         _katakana = style;
     }
 
@@ -154,7 +154,7 @@ public class IndexStyle {
      *
      * @param style 小文字のスタイル
      */
-    protected void setLowerStyle(int style) {
+    protected void setLowerStyle(final int style) {
         _lower = style;
     }
 
@@ -163,7 +163,7 @@ public class IndexStyle {
      *
      * @param style 記号のスタイル
      */
-    protected void setMarkStyle(int style) {
+    protected void setMarkStyle(final int style) {
         _mark = style;
     }
 
@@ -172,7 +172,7 @@ public class IndexStyle {
      *
      * @param style 長母音のスタイル
      */
-    protected void setLongVowelStyle(int style) {
+    protected void setLongVowelStyle(final int style) {
         _longVowel = style;
     }
 
@@ -181,7 +181,7 @@ public class IndexStyle {
      *
      * @param style 促音のスタイル
      */
-    protected void setDoubleConsonantStyle(int style) {
+    protected void setDoubleConsonantStyle(final int style) {
         _doubleConsonant = style;
     }
 
@@ -190,7 +190,7 @@ public class IndexStyle {
      *
      * @param style 拗音のスタイル
      */
-    protected void setContractedSoundStyle(int style) {
+    protected void setContractedSoundStyle(final int style) {
         _contractedSound = style;
     }
 
@@ -199,7 +199,7 @@ public class IndexStyle {
      *
      * @param style 濁音のスタイル
      */
-    protected void setVoicedConsonantStyle(int style) {
+    protected void setVoicedConsonantStyle(final int style) {
         _voicedConsonant = style;
     }
 
@@ -208,7 +208,7 @@ public class IndexStyle {
      *
      * @param style 小さい母音のスタイル
      */
-    protected void setSmallVowelStyle(int style) {
+    protected void setSmallVowelStyle(final int style) {
         _smallVowel = style;
     }
 
@@ -217,7 +217,7 @@ public class IndexStyle {
      *
      * @param style 半濁音のスタイル
      */
-    protected void setPSoundStyle(int style) {
+    protected void setPSoundStyle(final int style) {
         _psound = style;
     }
 
@@ -226,7 +226,7 @@ public class IndexStyle {
      *
      * @param label ラベル
      */
-    protected void setLabel(String label) {
+    protected void setLabel(final String label) {
         _label = label;
     }
 
@@ -244,7 +244,7 @@ public class IndexStyle {
      *
      * @param b ISO 8859-1文字セットのバイト配列
      */
-    protected void fixWordLatin(byte[] b) {
+    protected void fixWordLatin(final byte[] b) {
         if (_indexID == 0xa1 && _candidatePage != 0) {
             return;
         }
@@ -262,7 +262,7 @@ public class IndexStyle {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    protected void fixWord(byte[] b) {
+    protected void fixWord(final byte[] b) {
         if (_indexID == 0xa1 && _candidatePage != 0) {
             return;
         }

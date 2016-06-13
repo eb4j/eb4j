@@ -75,7 +75,7 @@ public class Book {
      * @param bookPath 書籍のパス
      * @exception EBException 初期化中にエラーが発生した場合
      */
-    public Book(String bookPath) throws EBException {
+    public Book(final String bookPath) throws EBException {
         this(bookPath, null);
     }
 
@@ -85,7 +85,7 @@ public class Book {
      * @param bookDir 書籍のパス
      * @exception EBException 初期化中にエラーが発生した場合
      */
-    public Book(File bookDir) throws EBException {
+    public Book(final File bookDir) throws EBException {
         this(bookDir, null);
     }
 
@@ -96,7 +96,8 @@ public class Book {
      * @param appendixPath 付録パッケージのパス
      * @exception EBException 初期化中にエラーが発生した場合
      */
-    public Book(String bookPath, String appendixPath) throws EBException {
+    @SuppressWarnings("checkstyle:avoidinlineconditionals")
+    public Book(final String bookPath, final String appendixPath) throws EBException {
         this(new File(bookPath),
              appendixPath == null ? null : new File(appendixPath));
     }
@@ -108,7 +109,7 @@ public class Book {
      * @param appendixDir 付録パッケージのパス
      * @exception EBException 初期化中にエラーが発生した場合
      */
-    public Book(File bookDir, File appendixDir) throws EBException {
+    public Book(final File bookDir, final File appendixDir) throws EBException {
         super();
 
         _bookPath = bookDir.getPath();
@@ -176,7 +177,7 @@ public class Book {
      * @see Book#CHARCODE_JISX0208
      * @see Book#CHARCODE_JISX0208_GB2312
      */
-    public void setCharCode(int charCode) {
+    public void setCharCode(final int charCode) {
         _charCode = charCode;
     }
 
@@ -214,7 +215,7 @@ public class Book {
      * @param index インデックス
      * @return 副本 (範囲外のインデックス時はnull)
      */
-    public SubBook getSubBook(int index) {
+    public SubBook getSubBook(final int index) {
         if (index < 0 || index >= _sub.length) {
             return null;
         }
@@ -236,7 +237,7 @@ public class Book {
      * @param dir 書籍のディレクトリ
      * @exception EBException CATALOG(S)ファイルの読み込み中にエラーが発生した場合
      */
-    private void _loadCatalog(File dir) throws EBException {
+    private void _loadCatalog(final File dir) throws EBException {
         // カタログファイルの検索
         EBFile file = null;
         try {
@@ -268,7 +269,7 @@ public class Book {
      * @param file CATALOGファイル
      * @exception EBException CATALOGファイルの読み込み中にエラーが発生した場合
      */
-    private void _loadCatalogEB(EBFile file) throws EBException {
+    private void _loadCatalogEB(final EBFile file) throws EBException {
         BookInputStream bis = file.getInputStream();
         try {
             byte[] b = new byte[16];
@@ -329,7 +330,7 @@ public class Book {
      * @param file CATALOGSファイル
      * @exception EBException CATALOGSファイルの読み込み中にエラーが発生した場合
      */
-    private void _loadCatalogEPWING(EBFile file) throws EBException {
+    private void _loadCatalogEPWING(final EBFile file) throws EBException {
         BookInputStream bis = file.getInputStream();
         try {
             byte[] b = new byte[16];
@@ -463,7 +464,7 @@ public class Book {
      * @param dir 書籍のディレクトリ
      * @exception EBException LANGUAGEファイルの読み込み中にエラーが発生した場合
      */
-    private void _loadLanguage(File dir) throws EBException {
+    private void _loadLanguage(final File dir) throws EBException {
         _charCode = CHARCODE_JISX0208;
 
         EBFile file = null;

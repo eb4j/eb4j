@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
  *
  * @author Hisaya FUKUMOTO
  */
-public class ByteUtil {
+public final class ByteUtil {
 
     /** ASCII -> JIS X 0208変換テーブル */
     private static final int[] ASCII_TO_JISX0208_TABLE = {
@@ -158,7 +158,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static int getInt2(byte[] b, int offset) {
+    public static int getInt2(final byte[] b, final int offset) {
         return ((b[offset] & 0xff) << 8) | (b[offset+1] & 0xff);
     }
 
@@ -169,7 +169,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static int getInt3(byte[] b, int offset) {
+    public static int getInt3(final byte[] b, final int offset) {
         return ((b[offset] & 0xff) << 16)
             | ((b[offset+1] & 0xff) << 8) | (b[offset+2] & 0xff);
     }
@@ -181,7 +181,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static int getIntLE2(byte[] b, int offset) {
+    public static int getIntLE2(final byte[] b, final int offset) {
         return ((b[offset+1] & 0xff) << 8) | (b[offset] & 0xff);
     }
 
@@ -192,7 +192,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static int getBCD2(byte[] b, int offset) {
+    public static int getBCD2(final byte[] b, final int offset) {
         int ret = (b[offset+1] & 0x0f);
         ret += ((b[offset+1] >>> 4) & 0x0f) * 10;
         ret += (b[offset] & 0x0f) * 100;
@@ -207,7 +207,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static int getBCD4(byte[] b, int offset) {
+    public static int getBCD4(final byte[] b, final int offset) {
         int ret = (b[offset+3] & 0x0f);
         ret += ((b[offset+3] >>> 4) & 0x0f) * 10;
         ret += (b[offset+2] & 0x0f) * 100;
@@ -226,7 +226,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static long getLong4(byte[] b, int offset) {
+    public static long getLong4(final byte[] b, final int offset) {
         long ret = (b[offset] & 0xffL) << 24;
         ret += ((b[offset+1] & 0xffL) << 16);
         ret += ((b[offset+2] & 0xffL) << 8);
@@ -241,7 +241,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static long getLong5(byte[] b, int offset) {
+    public static long getLong5(final byte[] b, final int offset) {
         long ret = (b[offset] & 0xffL) << 32;
         ret += ((b[offset+1] & 0xffL)) << 24;
         ret += ((b[offset+2] & 0xffL) << 16);
@@ -257,7 +257,7 @@ public class ByteUtil {
      * @param offset 変換開始位置
      * @return 変換した数値
      */
-    public static long getLongLE4(byte[] b, int offset) {
+    public static long getLongLE4(final byte[] b, final int offset) {
         long ret = (b[offset+3] & 0xffL) << 24;
         ret += ((b[offset+2] & 0xffL) << 16);
         ret += ((b[offset+1] & 0xffL) << 8);
@@ -271,7 +271,7 @@ public class ByteUtil {
      * @param str 半角文字を含む文字列
      * @return 全角文字に変換された文字列
      */
-    public static String narrowToWide(String str) {
+    public static String narrowToWide(final String str) {
         int len = str.length();
         StringBuilder buf = new StringBuilder(len);
         for (int i=0; i<len; i++) {
@@ -308,7 +308,7 @@ public class ByteUtil {
      * @param str 全角文字を含む文字列
      * @return 半角文字に変換された文字列
      */
-    public static String wideToNarrow(String str) {
+    public static String wideToNarrow(final String str) {
         int len = str.length();
         StringBuilder buf = new StringBuilder(len);
         for (int i=0; i<len; i++) {
@@ -353,7 +353,7 @@ public class ByteUtil {
      * @return JIS X 0208コード
      * @exception ArrayIndexOfOutOfBoundsException ASCIIコードが0x20〜0x7Eの範囲外の場合
      */
-    public static int asciiToJISX0208(int code) {
+    public static int asciiToJISX0208(final int code) {
         return ASCII_TO_JISX0208_TABLE[code-0x20];
     }
 
@@ -364,7 +364,7 @@ public class ByteUtil {
      * @return JIS X 0208コード
      * @exception ArrayIndexOfOutOfBoundsException JIS X 0201コードが0xA0〜0xDFの範囲外の場合
      */
-    public static int jisx0201ToJISX0208(int code) {
+    public static int jisx0201ToJISX0208(final int code) {
         return JISX0201_TO_JISX0208_TABLE[code-0xa0];
     }
 
@@ -374,7 +374,7 @@ public class ByteUtil {
      * @param b GB 2312文字セットのバイト配列
      * @return 変換した文字列
      */
-    public static String gb2312ToString(byte[] b) {
+    public static String gb2312ToString(final byte[] b) {
         return gb2312ToString(b, 0, b.length);
     }
 
@@ -386,7 +386,7 @@ public class ByteUtil {
      * @param len 変換を行うバイト数
      * @return 変換した文字列
      */
-    public static String gb2312ToString(byte[] b, int offset, int len) {
+    public static String gb2312ToString(final byte[] b, final int offset, final int len) {
         byte[] buf = new byte[len];
         // GB2312 -> EUC-CN
         for (int i=0; i<len/2; i++) {
@@ -413,7 +413,7 @@ public class ByteUtil {
      * @param b JIS X 0208文字セットのバイト配列
      * @return 変換した文字列
      */
-    public static String jisx0208ToString(byte[] b) {
+    public static String jisx0208ToString(final byte[] b) {
         return jisx0208ToString(b, 0, b.length);
     }
 
@@ -425,7 +425,7 @@ public class ByteUtil {
      * @param len 変換を行うバイト数
      * @return 変換した文字列
      */
-    public static String jisx0208ToString(byte[] b, int offset, int len) {
+    public static String jisx0208ToString(final byte[] b, final int offset, final int len) {
         byte[] buf = new byte[len];
         // JISX0208 -> EUC-JP
         for (int i=0; i<len; i++) {
@@ -450,7 +450,7 @@ public class ByteUtil {
      * @param str 符号化する文字列
      * @return JIS X 0208文字セットのバイト配列
      */
-    public static byte[] stringToJISX0208(String str) {
+    public static byte[] stringToJISX0208(final String str) {
         if (str == null || str.length() <= 0) {
             return new byte[0];
         }
@@ -533,7 +533,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void katakanaToHiragana(byte[] b) {
+    public static void katakanaToHiragana(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -555,7 +555,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void hiraganaToKatakana(byte[] b) {
+    public static void hiraganaToKatakana(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -577,7 +577,7 @@ public class ByteUtil {
      *
      * @param b ISO 8859-1文字セットのバイト配列
      */
-    public static void upperToLowerLatin(byte[] b) {
+    public static void upperToLowerLatin(final byte[] b) {
         int len = b.length;
         for (int i=0; i<len; i++) {
             int ch = b[i] & 0xff;
@@ -596,7 +596,7 @@ public class ByteUtil {
      *
      * @param b ISO 8859-1文字セットのバイト配列
      */
-    public static void lowerToUpperLatin(byte[] b) {
+    public static void lowerToUpperLatin(final byte[] b) {
         int len = b.length;
         for (int i=0; i<len; i++) {
             int ch = b[i] & 0xff;
@@ -615,7 +615,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void upperToLower(byte[] b) {
+    public static void upperToLower(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -638,7 +638,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void lowerToUpper(byte[] b) {
+    public static void lowerToUpper(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -660,7 +660,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void convertLongVowel(byte[] b) {
+    public static void convertLongVowel(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -690,7 +690,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void deleteLongVowel(byte[] b) {
+    public static void deleteLongVowel(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -723,7 +723,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void convertDoubleConsonant(byte[] b) {
+    public static void convertDoubleConsonant(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -745,7 +745,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void convertContractedSound(byte[] b) {
+    public static void convertContractedSound(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -773,7 +773,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void convertVoicedConsonant(byte[] b) {
+    public static void convertVoicedConsonant(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -796,7 +796,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void convertSmallVowel(byte[] b) {
+    public static void convertSmallVowel(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -821,7 +821,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void convertPSound(byte[] b) {
+    public static void convertPSound(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -846,7 +846,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void deleteMark(byte[] b) {
+    public static void deleteMark(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -881,7 +881,7 @@ public class ByteUtil {
      *
      * @param b ISO 8859-1文字セットのバイト配列
      */
-    public static void deleteSpaceLatin(byte[] b) {
+    public static void deleteSpaceLatin(final byte[] b) {
         int count = 0;
         int len = b.length;
         for (int i=0; i<len; i++) {
@@ -907,7 +907,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void deleteSpace(byte[] b) {
+    public static void deleteSpace(final byte[] b) {
         int len = b.length;
         if ((len & 1) == 1) {
             b[len-1] = '\0';
@@ -940,7 +940,7 @@ public class ByteUtil {
      *
      * @param b ISO 8859-1文字セットのバイト配列
      */
-    public static void reverseWordLatin(byte[] b) {
+    public static void reverseWordLatin(final byte[] b) {
         int len = 0;
         int size = b.length;
         for (int i=size-1; i>=0; i--) {
@@ -961,7 +961,7 @@ public class ByteUtil {
      *
      * @param b JIS X 0208文字セットのバイト配列
      */
-    public static void reverseWord(byte[] b) {
+    public static void reverseWord(final byte[] b) {
         int len = 0;
         for (int i=b.length-1; i>=0; i--) {
             if ((b[i] & 0xff) != '\0') {

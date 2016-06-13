@@ -30,7 +30,7 @@ public class MultiWordSearcher implements Searcher {
      * @param style インデックススタイル
      * @param type 検索タイプ (キーワード/クロス検索)
      */
-    protected MultiWordSearcher(SubBook sub, IndexStyle style, int type) {
+    protected MultiWordSearcher(final SubBook sub, final IndexStyle style, final int type) {
         super();
         _sub = sub;
         _style = style;
@@ -44,7 +44,7 @@ public class MultiWordSearcher implements Searcher {
      * @param multi 複合検索用インデックススタイル
      * @param entry 複合検索エントリ用インデックススタイル
      */
-    protected MultiWordSearcher(SubBook sub, IndexStyle multi, IndexStyle[] entry) {
+    protected MultiWordSearcher(final SubBook sub, final IndexStyle multi, final IndexStyle[] entry) {
         super();
         _sub = sub;
         _style = multi;
@@ -59,7 +59,7 @@ public class MultiWordSearcher implements Searcher {
      * @param word 検索語
      * @exception EBException 前処理中にエラーが発生した場合
      */
-    protected void search(byte[][] word) throws EBException {
+    protected void search(final byte[][] word) throws EBException {
         int len = word.length;
         ArrayList<SingleWordSearcher> list = new ArrayList<SingleWordSearcher>(len);
         SingleWordSearcher search;

@@ -97,7 +97,7 @@ public class SingleWordSearcher implements Searcher {
      * @see SingleWordSearcher#CROSS
      * @see SingleWordSearcher#MULTI
      */
-    protected SingleWordSearcher(SubBook sub, IndexStyle style, int type) {
+    protected SingleWordSearcher(final SubBook sub, final IndexStyle style, final int type) {
         super();
         _logger = LoggerFactory.getLogger(getClass());
         _sub = sub;
@@ -112,7 +112,7 @@ public class SingleWordSearcher implements Searcher {
      *
      * @param word 検索語
      */
-    private void _setWord(byte[] word) {
+    private void _setWord(final byte[] word) {
         int len = word.length;
         _word = new byte[len];
         System.arraycopy(word, 0, _word, 0, len);
@@ -155,7 +155,7 @@ public class SingleWordSearcher implements Searcher {
      *         キーがパターンより大きい場合:1以上、
      *         キーがパターンより小さい場合:-1以下
      */
-    private int _comparePre(byte[] key, byte[] pattern) {
+    private int _comparePre(final byte[] key, final byte[] pattern) {
         int comp = 0;
         switch (_type) {
             case EXACTWORD:
@@ -202,7 +202,7 @@ public class SingleWordSearcher implements Searcher {
      *         キーがパターンより大きい場合:1以上、
      *         キーがパターンより小さい場合:-1以下
      */
-    private int _compareSingle(byte[] key, byte[] pattern) {
+    private int _compareSingle(final byte[] key, final byte[] pattern) {
         int comp = 0;
         switch (_type) {
             case ENDWORD:
@@ -276,7 +276,7 @@ public class SingleWordSearcher implements Searcher {
      *         キーがパターンより大きい場合:1以上、
      *         キーがパターンより小さい場合:-1以下
      */
-    private int _compareGroup(byte[] key, byte[] pattern) {
+    private int _compareGroup(final byte[] key, final byte[] pattern) {
         int comp = 0;
         switch (_type) {
             case EXACTWORD:
@@ -328,7 +328,7 @@ public class SingleWordSearcher implements Searcher {
      * @param word 検索語
      * @exception EBException 前処理中にエラーが発生した場合
      */
-    protected void search(byte[] word) throws EBException {
+    protected void search(final byte[] word) throws EBException {
         _setWord(word);
         _page = _style.getStartPage();
 
@@ -628,7 +628,7 @@ public class SingleWordSearcher implements Searcher {
      * @param id ページID
      * @return 最下層である場合はtrue、そうでない場合はfalse
      */
-    private boolean _isLeafLayer(int id) {
+    private boolean _isLeafLayer(final int id) {
         if ((id & 0x80) == 0x80) {
             return true;
         }
@@ -654,7 +654,7 @@ public class SingleWordSearcher implements Searcher {
      * @param id ページID
      * @return 階層終了ページである場合はtrue、そうでない場合はfalse
      */
-    private boolean _isLayerEnd(int id) {
+    private boolean _isLayerEnd(final int id) {
         if ((id & 0x20) == 0x20) {
             return true;
         }
@@ -667,7 +667,7 @@ public class SingleWordSearcher implements Searcher {
      * @param id ページID
      * @return グループエントリを含んでいる場合はtrue、そうでない場合はfalse
      */
-    private boolean _hasGroupEntry(int id) {
+    private boolean _hasGroupEntry(final int id) {
         if ((id & 0x10) == 0x10) {
             return true;
         }

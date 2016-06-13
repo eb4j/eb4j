@@ -21,7 +21,7 @@ public class EBZipInputStream
      * @param info ファイル情報
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected EBZipInputStream(FileInfo info) throws EBException {
+    protected EBZipInputStream(final FileInfo info) throws EBException {
         super(info);
         open();
         // スライス単位でキャッシュする
@@ -103,7 +103,7 @@ public class EBZipInputStream
      * @exception EBException 入出力エラーが発生した場合
      */
     @Override
-    public int read(byte[] b, int off, int len) throws EBException {
+    public int read(final byte[] b, final int off, final int len) throws EBException {
         int rlen = 0;
         while (rlen < len) {
             if (info.getFileSize() <= filePos) {
@@ -197,7 +197,7 @@ public class EBZipInputStream
      * @param size 圧縮スライスサイズ
      * @exception EBException 入出力エラーが発生した場合
      */
-    private void _decode(int size) throws EBException {
+    private void _decode(final int size) throws EBException {
         if (size == info.getSliceSize()) {
             // 圧縮されていないのでそのままキャッシュに読み込む
             readRawFully(cache, 0, size);

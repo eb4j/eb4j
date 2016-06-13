@@ -96,9 +96,9 @@ public class SubBook {
      * @param wide 全角外字ファイル名
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected SubBook(Book book, String title, String path, int index,
-                      String[] fname, int[] format,
-                      String[] narrow, String[] wide) throws EBException {
+    protected SubBook(final Book book, final String title, final String path, final int index,
+                      final String[] fname, final int[] format,
+                      final String[] narrow, final String[] wide) throws EBException {
         super();
         _book = book;
         _title = title;
@@ -142,7 +142,8 @@ public class SubBook {
      * @param format フォーマット形式
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEB(String path, String[] fname, int[] format) throws EBException {
+    private void _setupEB(final String path, final String[] fname, final int[] format)
+            throws EBException {
         // ルートディレクトリ
         File dir = EBFile.searchDirectory(_book.getPath(), path);
         _name = dir.getName();
@@ -162,8 +163,8 @@ public class SubBook {
      * @param wide 全角外字ファイル名
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEPWING(String path, String[] fname, int[] format,
-                              String[] narrow, String[] wide) throws EBException {
+    private void _setupEPWING(final String path, final String[] fname, final int[] format,
+                              final String[] narrow, final String[] wide) throws EBException {
         // ルートディレクトリ
         File dir = EBFile.searchDirectory(_book.getPath(), path);
         _name = dir.getName();
@@ -620,7 +621,7 @@ public class SubBook {
      *
      * @param appendix 付録パッケージ
      */
-    void setAppendix(SubAppendix appendix) {
+    void setAppendix(final SubAppendix appendix) {
         _appendix = appendix;
     }
 
@@ -671,7 +672,7 @@ public class SubBook {
      * @see ExtFont#FONT_48
      * @exception IllegalArgumentException 外字の種類が不当な場合
      */
-    public ExtFont getFont(int type) {
+    public ExtFont getFont(final int type) {
         if (type < ExtFont.FONT_16 || type > ExtFont.FONT_48) {
             throw new IllegalArgumentException("Illegal font type: "
                                                + Integer.toString(type));
@@ -689,7 +690,7 @@ public class SubBook {
      * @see ExtFont#FONT_48
      * @exception IllegalArgumentException 外字の種類が不当な場合
      */
-    public void setFont(int type) {
+    public void setFont(final int type) {
         if (type < ExtFont.FONT_16 || type > ExtFont.FONT_48) {
             throw new IllegalArgumentException("Illegal font type: "
                                                + Integer.toString(type));
@@ -764,7 +765,7 @@ public class SubBook {
      * @param name ファイル名
      * @return 動画ファイル
      */
-    public File getMovieFile(String name) {
+    public File getMovieFile(final String name) {
         if (_movieDir == null) {
             return null;
         }
@@ -782,10 +783,11 @@ public class SubBook {
      *
      * @param pos データ位置
      * @param hook フック
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public <T> T getHeading(long pos, Hook<T> hook) throws EBException {
+    public <T> T getHeading(final long pos, final Hook<T> hook) throws EBException {
         BookReader<T> reader = null;
         T t = null;
         try {
@@ -806,7 +808,7 @@ public class SubBook {
      * @return 次の見出し位置
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public long getNextHeadingPosition(long pos) throws EBException {
+    public long getNextHeadingPosition(final long pos) throws EBException {
         BookReader<Object> reader = null;
         long nextPos;
         try {
@@ -825,10 +827,11 @@ public class SubBook {
      *
      * @param pos データ位置
      * @param hook フック
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public <T> T getText(long pos, Hook<T> hook) throws EBException {
+    public <T> T getText(final long pos, final Hook<T> hook) throws EBException {
         BookReader<T> reader = null;
         T t = null;
         try {
@@ -846,11 +849,12 @@ public class SubBook {
      * この副本のメニュー表示を返します。
      *
      * @param hook フック
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      *         (メニュー表示がサポートされていない場合はnull)
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public <T> T getMenu(Hook<T> hook) throws EBException {
+    public <T> T getMenu(final Hook<T> hook) throws EBException {
         if (!hasMenu()) {
             return null;
         }
@@ -871,11 +875,12 @@ public class SubBook {
      * この副本のイメージメニュー表示を返します。
      *
      * @param hook フック
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      *         (イメージメニュー表示がサポートされていない場合はnull)
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public <T> T getImageMenu(Hook<T> hook) throws EBException {
+    public <T> T getImageMenu(final Hook<T> hook) throws EBException {
         if (!hasImageMenu()) {
             return null;
         }
@@ -896,11 +901,12 @@ public class SubBook {
      * この副本の著作権表示を返します。
      *
      * @param hook フック
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      *         (著作権表示がサポートされていない場合はnull)
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public <T> T getCopyright(Hook<T> hook) throws EBException {
+    public <T> T getCopyright(final Hook<T> hook) throws EBException {
         if (!hasCopyright()) {
             return null;
         }
@@ -923,7 +929,7 @@ public class SubBook {
      * @param b バイト配列
      * @return 文字種別
      */
-    private int _getWordType(byte[] b) {
+    private int _getWordType(final byte[] b) {
         boolean alphabet = false;
         boolean kana = false;
         boolean kanji = false;
@@ -956,7 +962,7 @@ public class SubBook {
      * @see #KANJI
      * @see #ALPHABET
      */
-    protected IndexStyle getWordIndexStyle(int type) {
+    protected IndexStyle getWordIndexStyle(final int type) {
         if (type >= 0 && type < _wordStyle.length) {
             return _wordStyle[type];
         }
@@ -972,7 +978,7 @@ public class SubBook {
      * @see #KANJI
      * @see #ALPHABET
      */
-    protected IndexStyle getEndwordIndexStyle(int type) {
+    protected IndexStyle getEndwordIndexStyle(final int type) {
         if (type >= 0 && type < _endwordStyle.length) {
             return _endwordStyle[type];
         }
@@ -986,7 +992,7 @@ public class SubBook {
      * @return 検索インタフェース
      * @exception EBException 検索中にエラーが発生した場合
      */
-    public Searcher searchExactword(String word) throws EBException {
+    public Searcher searchExactword(final String word) throws EBException {
         if (!hasWordSearch() || word == null || word.trim().length() <= 0) {
             return new NullSearcher();
         }
@@ -1018,7 +1024,7 @@ public class SubBook {
      * @return 検索インタフェース
      * @exception EBException 検索中にエラーが発生した場合
      */
-    public Searcher searchWord(String word) throws EBException {
+    public Searcher searchWord(final String word) throws EBException {
         if (!hasWordSearch() || StringUtils.isBlank(word)) {
             return new NullSearcher();
         }
@@ -1050,7 +1056,7 @@ public class SubBook {
      * @return 検索インタフェース
      * @exception EBException 検索中にエラーが発生した場合
      */
-    public Searcher searchEndword(String word) throws EBException {
+    public Searcher searchEndword(final String word) throws EBException {
         if (!hasEndwordSearch() || StringUtils.isBlank(word)) {
             return new NullSearcher();
         }
@@ -1082,7 +1088,7 @@ public class SubBook {
      * @return 検索インタフェース
      * @exception EBException 検索中にエラーが発生した場合
      */
-    public Searcher searchKeyword(String[] word) throws EBException {
+    public Searcher searchKeyword(final String[] word) throws EBException {
         if (!hasKeywordSearch()) {
             return new NullSearcher();
         }
@@ -1105,7 +1111,7 @@ public class SubBook {
      * @return 検索インタフェース
      * @exception EBException 検索中にエラーが発生した場合
      */
-    public Searcher searchCross(String[] word) throws EBException {
+    public Searcher searchCross(final String[] word) throws EBException {
         if (!hasCrossSearch()) {
             return new NullSearcher();
         }
@@ -1127,10 +1133,11 @@ public class SubBook {
      * @param multiIndex 複合検索のインデックス
      * @param word 検索語
      *             (外字が含まれる場合は外字を"\####"のように"\"でエスケープして文字コードを記述すること)
+     * @return Searcher search engine proxy.
      * @exception EBException 検索中にエラーが発生した場合
      * @exception IllegalArgumentException 引数の値が不当な場合
      */
-    public Searcher searchMulti(int multiIndex, String[] word) throws EBException {
+    public Searcher searchMulti(final int multiIndex, final String[] word) throws EBException {
         if (!hasMultiSearch()) {
             return new NullSearcher();
         }
@@ -1293,7 +1300,7 @@ public class SubBook {
      * @return 複合検索のタイトル
      * @exception IllegalArgumentException インデックスの値が不当な場合
      */
-    public String getMultiTitle(int multiIndex) {
+    public String getMultiTitle(final int multiIndex) {
         if (_multiStyle == null) {
             return null;
         }
@@ -1311,7 +1318,7 @@ public class SubBook {
      * @return エントリ数
      * @exception IllegalArgumentException インデックスの値が不当な場合
      */
-    public int getMultiEntryCount(int multiIndex) {
+    public int getMultiEntryCount(final int multiIndex) {
         if (_multiStyle == null) {
             return 0;
         }
@@ -1330,7 +1337,7 @@ public class SubBook {
      * @return エントリのラベル
      * @exception IllegalArgumentException インデックスの値が不当な場合
      */
-    public String getMultiEntryLabel(int multiIndex, int entryIndex) {
+    public String getMultiEntryLabel(final int multiIndex, final int entryIndex) {
         if (_multiStyle == null || _entryStyle == null) {
             return null;
         }
@@ -1351,13 +1358,14 @@ public class SubBook {
      * @param multiIndex 複合検索のインデックス
      * @param entryIndex エントリのインデックス
      * @param hook フック
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      *         (候補一覧が存在しない場合はnull)
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      * @exception IllegalArgumentException インデックスの値が不当な場合
      */
-    public <T> T getCandidate(int multiIndex, int entryIndex,
-                              Hook<T> hook) throws EBException {
+    public <T> T getCandidate(final int multiIndex, final int entryIndex,
+                              final Hook<T> hook) throws EBException {
         if (!hasMultiEntryCandidate(multiIndex, entryIndex)) {
             return null;
         }
@@ -1383,7 +1391,7 @@ public class SubBook {
      * @return エントリに候補がある場合はtrue、そうでない場合はfalse
      * @exception IllegalArgumentException インデックスの値が不当な場合
      */
-    public boolean hasMultiEntryCandidate(int multiIndex, int entryIndex) {
+    public boolean hasMultiEntryCandidate(final int multiIndex, final int entryIndex) {
         if (_multiStyle == null || _entryStyle == null) {
             return false;
         }
@@ -1416,7 +1424,7 @@ public class SubBook {
      * @param word 検索語
      * @return バイト配列
      */
-    private byte[] _unescapeExtFontCode(String word) {
+    private byte[] _unescapeExtFontCode(final String word) {
         ArrayList<byte[]> list = new ArrayList<byte[]>(4);
         String key = word.trim();
         int len = key.length();

@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Hisaya FUKUMOTO
  */
-public class ImageUtil {
+public final class ImageUtil {
 
     /** ログ */
-    private static final Logger _logger = LoggerFactory.getLogger(ImageUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageUtil.class);
 
     /** PNGヘッダ */
     private static final byte[] PNG_HEADER = {
@@ -69,7 +69,7 @@ public class ImageUtil {
      * @param height 画像の高さ
      * @return PNGデータ
      */
-    public static byte[] bitmapToPNG(byte[] b, int width, int height) {
+    public static byte[] bitmapToPNG(final byte[] b, final int width, final  int height) {
         return bitmapToPNG(b, width, height,
                            Color.BLACK, Color.WHITE,
                            false, Deflater.DEFAULT_COMPRESSION);
@@ -87,9 +87,9 @@ public class ImageUtil {
      * @param transparent 背景を透過させるかどうか
      * @return PNGデータ
      */
-    public static byte[] bitmapToPNG(byte[] b, int width, int height,
-                                     Color foreground, Color background,
-                                     boolean transparent) {
+    public static byte[] bitmapToPNG(final byte[] b, final int width, final int height,
+                                     final Color foreground, final Color background,
+                                     final boolean transparent) {
         return bitmapToPNG(b, width, height,
                            foreground, background,
                            transparent, Deflater.DEFAULT_COMPRESSION);
@@ -108,9 +108,9 @@ public class ImageUtil {
      * @param level 圧縮レベル (0-9)
      * @return PNGデータ
      */
-    public static byte[] bitmapToPNG(byte[] b, int width, int height,
-                                     Color foreground, Color background,
-                                     boolean transparent, int level) {
+    public static byte[] bitmapToPNG(final byte[] b, final int width, final int height,
+                                     final Color foreground, final Color background,
+                                     final boolean transparent, final int level) {
         byte[] fRGB = new byte[4];
         fRGB[0] = (byte)foreground.getRed();
         fRGB[1] = (byte)foreground.getGreen();
@@ -167,7 +167,7 @@ public class ImageUtil {
      * @param b DIBデータ
      * @return PNGデータ
      */
-    public static byte[] dibToPNG(byte[] b) {
+    public static byte[] dibToPNG(final byte[] b) {
         return dibToPNG(b, Deflater.DEFAULT_COMPRESSION);
     }
 
@@ -179,9 +179,9 @@ public class ImageUtil {
      * @param level 圧縮レベル (0-9)
      * @return PNGデータ
      */
-    public static byte[] dibToPNG(byte[] b, int level) {
+    public static byte[] dibToPNG(final byte[] b, final int level) {
         if ((b[0] & 0xff) != 'B' || (b[1] & 0xff) != 'M') {
-            _logger.warn("file type 'BM' is not found in file header");
+            LOGGER.warn("file type 'BM' is not found in file header");
             return new byte[0];
         }
 
@@ -298,7 +298,7 @@ public class ImageUtil {
             } else if (compress == 3 && (bitCount == 16 || bitCount == 32)) {
                 // ビットフィールド
             } else {
-                _logger.warn("unknown compression type:"
+                LOGGER.warn("unknown compression type:"
                              + " compress=" + compress
                              + " bitCount=" + bitCount);
                 return new byte[0];
@@ -448,7 +448,7 @@ public class ImageUtil {
                 break;
             }
             default:
-                _logger.warn("unknown bit count: " + bitCount);
+                LOGGER.warn("unknown bit count: " + bitCount);
                 return new byte[0];
         }
 
@@ -464,7 +464,8 @@ public class ImageUtil {
      * @param height 高さ
      * @return 伸張したDIBデータ (ヘッダはそのまま)
      */
-    private static byte[] _expandRLE8(byte[] rle, int off, int width, int height) {
+    private static byte[] _expandRLE8(final byte[] rle, final int off,
+                                      final int width, final int height) {
         // 1行のバイト数の算出
         int lineBytes = (width * 8 + 31) / 32 * 4;
         // 展開後のサイズ
@@ -531,7 +532,8 @@ public class ImageUtil {
      * @param height 高さ
      * @return 伸張したDIBデータ (ヘッダはそのまま)
      */
-    private static byte[] _expandRLE4(byte[] rle, int off, int width, int height) {
+    private static byte[] _expandRLE4(final byte[] rle, final int off,
+                                      final int width, final int height) {
         // 1行のバイト数の算出
         int lineBytes = (width * 4 + 31) / 32 * 4;
         // 展開後のサイズ
@@ -635,8 +637,8 @@ public class ImageUtil {
      * @param level 圧縮レベル
      * @return PNGデータ
      */
-    private static byte[] _encodePNG(int width, int height,
-                                     byte[] image, int level) {
+    private static byte[] _encodePNG(final int width, final int height,
+                                     final byte[] image, final int level) {
         // イメージデータの圧縮
         byte[] buf = new byte[image.length+62];
         Deflater def = new Deflater(level);

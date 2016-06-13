@@ -29,7 +29,7 @@ public class Appendix {
      * @param path 付録パッケージのパス
      * @exception EBException 初期化中にエラーが発生した場合
      */
-    public Appendix(String path) throws EBException {
+    public Appendix(final String path) throws EBException {
         this(new File(path));
     }
 
@@ -39,7 +39,7 @@ public class Appendix {
      * @param dir 付録パッケージのパス
      * @exception EBException 初期化中にエラーが発生した場合
      */
-    public Appendix(File dir) throws EBException {
+    public Appendix(final File dir) throws EBException {
         super();
 
         _appendixPath = dir.getPath();
@@ -107,7 +107,7 @@ public class Appendix {
      * @param index インデックス
      * @return 副本 (範囲外のインデックス時はnull)
      */
-    public SubAppendix getSubAppendix(int index) {
+    public SubAppendix getSubAppendix(final int index) {
         if (index < 0 || index >= _sub.length) {
             return null;
         }
@@ -120,7 +120,7 @@ public class Appendix {
      * @param dir 付録パッケージのディレクトリ
      * @exception EBException CATALOG(S)ファイルの読み込み中にエラーが発生した場合
      */
-    private void _loadCatalog(File dir) throws EBException {
+    private void _loadCatalog(final File dir) throws EBException {
         // カタログファイルの検索
         EBFile file = null;
         try {

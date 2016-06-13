@@ -17,7 +17,7 @@ public class PlainInputStream extends BookInputStream {
      * @param info ファイル情報
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected PlainInputStream(FileInfo info) throws EBException {
+    protected PlainInputStream(final FileInfo info) throws EBException {
         super(info);
         open();
         cache = new byte[PAGE_SIZE];
@@ -51,7 +51,7 @@ public class PlainInputStream extends BookInputStream {
      * @exception EBException 入出力エラーが発生した場合
      */
     @Override
-    public int read(byte[] b, int off, int len) throws EBException {
+    public int read(final byte[] b, final int off, final int len) throws EBException {
         int rlen = 0;
         while (rlen < len) {
             if (info.getFileSize() <= filePos) {

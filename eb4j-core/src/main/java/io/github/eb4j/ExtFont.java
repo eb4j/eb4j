@@ -28,7 +28,7 @@ public class ExtFont {
     /** フォントサイズ */
     private static final int[][] FONT_SIZE = {
         // (FONT_WIDTH / 8) * FONT_HEIGHT
-        {32, 72,120, 288}, {16, 48, 60, 144}};
+        {32, 72, 120, 288}, {16, 48, 60, 144}};
     /** フォントの幅 */
     private static final int[][] FONT_WIDTH = {
         {16, 24, 32, 48}, {8, 16, 16, 24}};
@@ -62,7 +62,7 @@ public class ExtFont {
      * @see ExtFont#FONT_48
      * @exception IllegalArgumentException 外字の種類が不当な場合
      */
-    protected ExtFont(SubBook sub, int type) {
+    protected ExtFont(final SubBook sub, final int type) {
         super();
         _sub = sub;
         if (type < FONT_16 || type > FONT_48) {
@@ -81,7 +81,7 @@ public class ExtFont {
      * @see ExtFont#WIDE
      * @see ExtFont#NARROW
      */
-    private void _loadFont(int kind) throws EBException {
+    private void _loadFont(final int kind) throws EBException {
         byte[] b = new byte[16];
 
         BookInputStream bis = _file[kind].getInputStream();
@@ -155,7 +155,7 @@ public class ExtFont {
      * @param page 開始ページ
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected void setNarrowFont(EBFile file, long page) throws EBException {
+    protected void setNarrowFont(final EBFile file, final long page) throws EBException {
         _file[NARROW] = file;
         _page[NARROW] = page;
         _loadFont(NARROW);
@@ -168,7 +168,7 @@ public class ExtFont {
      * @param page 開始ページ
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected void setWideFont(EBFile file, long page) throws EBException {
+    protected void setWideFont(final EBFile file, final long page) throws EBException {
         _file[WIDE] = file;
         _page[WIDE] = page;
         _loadFont(WIDE);
@@ -311,7 +311,7 @@ public class ExtFont {
      * @return 半角外字のビットマップデータ
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public byte[] getNarrowFont(int code) throws EBException {
+    public byte[] getNarrowFont(final int code) throws EBException {
         return _getFont(NARROW, code);
     }
 
@@ -322,7 +322,7 @@ public class ExtFont {
      * @return 全角外字のビットマップデータ
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public byte[] getWideFont(int code) throws EBException {
+    public byte[] getWideFont(final int code) throws EBException {
         return _getFont(WIDE, code);
     }
 
@@ -336,7 +336,7 @@ public class ExtFont {
      * @see ExtFont#WIDE
      * @see ExtFont#NARROW
      */
-    private byte[] _getFont(int kind, int code) throws EBException {
+    private byte[] _getFont(final int kind, final int code) throws EBException {
         if (_file[kind] == null) {
             return new byte[0];
         }
