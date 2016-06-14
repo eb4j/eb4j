@@ -145,12 +145,11 @@ public class BookReader<T> {
      * @exception EBException 入出力エラーが発生した場合
      */
     private long _read(final long pos, final int type, final boolean skip) throws EBException {
-        _bis.seek(pos);
-        BookReaderHandler handler = new BookReaderHandler(_hook, type, skip);
+        BookReaderHandler handler = new BookReaderHandler(_bis, _hook, pos, type, skip);
         handler.init();
 
-        // データの解析
-        while (handler.readBuf()) {
+        // analyze data
+        while (handler.readBuf()) { // read to buffer, return false when eof.
             if (handler.isNextEscape()) {
                 handler.processEscape();
             } else if (_sub.getBook().getCharCode() == Book.CHARCODE_ISO8859_1) {
@@ -162,13 +161,14 @@ public class BookReader<T> {
                 break;
             }
         }
-        return pos + handler.getOffset();
+        return handler.getPosition();
     }
 
     /**
      * handler class for BookReader._read().
      */
     public class BookReaderHandler {
+        private long pos;
         private int off = 0;
         private int len;
         private boolean eof = false;
@@ -177,6 +177,7 @@ public class BookReader<T> {
         private int type;
         private boolean skip;
         private int code;
+        private BookInputStream bis;
         private Hook<T> hook;
 
         /**
@@ -185,16 +186,19 @@ public class BookReader<T> {
          * @param type book type.
          * @param skip when true, skip complex process. Otherwise call all hook functions.
          */
-        public BookReaderHandler(final Hook<T> hook, final int type, final boolean skip) {
+        public BookReaderHandler(final BookInputStream bis, final Hook<T> hook, final long pos, final int type, final boolean skip) {
+            this.bis = bis;
+            this.pos = pos;
             this.type = type;
             this.skip = skip;
             this.hook = hook;
         }
 
         int init() throws EBException {
+            bis.seek(pos);
             // データの読み込み
             b = new byte[BookInputStream.PAGE_SIZE];
-            len = _bis.read(b, 0, b.length);
+            len = bis.read(b, 0, b.length);
             if (len < 0) {
                 return -1;
             } else if (len == 0) {
@@ -217,7 +221,7 @@ public class BookReader<T> {
         private int _readRaw(final byte[] buf, final int offset, final int length)
                 throws EBException {
             System.arraycopy(buf, offset, buf, 0, length);
-            int n = _bis.read(buf, length, buf.length-length);
+            int n = bis.read(buf, length, buf.length-length);
             if (n == 0) {
                 throw new EBException(EBException.UNEXP_FILE, _file.getPath());
             }
@@ -426,8 +430,8 @@ public class BookReader<T> {
             off += 2;
         }
 
-        long getOffset() {
-            return off;
+        long getPosition() {
+            return pos + off;
         }
 
         private void startText() {
