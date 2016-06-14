@@ -1,0 +1,16 @@
+apply plugin: 'findbugs'
+
+findbugs {
+    ignoreFailures = true
+}
+
+// Force prevent findbugs on Test.
+task findbugsTest(overwrite: true) << {}
+
+// generate html report
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}

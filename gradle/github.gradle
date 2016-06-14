@@ -1,0 +1,21 @@
+github {
+    owner = projectOwner
+    repo = 'eb4j'
+    token = githubToken
+    tagName = projectTag
+    targetCommitish = 'master'
+    name = projectTag
+    draft = true
+    body = projectReleaseBody
+    assets = [
+            'eb4j-core/build/libs/eb4j-core-' + projectVersion + '.jar',
+            'eb4j-core/build/libs/eb4j-core-' + projectVersion + '-sources.jar',
+            'eb4j-core/build/libs/eb4j-core-' + projectVersion + '-javadoc.jar',
+            'eb4j-tools/build/distributions/eb4j-tools-' + projectVersion + '.tgz',
+            'eb4j-tools/build/distributions/eb4j-tools-' + projectVersion + '.zip',
+    ]
+}
+subprojects {
+    // disable githubRelease task in each project. Works only on root project.
+    task githubRelease(overwrite: true) << {}
+}
