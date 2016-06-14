@@ -1,5 +1,11 @@
-import org.apache.tools.ant.filters.ReplaceTokens
+//
+// eb4j gradle build script.
+//
+// Copyright (c) 2016 Hiroshi Miura
+//
+//
 
+// Here is only place where plugins {} can be located.
 plugins {
     // github
     id "co.riiid.gradle" version "0.4.2"
@@ -7,56 +13,53 @@ plugins {
     id "com.jfrog.bintray" version "1.6"
 }
 
+apply from: "$rootDir/gradle/github.gradle"
+apply from: "$rootDir/gradle/bintray.gradle"
+
 // common settings
 subprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
-    apply plugin: 'checkstyle'
-    apply plugin: 'findbugs'
-    apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven'
-    apply plugin: 'idea'
-    apply from: "${rootProject.projectDir}/gradle/integration-test.gradle"
 
-  sourceCompatibility = jdkVersion
-  targetCompatibility = jdkVersion
-  [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-  [compileJava, compileTestJava]*.options*.bootClasspath = "$JDK_HOME/jre/lib/rt.jar"
+    // Java version set in gradle.properties
+    sourceCompatibility = jdkVersion
+    targetCompatibility = jdkVersion
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+    [compileJava, compileTestJava]*.options*.bootClasspath = "$JDK_HOME/jre/lib/rt.jar"
 
-  apply from: "${rootProject.projectDir}/gradle/quality-check.gradle"
+    // Quality managements
+    apply from: "$rootDir/gradle/integration-test.gradle"
+    apply from: "$rootDir/gradle/checkstyle.gradle"
+    apply from: "$rootDir/gradle/findbugs.gradle"
 
-  repositories {
-    jcenter()
-  }
+    repositories {
+        jcenter()
+    }
 
-  dependencies {
-    testCompile 'org.testng:testng:6.9.10'
-  }
+    // Use testNG for unit test.
+    dependencies {
+        testCompile 'org.testng:testng:6.9.10'
+    }
+    test.useTestNG()
 
-  test {
-    useTestNG()
-  }
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier = 'sources'
+    }
 
-  javadoc {
-    options.locale = 'en_US'
-  }
+    // Always JavaDoc in English.
+    javadoc.options.locale = 'en_US'
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
 
-  task sourceJar(type: Jar) {
-      from sourceSets.main.allSource
-      classifier = 'sources'
-  }
-
-  task javadocJar(type: Jar, dependsOn: javadoc) {
-      classifier = 'javadoc'
-      from javadoc.destinationDir
-  }
-
-  artifacts {
-      archives jar
-      archives sourceJar
-      archives javadocJar
-  }
-
+    artifacts {
+        archives jar
+        archives sourceJar
+        archives javadocJar
+    }
 }
 
 project(':eb4j-core') {
@@ -76,7 +79,7 @@ project(':eb4j-core') {
       }
   }
 
-  apply from: "${rootProject.projectDir}/gradle/provided-compile.gradle"
+  apply from: "$rootDir/gradle/provided-compile.gradle"
 
   dependencies {
     compile 'commons-lang:commons-lang:2.4',
@@ -84,7 +87,6 @@ project(':eb4j-core') {
     provided 'org.slf4j:slf4j-nop:1.5.10'
   }
 
-  task githubRelease(overwrite: true) << {}
 }
 
 project(':eb4j-tools') {
@@ -92,9 +94,7 @@ project(':eb4j-tools') {
   mainClassName = 'io.github.eb4j.tool.EBZip'
   applicationName = 'ebzip'
 
-  task createAllStartScripts() << {
-       // just a placeholder
-  }
+  task createAllStartScripts() << {/* just a place holder. */}
   def scripts = [ 'ebdump': 'io.github.eb4j.tool.EBDump',
                   'ebinfo':'io.github.eb4j.tool.EBInfo'
   ]
@@ -136,24 +136,20 @@ project(':eb4j-tools') {
     compression = Compression.GZIP
   }
 
-  distributions {
-      main {
-          baseName = 'eb4j-tools'
-          contents {
-              from(javadocJar) {
-                  into 'docs'
-              }
-              from(sourceJar) {
-                  into 'source'
-              }
-          }
-      }
-  }
-  task githubRelease(overwrite: true) << {}
+    distributions.main {
+        baseName = 'eb4j-tools'
+        contents {
+            from(javadocJar) {
+                into 'docs'
+            }
+            from(sourceJar) {
+                into 'source'
+            }
+        }
+    }
 }
 
-task bintrayUpload(overwrite: true) << {}
-
+// Configure GPG singing.
 if (gradle.startParameter.taskNames.contains('bintrayUpload')  ||
     gradle.startParameter.taskNames.contains('githubRelease')) {
         apply from: "${rootProject.projectDir}/gradle/build.publish.gradle"

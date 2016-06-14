@@ -1,6 +1,7 @@
 //Original https://github.com/biasedbit/gradle-plugins
 //License MIT
 
+apply plugin: 'idea'
 // Assumes 'java', 'groovy' or 'scala' plugins have been applied before
 
 // Add integration test source sets

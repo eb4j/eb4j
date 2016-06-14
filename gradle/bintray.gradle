@@ -1,0 +1,7 @@
+// disable bintrayUpload task  in root project.
+task bintrayUpload(overwrite: true) << {}
+
+subprojects {
+    // enable bintrayUpload task in each project.
+    apply plugin: 'com.jfrog.bintray'
+}
