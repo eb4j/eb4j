@@ -41,14 +41,14 @@ import io.github.eb4j.io.EBZipConstants;
  *
  * @author Hisaya FUKUMOTO
  */
-public class EBZip implements EBZipConstants {
+public final class EBZip implements EBZipConstants {
 
     /** コピーライト */
-    private static final String _COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
+    private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
     /** E-Mailアドレス */
-    private static final String _EMAIL = "fukumoto@users.sourceforge.jp";
+    private static final String EMAIL = "fukumoto@users.sourceforge.jp";
     /** プロブラム名 */
-    private static final String _PROGRAM = EBZip.class.getName();
+    private static final String PROGRAM = EBZip.class.getName();
 
     /** デフォルト読み込みディレクトリ */
     private static final String DEFAULT_BOOK_DIR = ".";
@@ -74,29 +74,29 @@ public class EBZip implements EBZipConstants {
 
 
     /** 書籍読み込みディレクトリ */
-    private static String _bookDir = DEFAULT_BOOK_DIR;
+    private static String bookDir = DEFAULT_BOOK_DIR;
     /** 出力先ディレクトリ */
-    private static String _outDir = DEFAULT_OUTPUT_DIR;
+    private static String outDir = DEFAULT_OUTPUT_DIR;
     /** 対象副本のリスト */
-    private static String[] _subbooks = null;
+    private static String[] subbooks = null;
     /** 上書き方法 */
-    private static int _overwrite = OVERWRITE_QUERY;
+    private static int overwrite = OVERWRITE_QUERY;
     /** EBZIP圧縮レベル */
-    private static int _level = EBZIP_DEFAULT_LEVEL;
+    private static int level = EBZIP_DEFAULT_LEVEL;
     /** オリジナルファイル保持フラグ */
-    private static boolean _keep = false;
+    private static boolean keep = false;
     /** 出力メッセージ抑止フラグ */
-    private static boolean _quiet = false;
+    private static boolean quiet = false;
     /** 圧縮テストモードフラグ */
-    private static boolean _test = false;
+    private static boolean test = false;
     /** 外字無視フラグ */
-    private static boolean _skipFont = false;
+    private static boolean skipFont = false;
     /** 音声無視フラグ */
-    private static boolean _skipSound = false;
+    private static boolean skipSound = false;
     /** 画像無視フラグ */
-    private static boolean _skipGraphic = false;
+    private static boolean skipGraphic = false;
     /** 動画無視フラグ */
-    private static boolean _skipMovie = false;
+    private static boolean skipMovie = false;
 
 
     /**
@@ -104,7 +104,7 @@ public class EBZip implements EBZipConstants {
      *
      * @param args コマンド行引数
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Options options = new Options();
         options.addOption("f", "force-overwrite", false, "force overwrite of output files");
         options.addOption("n", "no-overwrite", false, "don't overwrite output files");
@@ -126,15 +126,15 @@ public class EBZip implements EBZipConstants {
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
             System.exit(1);
         }
 
         if (cmd.hasOption("f")) {
-            _overwrite = OVERWRITE_FORCE;
+            overwrite = OVERWRITE_FORCE;
         }
         if (cmd.hasOption("n")) {
-            _overwrite = OVERWRITE_NO;
+            overwrite = OVERWRITE_NO;
         }
 
         int action = ACTION_ZIP;
@@ -148,25 +148,25 @@ public class EBZip implements EBZipConstants {
             action = ACTION_UNZIP;
         }
 
-        _keep = cmd.hasOption("k");
-        _quiet = cmd.hasOption("q");
-        _test = cmd.hasOption("t");
+        keep = cmd.hasOption("k");
+        quiet = cmd.hasOption("q");
+        test = cmd.hasOption("t");
 
         if (cmd.hasOption("l")) {
-            String level = cmd.getOptionValue("l");
+            String optionValue = cmd.getOptionValue("l");
             try {
-                _level = Integer.parseInt(level);
+                EBZip.level = Integer.parseInt(optionValue);
             } catch (NumberFormatException e) {
-                System.err.println(_PROGRAM + ": invalid compression level `" + level + "'");
+                System.err.println(PROGRAM + ": invalid compression level `" + optionValue + "'");
                 System.exit(1);
             }
-            if (_level > EBZIP_MAX_LEVEL || _level < 0) {
-                System.err.println(_PROGRAM + ": invalid compression level `" + level + "'");
+            if (EBZip.level > EBZIP_MAX_LEVEL || EBZip.level < 0) {
+                System.err.println(PROGRAM + ": invalid compression level `" + optionValue + "'");
                 System.exit(1);
             }
         }
         if (cmd.hasOption("o")) {
-            _outDir = cmd.getOptionValue("o");
+            outDir = cmd.getOptionValue("o");
         }
 
         if (cmd.hasOption("s")) {
@@ -176,15 +176,15 @@ public class EBZip implements EBZipConstants {
                 String skip =
                     st.nextToken().trim().toLowerCase(Locale.ENGLISH);
                 if (skip.equals("font")) {
-                    _skipFont = true;
+                    skipFont = true;
                 } else if (skip.equals("sound")) {
-                    _skipSound = true;
+                    skipSound = true;
                 } else if (skip.equals("graphic")) {
-                    _skipGraphic = true;
+                    skipGraphic = true;
                 } else if (skip.equals("movie")) {
-                    _skipMovie = true;
+                    skipMovie = true;
                 } else {
-                    System.err.println(_PROGRAM + ": invalid content name `" + skip + "'");
+                    System.err.println(PROGRAM + ": invalid content name `" + skip + "'");
                     System.exit(1);
                 }
             }
@@ -199,7 +199,7 @@ public class EBZip implements EBZipConstants {
             }
         }
         if (!list.isEmpty()) {
-            _subbooks = list.toArray(new String[list.size()]);
+            subbooks = list.toArray(new String[list.size()]);
         }
 
 
@@ -218,10 +218,10 @@ public class EBZip implements EBZipConstants {
             case 0:
                 break;
             case 1:
-                _bookDir = paths[0];
+                bookDir = paths[0];
                 break;
             default:
-                System.err.println(_PROGRAM + ": too many arguments");
+                System.err.println(PROGRAM + ": too many arguments");
                 _usage();
                 System.exit(1);
         }
@@ -230,7 +230,7 @@ public class EBZip implements EBZipConstants {
         try {
             ebzip._exec(action);
         } catch (Exception e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         }
     }
 
@@ -240,7 +240,7 @@ public class EBZip implements EBZipConstants {
      *
      */
     private static void _usage() {
-        System.out.println("Try `java " + _PROGRAM + " --help' for more information");
+        System.out.println("Try `java " + PROGRAM + " --help' for more information");
     }
 
     /**
@@ -248,11 +248,11 @@ public class EBZip implements EBZipConstants {
      *
      * @param options コマンドラインオプション
      */
-    private static void _usage(Options options) {
+    private static void _usage(final Options options) {
         HelpFormatter fmt = new HelpFormatter();
-        fmt.printHelp("java " + _PROGRAM + " [option...] [book-directory]",
+        fmt.printHelp("java " + PROGRAM + " [option...] [book-directory]",
                       "\nOptions:", options,
-                      "\nReport bugs to <" + _EMAIL + ">.", false);
+                      "\nReport bugs to <" + EMAIL + ">.", false);
     }
 
     /**
@@ -261,8 +261,8 @@ public class EBZip implements EBZipConstants {
      */
     private static void _version() {
         Package pkg = EBZip.class.getPackage();
-        System.out.println(_PROGRAM + " " + pkg.getImplementationVersion());
-        System.out.println(_COPYRIGHT);
+        System.out.println(PROGRAM + " " + pkg.getImplementationVersion());
+        System.out.println(COPYRIGHT);
         System.out.println("All right reserved.");
     }
 
@@ -282,17 +282,17 @@ public class EBZip implements EBZipConstants {
      * @param action コマンドの動作種別
      * @exception EBException 書籍の初期化中に例外が発生した場合
      */
-    private void _exec(int action) throws EBException {
-        Book book = new Book(_bookDir);
-        File root = new File(_bookDir);
+    private void _exec(final int action) throws EBException {
+        Book book = new Book(bookDir);
+        File root = new File(bookDir);
         SubBook[] sub = book.getSubBooks();
         EBFile file = null;
         for (int i=0; i<sub.length; i++) {
-            if (_subbooks != null) {
+            if (subbooks != null) {
                 boolean show = false;
                 String dir = sub[i].getName().toLowerCase(Locale.ENGLISH);
-                for (int j=0; j<_subbooks.length; j++) {
-                    if (_subbooks[j].equals(dir)) {
+                for (int j = 0; j< subbooks.length; j++) {
+                    if (subbooks[j].equals(dir)) {
                         show = true;
                         break;
                     }
@@ -315,13 +315,13 @@ public class EBZip implements EBZipConstants {
                 _act(action, file);
                 if (file.getName().equalsIgnoreCase("honmon2")) {
                     // 音声、画像ファイル
-                    if (!_skipSound && !file.getName().equalsIgnoreCase("honmon2")) {
+                    if (!skipSound && !file.getName().equalsIgnoreCase("honmon2")) {
                         file = sub[i].getSoundFile();
                         if (file != null) {
                             _act(action, file);
                         }
                     }
-                    if (!_skipGraphic) {
+                    if (!skipGraphic) {
                         file = sub[i].getGraphicFile();
                         if (file != null && !file.getName().equalsIgnoreCase("honmon2")) {
                             if (action == ACTION_ZIP) {
@@ -333,7 +333,7 @@ public class EBZip implements EBZipConstants {
                     }
                 }
                 // 外字ファイル
-                if (!_skipFont) {
+                if (!skipFont) {
                     for (int j=0; j<4; j++) {
                         ExtFont font = sub[i].getFont(j);
                         if (font.hasWideFont()) {
@@ -347,7 +347,7 @@ public class EBZip implements EBZipConstants {
                     }
                 }
                 // 動画ファイル
-                if (!_skipMovie && action != ACTION_INFO) {
+                if (!skipMovie && action != ACTION_INFO) {
                     File[] files = sub[i].getMovieFileList();
                     if (files != null) {
                         for (int j=0; j<files.length; j++) {
@@ -385,7 +385,7 @@ public class EBZip implements EBZipConstants {
      * @param action アクション
      * @param file ファイル
      */
-    private void _act(int action, EBFile file) {
+    private void _act(final int action, final EBFile file) {
         switch (action) {
             case ACTION_ZIP:
                 _zip(file);
@@ -405,27 +405,27 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _zip(EBFile file) {
-        if (!_test) {
+    private void _zip(final EBFile file) {
+        if (!test) {
             _mkdir(file);
         }
 
         File f = _getOutFile(file, ".ebz");
-        if (!_quiet) {
+        if (!quiet) {
             // ファイル名の出力
             System.out.println("==> compress " + file.getPath() + " <==");
             System.out.println("output to " + f.getPath());
         }
 
         if (f.equals(file.getFile())) {
-            if (!_quiet) {
+            if (!quiet) {
                 System.out.println("the input and output files are the same, skipped.");
                 System.out.println("");
             }
             return;
         }
 
-        if (!_test && !_isOverwrite(f)) {
+        if (!test && !_isOverwrite(f)) {
             return;
         }
 
@@ -434,7 +434,7 @@ public class EBZip implements EBZipConstants {
         try {
             bis = file.getInputStream();
 
-            int sliceSize = BookInputStream.PAGE_SIZE << _level;
+            int sliceSize = BookInputStream.PAGE_SIZE << level;
             long fileSize = bis.getFileSize();
 
             int indexSize = 0;
@@ -477,7 +477,7 @@ public class EBZip implements EBZipConstants {
             long slicePos = EBZIP_HEADER_SIZE + indexLength;
 
             // ヘッダとインデックスのダミーデータを書き込む
-            if (!_test) {
+            if (!test) {
                 channel = new FileOutputStream(f).getChannel();
                 Arrays.fill(out, 0, out.length, (byte)0);
                 long i;
@@ -491,7 +491,7 @@ public class EBZip implements EBZipConstants {
 
             long inTotalLength = 0;
             long outTotalLength = 0;
-            int interval = 1024 >>> _level;
+            int interval = 1024 >>> level;
             if (((totalSlice + 999) / 1000) > interval) {
                 interval = (totalSlice + 999) / 1000;
             }
@@ -502,17 +502,17 @@ public class EBZip implements EBZipConstants {
                 bis.seek(inTotalLength);
                 int inLen = bis.read(in, 0, in.length);
                 if (inLen < 0) {
-                    System.err.println(_PROGRAM
+                    System.err.println(PROGRAM
                                        + ": failed to read the file ("
                                        + f.getPath() + ")");
                     return;
                 } else if (inLen == 0) {
-                    System.err.println(_PROGRAM + ": unexpected EOF ("
+                    System.err.println(PROGRAM + ": unexpected EOF ("
                                        + f.getPath() + ")");
                     return;
                 } else if (inLen != in.length
                            && inTotalLength + inLen != fileSize) {
-                    System.err.println(_PROGRAM + ": unexpected EOF ("
+                    System.err.println(PROGRAM + ": unexpected EOF ("
                                        + f.getPath() + ")");
                     return;
                 }
@@ -541,7 +541,7 @@ public class EBZip implements EBZipConstants {
                 }
 
                 // 圧縮したスライスデータの書き込み
-                if (!_test) {
+                if (!test) {
                     // ファイルの末尾に追加
                     channel.position(channel.size());
                     channel.write(ByteBuffer.wrap(out, 0, outLen));
@@ -590,7 +590,7 @@ public class EBZip implements EBZipConstants {
                 }
 
                 // インデックス情報の書き込み
-                if (!_test) {
+                if (!test) {
                     channel.position(EBZIP_HEADER_SIZE+i*indexSize);
                     channel.write(ByteBuffer.wrap(out, 0, indexSize*2));
                 }
@@ -600,7 +600,7 @@ public class EBZip implements EBZipConstants {
                 slicePos = nextPos;
 
                 // 進捗の表示
-                if (!_quiet && (i%interval) + 1 == interval) {
+                if (!quiet && (i%interval) + 1 == interval) {
                     double rate = (double)(i + 1) / (double)totalSlice * 100.0;
                     System.out.println(FMT.format(rate) + " done ("
                                        + inTotalLength + " / "
@@ -616,9 +616,9 @@ public class EBZip implements EBZipConstants {
             out[3] = (byte)'i';
             out[4] = (byte)'p';
             if (fileSize < (1L<<32)) {
-                out[5] = (byte)((1 << 4) | (_level & 0x0f));
+                out[5] = (byte)((1 << 4) | (level & 0x0f));
             } else {
-                out[5] = (byte)((2 << 4) | (_level & 0x0f));
+                out[5] = (byte)((2 << 4) | (level & 0x0f));
             }
             out[6] = (byte)0;
             out[7] = (byte)0;
@@ -640,14 +640,14 @@ public class EBZip implements EBZipConstants {
             out[21] = (byte)(mtime & 0xff);
 
             // ヘッダ情報の書き込み
-            if (!_test) {
+            if (!test) {
                 channel.position(0);
                 channel.write(ByteBuffer.wrap(out, 0, EBZIP_HEADER_SIZE));
             }
 
             // 結果の表示
             outTotalLength += EBZIP_HEADER_SIZE + indexSize;
-            if (!_quiet) {
+            if (!quiet) {
                 System.out.println("completed (" + fileSize
                                    + " / " + fileSize + " bytes)");
                 if (inTotalLength != 0) {
@@ -658,13 +658,13 @@ public class EBZip implements EBZipConstants {
                 }
             }
         } catch (EBException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (FileNotFoundException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (IOException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (SecurityException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } finally {
             bis.close();
             if (channel != null) {
@@ -675,10 +675,10 @@ public class EBZip implements EBZipConstants {
             }
         }
         // オリジナルファイルの削除
-        if (!_test && !_keep) {
+        if (!test && !keep) {
             _delete(file.getFile());
         }
-        if (!_quiet) {
+        if (!quiet) {
             System.out.println("");
         }
     }
@@ -688,14 +688,14 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _unzip(EBFile file) {
+    private void _unzip(final EBFile file) {
         // 無圧縮ファイルはそのままコピーする
         if (file.getFormat() == EBFile.FORMAT_PLAIN) {
             _copy(file);
             return;
         }
 
-        if (!_test) {
+        if (!test) {
             _mkdir(file);
         }
 
@@ -704,21 +704,21 @@ public class EBZip implements EBZipConstants {
             suffix = ".org";
         }
         File f = _getOutFile(file, suffix);
-        if (!_quiet) {
+        if (!quiet) {
             // ファイル名の出力
             System.out.println("==> uncompress " + file.getPath() + " <==");
             System.out.println("output to " + f.getPath());
         }
 
         if (f.equals(file.getFile())) {
-            if (!_quiet) {
+            if (!quiet) {
                 System.out.println("the input and output files are the same, skipped.");
                 System.out.println("");
             }
             return;
         }
 
-        if (!_test && !_isOverwrite(f)) {
+        if (!test && !_isOverwrite(f)) {
             return;
         }
 
@@ -727,7 +727,7 @@ public class EBZip implements EBZipConstants {
         try {
             bis = file.getInputStream();
             byte[] b = new byte[bis.getSliceSize()];
-            if (!_test) {
+            if (!test) {
                 channel = new FileOutputStream(f).getChannel();
             }
             long totalLength = 0;
@@ -744,17 +744,17 @@ public class EBZip implements EBZipConstants {
                 bis.seek(totalLength);
                 int n = bis.read(b, 0, b.length);
                 if (n < 0) {
-                    System.err.println(_PROGRAM
+                    System.err.println(PROGRAM
                                        + ": failed to read the file ("
                                        + f.getPath() + ")");
                     return;
                 } else if (n == 0) {
-                    System.err.println(_PROGRAM + ": unexpected EOF ("
+                    System.err.println(PROGRAM + ": unexpected EOF ("
                                        + f.getPath() + ")");
                     return;
                 } else if (n != b.length
                            && totalLength + n != bis.getFileSize()) {
-                    System.err.println(_PROGRAM + ": unexpected EOF ("
+                    System.err.println(PROGRAM + ": unexpected EOF ("
                                        + f.getPath() + ")");
                     return;
                 }
@@ -763,13 +763,13 @@ public class EBZip implements EBZipConstants {
                     crc32.update(b, 0, n);
                 }
                 // データの書き込み
-                if (!_test) {
+                if (!test) {
                     channel.write(ByteBuffer.wrap(b, 0, n));
                 }
                 totalLength += n;
 
                 // 進捗の表示
-                if (!_quiet && (i%interval) + 1 == interval) {
+                if (!quiet && (i%interval) + 1 == interval) {
                     double rate = (double)(i + 1) / (double)totalSlice * 100.0;
                     System.out.println(FMT.format(rate) + " done ("
                                        + totalLength + " / "
@@ -777,7 +777,7 @@ public class EBZip implements EBZipConstants {
                 }
             }
             // 結果の表示
-            if (!_quiet) {
+            if (!quiet) {
                 System.out.println("completed (" + bis.getFileSize()
                                    + " / " + bis.getFileSize() + " bytes)");
                 System.out.println(bis.getRealFileSize() + " -> "
@@ -787,18 +787,18 @@ public class EBZip implements EBZipConstants {
             // CRCの確認
             if (bis instanceof EBZipInputStream) {
                 if (crc32.getValue() != ((EBZipInputStream)bis).getCRC()) {
-                    System.err.println(_PROGRAM + ": CRC error (" + f.getPath() + ")");
+                    System.err.println(PROGRAM + ": CRC error (" + f.getPath() + ")");
                     return;
                 }
             }
         } catch (EBException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (FileNotFoundException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (IOException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (SecurityException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } finally {
             if (bis != null) {
                 bis.close();
@@ -811,10 +811,10 @@ public class EBZip implements EBZipConstants {
             }
         }
         // オリジナルファイルの削除
-        if (!_test && !_keep) {
+        if (!test && !keep) {
             _delete(file.getFile());
         }
-        if (!_quiet) {
+        if (!quiet) {
             System.out.println("");
         }
     }
@@ -824,7 +824,7 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _info(EBFile file) {
+    private void _info(final EBFile file) {
         // ファイル名の出力
         System.out.println("==> " + file.getPath() + " <==");
         BookInputStream bis = null;
@@ -839,8 +839,7 @@ public class EBZip implements EBZipConstants {
                     buf.append(" bytes (not compressed)");
                     break;
                 case EBFile.FORMAT_EBZIP:
-                    int level = ((EBZipInputStream)bis).getLevel();
-                    text = "ebzip level " + level + " compression)";
+                    text = "ebzip level " + ((EBZipInputStream)bis).getLevel() + " compression)";
                     break;
                 case EBFile.FORMAT_SEBXA:
                     text = "S-EBXA compression)";
@@ -865,7 +864,7 @@ public class EBZip implements EBZipConstants {
             System.out.println(buf.toString());
             System.out.println("");
         } catch (EBException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
             System.out.println("");
         } finally {
             if (bis != null) {
@@ -879,8 +878,8 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _fixSEBXA(File file) {
-        if (!_quiet) {
+    private void _fixSEBXA(final File file) {
+        if (!quiet) {
             System.out.println("==> fix " + file.getPath() + " <==");
         }
 
@@ -920,13 +919,13 @@ public class EBZip implements EBZipConstants {
             }
             buf.force();
         } catch (FileNotFoundException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
             err = true;
         } catch (IOException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
             err = true;
         } catch (SecurityException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
             err = true;
         } finally {
             if (channel != null) {
@@ -936,7 +935,7 @@ public class EBZip implements EBZipConstants {
                 }
             }
         }
-        if (!_quiet) {
+        if (!quiet) {
             if (!err) {
                 System.out.println("complated");
             }
@@ -951,7 +950,7 @@ public class EBZip implements EBZipConstants {
      * @param suffix 拡張子
      * @return 出力ファイル
      */
-    private File _getOutFile(EBFile file, String suffix) {
+    private File _getOutFile(final EBFile file, final String suffix) {
         return _getOutFile(file.getFile(), suffix);
     }
 
@@ -962,17 +961,17 @@ public class EBZip implements EBZipConstants {
      * @param suffix 拡張子
      * @return 出力ファイル
      */
-    private File _getOutFile(File file, String suffix) {
-        String bookDir = null;
-        String inFile = null;
+    private File _getOutFile(final File file, final String suffix) {
+        String bookDirFile;
+        String inFile;
         try {
-            bookDir = new File(_bookDir).getCanonicalPath();
+            bookDirFile = new File(EBZip.bookDir).getCanonicalPath();
             inFile = file.getCanonicalPath();
         } catch (IOException e) {
             throw new RuntimeException("can't get canonical path", e);
         }
 
-        String fname = inFile.substring(bookDir.length());
+        String fname = inFile.substring(bookDirFile.length());
         if (fname.length() > 4) {
             String s = fname.substring(fname.length()-4);
             if (s.equalsIgnoreCase(".ebz")) {
@@ -984,7 +983,7 @@ public class EBZip implements EBZipConstants {
         if (suffix != null) {
             fname += suffix;
         }
-        return new File(_outDir, fname);
+        return new File(outDir, fname);
     }
 
     /**
@@ -992,7 +991,7 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _mkdir(EBFile file) {
+    private void _mkdir(final EBFile file) {
         _mkdir(_getOutFile(file, null));
     }
 
@@ -1001,12 +1000,13 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _mkdir(File file) {
+    private void _mkdir(final File file) {
         File dir = file.getParentFile();
         if (dir != null && !dir.exists()) {
             try {
                 if (!dir.mkdirs()) {
-                    throw new RuntimeException("can't create directory (" + dir.getAbsolutePath() + ")");
+                    throw new RuntimeException("can't create directory ("
+                            + dir.getAbsolutePath() + ")");
                 }
             } catch (SecurityException e) {
                 throw new RuntimeException("can't create directory (" + e.getMessage() + ")", e);
@@ -1019,7 +1019,7 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _copy(EBFile file) {
+    private void _copy(final EBFile file) {
         _copy(file.getFile(), _getOutFile(file, null));
     }
 
@@ -1029,26 +1029,26 @@ public class EBZip implements EBZipConstants {
      * @param file1 入力ファイル
      * @param file2 出力ファイル
      */
-    private void _copy(File file1, File file2) {
-        if (!_test) {
+    private void _copy(final File file1, final File file2) {
+        if (!test) {
             _mkdir(file2);
         }
-        if (!_quiet) {
+        if (!quiet) {
             // ファイル名の出力
             System.out.println("==> copy " + file1.getPath() + " <==");
             System.out.println("output to " + file2.getPath());
         }
 
         if (file1.equals(file2)) {
-            if (!_quiet) {
+            if (!quiet) {
                 System.out.println("the input and output files are the same, skipped.");
                 System.out.println("");
             }
             return;
         }
 
-        if (_test) {
-            if (!_quiet) {
+        if (test) {
+            if (!quiet) {
                 System.out.println("");
             }
             return;
@@ -1065,16 +1065,16 @@ public class EBZip implements EBZipConstants {
             out = new FileOutputStream(file2).getChannel();
             in.transferTo(0, (int)in.size(), out);
             // 結果の表示
-            if (!_quiet) {
+            if (!quiet) {
                 System.out.println("completed (" + in.size()
                                    + " / " + out.size() + " bytes)");
             }
         } catch (FileNotFoundException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (IOException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (SecurityException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         } finally {
             if (in != null) {
                 try {
@@ -1090,10 +1090,10 @@ public class EBZip implements EBZipConstants {
             }
         }
         // オリジナルファイルの削除
-        if (!_keep) {
+        if (!keep) {
             _delete(file1);
         }
-        if (!_quiet) {
+        if (!quiet) {
             System.out.println("");
         }
     }
@@ -1103,15 +1103,15 @@ public class EBZip implements EBZipConstants {
      *
      * @param file ファイル
      */
-    private void _delete(File file) {
+    private void _delete(final File file) {
         try {
             if (!file.delete()) {
-                System.err.println(_PROGRAM
+                System.err.println(PROGRAM
                                    + ": failed to delete the file ("
                                    + file.getPath() + ")");
             }
         } catch (SecurityException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         }
     }
 
@@ -1121,17 +1121,17 @@ public class EBZip implements EBZipConstants {
      * @param file ファイル
      * @return 上書きを行う場合はtrue、そうでない場合はfalse
      */
-    private boolean _isOverwrite(File file) {
+    private boolean _isOverwrite(final File file) {
         if (!file.exists()) {
             return true;
         }
-        if (_overwrite == OVERWRITE_NO) {
-            if (!_quiet) {
+        if (overwrite == OVERWRITE_NO) {
+            if (!quiet) {
                 System.err.println("already exists, skip the file");
                 System.err.println("");
             }
             return false;
-        } else if (_overwrite == OVERWRITE_QUERY) {
+        } else if (overwrite == OVERWRITE_QUERY) {
             while (true) {
                 System.err.println("");
                 System.err.println("the file already exists: " + file.getPath());
