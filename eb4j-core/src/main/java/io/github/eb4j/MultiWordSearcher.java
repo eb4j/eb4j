@@ -44,7 +44,8 @@ public class MultiWordSearcher implements Searcher {
      * @param multi 複合検索用インデックススタイル
      * @param entry 複合検索エントリ用インデックススタイル
      */
-    protected MultiWordSearcher(final SubBook sub, final IndexStyle multi, final IndexStyle[] entry) {
+    protected MultiWordSearcher(final SubBook sub, final IndexStyle multi,
+                                final IndexStyle[] entry) {
         super();
         _sub = sub;
         _style = multi;

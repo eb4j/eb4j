@@ -38,7 +38,8 @@ public class GraphicData {
      * @return モノクロ画像データ(bitmap)のバイト配列
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public byte[] getMonoGraphic(final long pos, final int width, final int height) throws EBException {
+    public byte[] getMonoGraphic(final long pos, final int width, final int height)
+            throws EBException {
         byte[] img = null;
         long graphicPos;
         int graphicWidth;

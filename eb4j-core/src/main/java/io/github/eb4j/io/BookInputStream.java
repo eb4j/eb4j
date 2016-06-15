@@ -12,7 +12,7 @@ import io.github.eb4j.EBException;
  *
  * @author Hisaya FUKUMOTO
  */
-public abstract class BookInputStream {
+public abstract class BookInputStream implements AutoCloseable {
 
     /** ページサイズ */
     public static final int PAGE_SIZE = 2048;

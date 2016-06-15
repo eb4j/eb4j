@@ -182,11 +182,14 @@ public class BookReader<T> {
 
         /**
          * BookReaderHandler constructor for _read() method in BookReader.
+         * @param bis input stream.
          * @param hook Hook object.
+         * @param pos seek position.
          * @param type book type.
          * @param skip when true, skip complex process. Otherwise call all hook functions.
          */
-        public BookReaderHandler(final BookInputStream bis, final Hook<T> hook, final long pos, final int type, final boolean skip) {
+        public BookReaderHandler(final BookInputStream bis, final Hook<T> hook, final long pos,
+                                 final int type, final boolean skip) {
             this.bis = bis;
             this.pos = pos;
             this.type = type;
