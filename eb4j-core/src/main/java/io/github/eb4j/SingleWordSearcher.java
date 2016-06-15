@@ -406,32 +406,7 @@ public class SingleWordSearcher implements Searcher {
         }
 
         while (true) {
-            // キャッシュとデータのページが異なれば読み込む
-            if (_cachePage != _page) {
-                BookInputStream bis = _file.getInputStream();
-                try {
-                    bis.seek(_page, 0);
-                    bis.readFully(_cache, 0, _cache.length);
-                } finally {
-                    bis.close();
-                }
-                _cachePage = _page;
-
-                if (_entryIndex == 0) {
-                    _pageID = _cache[0] & 0xff;
-                    _entryLength = _cache[1] & 0xff;
-                    if (_entryLength == 0) {
-                        _entryArrangement = VARIABLE;
-                    } else {
-                        _entryArrangement = FIXED;
-                    }
-                    _entryCount = ByteUtil.getInt2(_cache, 2);
-                    _entryIndex = 0;
-                    _off = 4;
-                    _logger.debug("page=0x" + HexUtil.toHexString(_page)
-                                  + ", ID=0x" + HexUtil.toHexString(_pageID));
-                }
-            }
+            refreshCache();
 
             if (!_isLeafLayer(_pageID)) {
                 // リーフインデックスでなければ例外
@@ -439,172 +414,23 @@ public class SingleWordSearcher implements Searcher {
             }
 
             if (!_hasGroupEntry(_pageID)) {
-                // グループエントリなし
+                Result result;
                 while (_entryIndex < _entryCount) {
-                    if (_entryArrangement == VARIABLE) {
-                        if (_off + 1 > BookInputStream.PAGE_SIZE) {
-                            throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                        }
-                        _entryLength = _cache[_off] & 0xff;
-                        _off++;
-                    }
-
-                    if (_off + _entryLength + 12 > BookInputStream.PAGE_SIZE) {
-                        throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                    }
-
-                    byte[] b = new byte[_entryLength];
-                    System.arraycopy(_cache, _off, b, 0, b.length);
-                    _off += _entryLength;
-
-                    _comparison = _compareSingle(_word, b);
-                    Result result = null;
-                    if (_comparison == 0) {
-                        // 本文/見出し位置の取得
-                        long tPage = ByteUtil.getLong4(_cache, _off);
-                        int tOff = ByteUtil.getInt2(_cache, _off+4);
-                        long hPage = ByteUtil.getLong4(_cache, _off+6);
-                        int hOff = ByteUtil.getInt2(_cache, _off+10);
-                        result = new Result(_sub, hPage, hOff, tPage, tOff);
-                    }
-
-                    _entryIndex++;
-                    _off += 12;
-
+                    result = getNonGroupEntry();
                     if (result != null) {
                         return result;
                     }
-
                     if (_comparison < 0) {
                         return null;
                     }
                 }
             } else {
-                // グループエントリあり
+                Result result;
                 while (_entryIndex < _entryCount) {
-                    if (_off + 2 > BookInputStream.PAGE_SIZE) {
-                        throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                    }
-                    int groupID = _cache[_off] & 0xff;
-                    Result result = null;
-                    if (groupID == 0x00) {
-                        // シングルエントリ
-                        _entryLength = _cache[_off+1] & 0xff;
-                        if (_off + _entryLength + 14 > BookInputStream.PAGE_SIZE) {
-                            throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                        }
-
-                        byte[] b = new byte[_entryLength];
-                        System.arraycopy(_cache, _off+2, b, 0, b.length);
-                        _off += _entryLength + 2;
-
-                        _comparison = _compareSingle(_canonical, b);
-                        if (_comparison == 0) {
-                            // 本文/見出し位置の取得
-                            long tPage = ByteUtil.getLong4(_cache, _off);
-                            int tOff = ByteUtil.getInt2(_cache, _off+4);
-                            long hPage = ByteUtil.getLong4(_cache, _off+6);
-                            int hOff = ByteUtil.getInt2(_cache, _off+10);
-                            result = new Result(_sub, hPage, hOff, tPage, tOff);
-                        }
-                        _off += 12;
-                        _inGroupEntry = false;
-                    } else if (groupID == 0x80) {
-                        // グループエントリの開始
-                        _entryLength = _cache[_off+1] & 0xff;
-                        byte[] b = new byte[_entryLength];
-                        if (_type == KEYWORD || _type == CROSS) {
-                            if (_off + _entryLength + 12 > BookInputStream.PAGE_SIZE) {
-                                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                            }
-
-                            System.arraycopy(_cache, _off+6, b, 0, b.length);
-                            _off += _entryLength + 6;
-                            _comparison = _compareSingle(_word, b);
-                            long hPage = ByteUtil.getLong4(_cache, _off);
-                            int hOff = ByteUtil.getInt2(_cache, _off+4);
-                            _keywordHeading =
-                                BookInputStream.getPosition(hPage, hOff);
-                            _off += 6;
-                        } else if (_type == MULTI) {
-                            if (_off + _entryLength + 6 > BookInputStream.PAGE_SIZE) {
-                                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                            }
-
-                            System.arraycopy(_cache, _off+6, b, 0, b.length);
-                            _comparison = _compareSingle(_word, b);
-                            _off += _entryLength + 6;
-                        } else {
-                            if (_off + _entryLength + 4 > BookInputStream.PAGE_SIZE) {
-                                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                            }
-
-                            System.arraycopy(_cache, _off+4, b, 0, b.length);
-                            _comparison = _compareSingle(_canonical, b);
-                            _off += _entryLength + 4;
-                        }
-                        _inGroupEntry = true;
-                    } else if (groupID == 0xc0) {
-                        // グループエントリの要素
-                        if (_type == KEYWORD || _type == CROSS) {
-                            if (_off + 7 > BookInputStream.PAGE_SIZE) {
-                                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                            }
-
-                            if (_comparison == 0 && _inGroupEntry) {
-                                // 本文/見出し位置の取得
-                                long tPage = ByteUtil.getLong4(_cache, _off+1);
-                                int tOff = ByteUtil.getInt2(_cache, _off+5);
-                                result = new Result(_sub, _keywordHeading, tPage, tOff);
-                                _keywordHeading =
-                                    _sub.getNextHeadingPosition(_keywordHeading);
-                            }
-                            _off += 7;
-                        } else if (_type == MULTI) {
-                            if (_off + 13 > BookInputStream.PAGE_SIZE) {
-                                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                            }
-
-                            if (_comparison == 0 && _inGroupEntry) {
-                                // 本文/見出し位置の取得
-                                long tPage = ByteUtil.getLong4(_cache, _off+1);
-                                int tOff = ByteUtil.getInt2(_cache, _off+5);
-                                long hPage = ByteUtil.getLong4(_cache, _off+7);
-                                int hOff = ByteUtil.getInt2(_cache, _off+11);
-                                result = new Result(_sub, hPage, hOff, tPage, tOff);
-                            }
-                            _off += 13;
-                        } else {
-                            _entryLength = _cache[_off+1] & 0xff;
-                            if (_off + _entryLength + 14 > BookInputStream.PAGE_SIZE) {
-                                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                            }
-
-                            byte[] b = new byte[_entryLength];
-                            System.arraycopy(_cache, _off+2, b, 0, b.length);
-                            _off += _entryLength + 2;
-                            if (_comparison == 0 && _inGroupEntry
-                                && _compareGroup(_word, b) == 0) {
-                                // 本文/見出し位置の取得
-                                long tPage = ByteUtil.getLong4(_cache, _off);
-                                int tOff = ByteUtil.getInt2(_cache, _off+4);
-                                long hPage = ByteUtil.getLong4(_cache, _off+6);
-                                int hOff = ByteUtil.getInt2(_cache, _off+10);
-                                result = new Result(_sub, hPage, hOff, tPage, tOff);
-                            }
-                            _off += 12;
-                        }
-                    } else {
-                        // 未知のID
-                        throw new EBException(EBException.UNEXP_FILE, _file.getPath());
-                    }
-
-                    _entryIndex++;
-
+                    result = getGroupedEntry();
                     if (result != null) {
                         return result;
                     }
-
                     if (_comparison < 0) {
                         return null;
                     }
@@ -672,6 +498,194 @@ public class SingleWordSearcher implements Searcher {
             return true;
         }
         return false;
+    }
+
+    // キャッシュとデータのページが異なれば読み込む
+    private void refreshCache() throws EBException {
+        if (_cachePage != _page) {
+            BookInputStream bis = _file.getInputStream();
+            try {
+                bis.seek(_page, 0);
+                bis.readFully(_cache, 0, _cache.length);
+            } finally {
+                bis.close();
+            }
+            _cachePage = _page;
+
+            if (_entryIndex == 0) {
+                _pageID = _cache[0] & 0xff;
+                _entryLength = _cache[1] & 0xff;
+                if (_entryLength == 0) {
+                    _entryArrangement = VARIABLE;
+                } else {
+                    _entryArrangement = FIXED;
+                }
+                _entryCount = ByteUtil.getInt2(_cache, 2);
+                _entryIndex = 0;
+                _off = 4;
+                _logger.debug("page=0x" + HexUtil.toHexString(_page)
+                              + ", ID=0x" + HexUtil.toHexString(_pageID));
+            }
+        }
+    }
+
+    // グループエントリなし
+    private Result getNonGroupEntry() throws EBException {
+        if (_entryArrangement == VARIABLE) {
+            if (_off + 1 > BookInputStream.PAGE_SIZE) {
+                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+            }
+            _entryLength = _cache[_off] & 0xff;
+            _off++;
+        }
+
+        if (_off + _entryLength + 12 > BookInputStream.PAGE_SIZE) {
+            throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+        }
+
+        byte[] b = new byte[_entryLength];
+        System.arraycopy(_cache, _off, b, 0, b.length);
+        _off += _entryLength;
+
+        _comparison = _compareSingle(_word, b);
+        Result result = null;
+        if (_comparison == 0) {
+            // 本文/見出し位置の取得
+            long tPage = ByteUtil.getLong4(_cache, _off);
+            int tOff = ByteUtil.getInt2(_cache, _off+4);
+            long hPage = ByteUtil.getLong4(_cache, _off+6);
+            int hOff = ByteUtil.getInt2(_cache, _off+10);
+            result = new Result(_sub, hPage, hOff, tPage, tOff);
+        }
+
+        _entryIndex++;
+        _off += 12;
+
+        return result;
+    }
+
+    // グループエントリあり
+    private Result getGroupedEntry() throws EBException {
+        if (_off + 2 > BookInputStream.PAGE_SIZE) {
+            throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+        }
+        int groupID = _cache[_off] & 0xff;
+        Result result = null;
+        if (groupID == 0x00) {
+            // シングルエントリ
+            _entryLength = _cache[_off+1] & 0xff;
+            if (_off + _entryLength + 14 > BookInputStream.PAGE_SIZE) {
+                throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+            }
+
+            byte[] b = new byte[_entryLength];
+            System.arraycopy(_cache, _off+2, b, 0, b.length);
+            _off += _entryLength + 2;
+
+            _comparison = _compareSingle(_canonical, b);
+            if (_comparison == 0) {
+                // 本文/見出し位置の取得
+                long tPage = ByteUtil.getLong4(_cache, _off);
+                int tOff = ByteUtil.getInt2(_cache, _off+4);
+                long hPage = ByteUtil.getLong4(_cache, _off+6);
+                int hOff = ByteUtil.getInt2(_cache, _off+10);
+                result = new Result(_sub, hPage, hOff, tPage, tOff);
+            }
+            _off += 12;
+            _inGroupEntry = false;
+        } else if (groupID == 0x80) {
+            // グループエントリの開始
+            _entryLength = _cache[_off+1] & 0xff;
+            byte[] b = new byte[_entryLength];
+            if (_type == KEYWORD || _type == CROSS) {
+                if (_off + _entryLength + 12 > BookInputStream.PAGE_SIZE) {
+                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                }
+
+                System.arraycopy(_cache, _off+6, b, 0, b.length);
+                _off += _entryLength + 6;
+                _comparison = _compareSingle(_word, b);
+                long hPage = ByteUtil.getLong4(_cache, _off);
+                int hOff = ByteUtil.getInt2(_cache, _off+4);
+                _keywordHeading =
+                    BookInputStream.getPosition(hPage, hOff);
+                _off += 6;
+            } else if (_type == MULTI) {
+                if (_off + _entryLength + 6 > BookInputStream.PAGE_SIZE) {
+                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                }
+
+                System.arraycopy(_cache, _off+6, b, 0, b.length);
+                _comparison = _compareSingle(_word, b);
+                _off += _entryLength + 6;
+            } else {
+                if (_off + _entryLength + 4 > BookInputStream.PAGE_SIZE) {
+                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                }
+
+                System.arraycopy(_cache, _off+4, b, 0, b.length);
+                _comparison = _compareSingle(_canonical, b);
+                _off += _entryLength + 4;
+            }
+            _inGroupEntry = true;
+        } else if (groupID == 0xc0) {
+            // グループエントリの要素
+            if (_type == KEYWORD || _type == CROSS) {
+                if (_off + 7 > BookInputStream.PAGE_SIZE) {
+                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                }
+
+                if (_comparison == 0 && _inGroupEntry) {
+                    // 本文/見出し位置の取得
+                    long tPage = ByteUtil.getLong4(_cache, _off+1);
+                    int tOff = ByteUtil.getInt2(_cache, _off+5);
+                    result = new Result(_sub, _keywordHeading, tPage, tOff);
+                    _keywordHeading =
+                        _sub.getNextHeadingPosition(_keywordHeading);
+                }
+                _off += 7;
+            } else if (_type == MULTI) {
+                if (_off + 13 > BookInputStream.PAGE_SIZE) {
+                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                }
+
+                if (_comparison == 0 && _inGroupEntry) {
+                    // 本文/見出し位置の取得
+                    long tPage = ByteUtil.getLong4(_cache, _off+1);
+                    int tOff = ByteUtil.getInt2(_cache, _off+5);
+                    long hPage = ByteUtil.getLong4(_cache, _off+7);
+                    int hOff = ByteUtil.getInt2(_cache, _off+11);
+                    result = new Result(_sub, hPage, hOff, tPage, tOff);
+                }
+                _off += 13;
+            } else {
+                _entryLength = _cache[_off+1] & 0xff;
+                if (_off + _entryLength + 14 > BookInputStream.PAGE_SIZE) {
+                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                }
+
+                byte[] b = new byte[_entryLength];
+                System.arraycopy(_cache, _off+2, b, 0, b.length);
+                _off += _entryLength + 2;
+                if (_comparison == 0 && _inGroupEntry
+                    && _compareGroup(_word, b) == 0) {
+                    // 本文/見出し位置の取得
+                    long tPage = ByteUtil.getLong4(_cache, _off);
+                    int tOff = ByteUtil.getInt2(_cache, _off+4);
+                    long hPage = ByteUtil.getLong4(_cache, _off+6);
+                    int hOff = ByteUtil.getInt2(_cache, _off+10);
+                    result = new Result(_sub, hPage, hOff, tPage, tOff);
+                }
+                _off += 12;
+            }
+        } else {
+            // 未知のID
+            throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+        }
+
+        _entryIndex++;
+
+        return result;
     }
 }
 
