@@ -402,7 +402,27 @@ public final class EBZip implements EBZipConstants {
 
     /**
      * 指定されたファイルを圧縮します。
+     * <p>
+     * Original File:
+     *   +-----------------+-----------------+-...-+-------+
+     *   |     slice 1     |     slice 2     |     |slice N| [EOF]
+     *   |                 |                 |     |       |
+     *   +-----------------+-----------------+-...-+-------+
+     *        slice size        slice size            odds
+     *   <-------------------- file size ------------------>
      *
+     * Compressed file:
+     *   +------+---------+...+---------+---------+----------+...+-
+     *   |Header|index for|   |index for|index for|compressed|   |
+     *   |      | slice 1 |   | slice N |   EOF   |  slice 1 |   |
+     *   +------+---------+...+---------+---------+----------+...+-
+     *             index         index     index
+     *             size          size      size
+     *          <---------  index length --------->
+     *
+     *     total_slices = N = (file_size + slice_size - 1) / slice_size
+     *     index_length = (N + 1) * index_size
+     * </p>
      * @param file ファイル
      */
     private void _zip(final EBFile file) {
@@ -429,171 +449,38 @@ public final class EBZip implements EBZipConstants {
             return;
         }
 
-        BookInputStream bis = null;
         FileChannel channel = null;
-        try {
-            bis = file.getInputStream();
-
+        try (BookInputStream bis = file.getInputStream()) {
             int sliceSize = BookInputStream.PAGE_SIZE << level;
             long fileSize = bis.getFileSize();
-
-            int indexSize = 0;
-            if (fileSize < (1L<<16)) {
-                indexSize = 2;
-            } else if (fileSize < (1L<<24)) {
-                indexSize = 3;
-            } else if (fileSize < (1L<<32)) {
-                indexSize = 4;
-            } else {
-                indexSize = 5;
-            }
-
-            /*
-             * Original File:
-             *   +-----------------+-----------------+-...-+-------+
-             *   |     slice 1     |     slice 2     |     |slice N| [EOF]
-             *   |                 |                 |     |       |
-             *   +-----------------+-----------------+-...-+-------+
-             *        slice size        slice size            odds
-             *   <-------------------- file size ------------------>
-             *
-             * Compressed file:
-             *   +------+---------+...+---------+---------+----------+...+-
-             *   |Header|index for|   |index for|index for|compressed|   |
-             *   |      | slice 1 |   | slice N |   EOF   |  slice 1 |   |
-             *   +------+---------+...+---------+---------+----------+...+-
-             *             index         index     index
-             *             size          size      size
-             *          <---------  index length --------->
-             *
-             *     total_slices = N = (file_size + slice_size - 1) / slice_size
-             *     index_length = (N + 1) * index_size
-             */
+            int indexSize = calcIndexSize(fileSize);
             int totalSlice = (int)((fileSize + sliceSize - 1) / sliceSize);
             long indexLength = (totalSlice + 1) * indexSize;
-
-            byte[] in = new byte[sliceSize];
-            byte[] out = new byte[sliceSize+1024];
             long slicePos = EBZIP_HEADER_SIZE + indexLength;
 
             // ヘッダとインデックスのダミーデータを書き込む
             if (!test) {
                 channel = new FileOutputStream(f).getChannel();
-                Arrays.fill(out, 0, out.length, (byte)0);
-                long i;
-                for (i=slicePos; i>=sliceSize; i=i-sliceSize) {
-                    channel.write(ByteBuffer.wrap(out, 0, sliceSize));
-                }
-                if (i > 0) {
-                    channel.write(ByteBuffer.wrap(out, 0, (int)i));
-                }
-            }
+                fillZeroHeader(channel, sliceSize, slicePos);
+           }
 
-            long inTotalLength = 0;
-            long outTotalLength = 0;
             int interval = 1024 >>> level;
             if (((totalSlice + 999) / 1000) > interval) {
                 interval = (totalSlice + 999) / 1000;
             }
             Adler32 crc32 = new Adler32();
             Deflater def = new Deflater(Deflater.BEST_COMPRESSION);
-            for (int i=0; i<totalSlice; i++) {
-                // スライスデータの読み込み
-                bis.seek(inTotalLength);
-                int inLen = bis.read(in, 0, in.length);
+            byte[] in = new byte[sliceSize];
+            long inTotalLength = 0;
+            long outTotalLength = 0;
+            for (int i = 0; i < totalSlice; i++) {
+                int inLen = readSliceData(bis, in, sliceSize, inTotalLength, crc32, file);
                 if (inLen < 0) {
-                    System.err.println(PROGRAM
-                                       + ": failed to read the file ("
-                                       + f.getPath() + ")");
-                    return;
-                } else if (inLen == 0) {
-                    System.err.println(PROGRAM + ": unexpected EOF ("
-                                       + f.getPath() + ")");
-                    return;
-                } else if (inLen != in.length
-                           && inTotalLength + inLen != fileSize) {
-                    System.err.println(PROGRAM + ": unexpected EOF ("
-                                       + f.getPath() + ")");
                     return;
                 }
-
-                // CRCの更新
-                crc32.update(in, 0, inLen);
-
-                // 最終スライスでスライスサイズに満たない場合は0で埋める
-                if (inLen < sliceSize) {
-                    Arrays.fill(in, inLen, in.length, (byte)0);
-                    inLen = sliceSize;
-                }
-                // スライスを圧縮
-                def.reset();
-                def.setInput(in, 0, inLen);
-                def.finish();
-                int outLen = 0;
-                while (!def.needsInput()) {
-                    int n = def.deflate(out, outLen, out.length-outLen);
-                    outLen += n;
-                }
-                // 圧縮スライスがオリジナルより大きい場合はオリジナルを書き込む
-                if (outLen >= sliceSize) {
-                    System.arraycopy(in, 0, out, 0, sliceSize);
-                    outLen = sliceSize;
-                }
-
-                // 圧縮したスライスデータの書き込み
-                if (!test) {
-                    // ファイルの末尾に追加
-                    channel.position(channel.size());
-                    channel.write(ByteBuffer.wrap(out, 0, outLen));
-                }
-
-                // インデックス情報の作成
+                int outLen = compressAndOutputSliceData(in, inLen, def, channel, sliceSize);
                 long nextPos = slicePos + outLen;
-                switch (indexSize) {
-                    case 2:
-                        out[0] = (byte)((slicePos >>> 8) & 0xff);
-                        out[1] = (byte)(slicePos & 0xff);
-                        out[2] = (byte)((nextPos >>> 8) & 0xff);
-                        out[3] = (byte)(nextPos & 0xff);
-                        break;
-                    case 3:
-                        out[0] = (byte)((slicePos >>> 16) & 0xff);
-                        out[1] = (byte)((slicePos >>> 8) & 0xff);
-                        out[2] = (byte)(slicePos & 0xff);
-                        out[3] = (byte)((nextPos >>> 16) & 0xff);
-                        out[4] = (byte)((nextPos >>> 8) & 0xff);
-                        out[5] = (byte)(nextPos & 0xff);
-                        break;
-                    case 4:
-                        out[0] = (byte)((slicePos >>> 24) & 0xff);
-                        out[1] = (byte)((slicePos >>> 16) & 0xff);
-                        out[2] = (byte)((slicePos >>> 8) & 0xff);
-                        out[3] = (byte)(slicePos & 0xff);
-                        out[4] = (byte)((nextPos >>> 24) & 0xff);
-                        out[5] = (byte)((nextPos >>> 16) & 0xff);
-                        out[6] = (byte)((nextPos >>> 8) & 0xff);
-                        out[7] = (byte)(nextPos & 0xff);
-                        break;
-                    case 5:
-                        out[0] = (byte)((slicePos >>> 32) & 0xff);
-                        out[1] = (byte)((slicePos >>> 24) & 0xff);
-                        out[2] = (byte)((slicePos >>> 16) & 0xff);
-                        out[3] = (byte)((slicePos >>> 8) & 0xff);
-                        out[4] = (byte)(slicePos & 0xff);
-                        out[5] = (byte)((nextPos >>> 32) & 0xff);
-                        out[6] = (byte)((nextPos >>> 24) & 0xff);
-                        out[7] = (byte)((nextPos >>> 16) & 0xff);
-                        out[8] = (byte)((nextPos >>> 8) & 0xff);
-                        out[9] = (byte)(nextPos & 0xff);
-                        break;
-                    default:
-                }
-
-                // インデックス情報の書き込み
-                if (!test) {
-                    channel.position(EBZIP_HEADER_SIZE+i*indexSize);
-                    channel.write(ByteBuffer.wrap(out, 0, indexSize*2));
-                }
+                outputIndexData(channel, nextPos, sliceSize, i, indexSize);
 
                 inTotalLength += inLen;
                 outTotalLength += outLen + indexSize;
@@ -608,56 +495,12 @@ public final class EBZip implements EBZipConstants {
                 }
             }
             def.end();
-
-            // ヘッダ情報の作成
-            out[0] = (byte)'E';
-            out[1] = (byte)'B';
-            out[2] = (byte)'Z';
-            out[3] = (byte)'i';
-            out[4] = (byte)'p';
-            if (fileSize < (1L<<32)) {
-                out[5] = (byte)((1 << 4) | (level & 0x0f));
-            } else {
-                out[5] = (byte)((2 << 4) | (level & 0x0f));
-            }
-            out[6] = (byte)0;
-            out[7] = (byte)0;
-            out[8] = (byte)0;
-            out[9] = (byte)((fileSize >>> 32) & 0xff);
-            out[10] = (byte)((fileSize >>> 24) & 0xff);
-            out[11] = (byte)((fileSize >>> 16) & 0xff);
-            out[12] = (byte)((fileSize >>> 8) & 0xff);
-            out[13] = (byte)(fileSize & 0xff);
-            long crc = crc32.getValue();
-            out[14] = (byte)((crc >>> 24) & 0xff);
-            out[15] = (byte)((crc >>> 16) & 0xff);
-            out[16] = (byte)((crc >>> 8) & 0xff);
-            out[17] = (byte)(crc & 0xff);
-            long mtime = System.currentTimeMillis();
-            out[18] = (byte)((mtime >>> 24) & 0xff);
-            out[19] = (byte)((mtime >>> 16) & 0xff);
-            out[20] = (byte)((mtime >>> 8) & 0xff);
-            out[21] = (byte)(mtime & 0xff);
-
-            // ヘッダ情報の書き込み
-            if (!test) {
-                channel.position(0);
-                channel.write(ByteBuffer.wrap(out, 0, EBZIP_HEADER_SIZE));
-            }
-
+            outputHeader(channel, fileSize, crc32);
+            long inRealFileSize = bis.getRealFileSize();
             // 結果の表示
             outTotalLength += EBZIP_HEADER_SIZE + indexSize;
-            if (!quiet) {
-                System.out.println("completed (" + fileSize
-                                   + " / " + fileSize + " bytes)");
-                if (inTotalLength != 0) {
-                    double rate = (double)(outTotalLength) / (double)bis.getRealFileSize() * 100.0;
-                    System.out.println(bis.getRealFileSize() + " -> "
-                                       + outTotalLength + " bytes ("
-                                       + FMT.format(rate) + ")");
-                }
-            }
-        } catch (EBException e) {
+            printZipResult(inTotalLength, outTotalLength, fileSize, inRealFileSize);
+       } catch (EBException e) {
             System.err.println(PROGRAM + ": " + e.getMessage());
         } catch (FileNotFoundException e) {
             System.err.println(PROGRAM + ": " + e.getMessage());
@@ -666,7 +509,6 @@ public final class EBZip implements EBZipConstants {
         } catch (SecurityException e) {
             System.err.println(PROGRAM + ": " + e.getMessage());
         } finally {
-            bis.close();
             if (channel != null) {
                 try {
                     channel.close();
@@ -680,6 +522,195 @@ public final class EBZip implements EBZipConstants {
         }
         if (!quiet) {
             System.out.println("");
+        }
+    }
+
+    // ヘッダとインデックスのダミーデータを書き込む
+    private void fillZeroHeader(final FileChannel channel, final int sliceSize, final long off)
+            throws IOException {
+        byte[] out = new byte[sliceSize];
+        Arrays.fill(out, 0, out.length, (byte)0);
+        long i;
+        for (i = off; i >= sliceSize; i = i - sliceSize) {
+            channel.write(ByteBuffer.wrap(out, 0, sliceSize));
+        }
+        if (i > 0) {
+            channel.write(ByteBuffer.wrap(out, 0, (int)i));
+        }
+    }
+
+    private int calcIndexSize(final long fileSize) {
+        if (fileSize < (1L<<16)) {
+            return 2;
+        } else if (fileSize < (1L<<24)) {
+            return 3;
+        } else if (fileSize < (1L<<32)) {
+            return 4;
+        }
+        return 5;
+    }
+
+    private int readSliceData(final BookInputStream bis, final byte[] in, final int sliceSize,
+                              final long inTotalLength, final Adler32 crc32, final EBFile file)
+            throws EBException {
+        bis.seek(inTotalLength);
+        int inLen = bis.read(in, 0, in.length);
+        if (inLen < 0) {
+            System.err.println(PROGRAM
+                    + ": failed to read the file ("
+                    + file.getPath() + ")");
+            return -1;
+        } else if (inLen == 0) {
+            System.err.println(PROGRAM + ": unexpected EOF ("
+                    + file.getPath() + ")");
+            return -1;
+        } else if (inLen != in.length) {
+            long fileSize = bis.getFileSize();
+            if (inTotalLength + inLen != fileSize) {
+                System.err.println(PROGRAM + ": unexpected EOF ("
+                        + file.getPath() + ")");
+                return -1;
+            }
+        }
+        crc32.update(in, 0, inLen);
+
+        // 最終スライスでスライスサイズに満たない場合は0で埋める
+        if (inLen < sliceSize) {
+            Arrays.fill(in, inLen, in.length, (byte)0);
+            inLen = sliceSize;
+        }
+
+        return inLen;
+    }
+
+    private int compressAndOutputSliceData(final byte[] in, final int inLen, final Deflater def,
+                                           final FileChannel channel, final int sliceSize)
+            throws IOException {
+        byte[] out = new byte[sliceSize];
+        def.reset();
+        def.setInput(in, 0, inLen);
+        def.finish();
+        int outLen = 0;
+        while (!def.needsInput()) {
+            int n = def.deflate(out, outLen, out.length - outLen);
+            outLen += n;
+        }
+        // 圧縮スライスがオリジナルより大きい場合はオリジナルを書き込む
+        if (outLen >= sliceSize) {
+            System.arraycopy(in, 0, out, 0, sliceSize);
+            outLen = sliceSize;
+        }
+        // 圧縮したスライスデータの書き込み
+        if (!test) {
+            // ファイルの末尾に追加
+            channel.position(channel.size());
+            channel.write(ByteBuffer.wrap(out, 0, outLen));
+        }
+        return outLen;
+    }
+
+    private void outputIndexData(final FileChannel channel, final long slicePos, final long nextPos,
+                                 final int index, final int indexSize) throws IOException {
+        byte[] out = new byte[indexSize*2];
+        // インデックス情報の作成
+        switch (indexSize) {
+            case 2:
+                out[0] = (byte)((slicePos >>> 8) & 0xff);
+                out[1] = (byte)(slicePos & 0xff);
+                out[2] = (byte)((nextPos >>> 8) & 0xff);
+                out[3] = (byte)(nextPos & 0xff);
+                break;
+            case 3:
+                out[0] = (byte)((slicePos >>> 16) & 0xff);
+                out[1] = (byte)((slicePos >>> 8) & 0xff);
+                out[2] = (byte)(slicePos & 0xff);
+                out[3] = (byte)((nextPos >>> 16) & 0xff);
+                out[4] = (byte)((nextPos >>> 8) & 0xff);
+                out[5] = (byte)(nextPos & 0xff);
+                break;
+            case 4:
+                out[0] = (byte)((slicePos >>> 24) & 0xff);
+                out[1] = (byte)((slicePos >>> 16) & 0xff);
+                out[2] = (byte)((slicePos >>> 8) & 0xff);
+                out[3] = (byte)(slicePos & 0xff);
+                out[4] = (byte)((nextPos >>> 24) & 0xff);
+                out[5] = (byte)((nextPos >>> 16) & 0xff);
+                out[6] = (byte)((nextPos >>> 8) & 0xff);
+                out[7] = (byte)(nextPos & 0xff);
+                break;
+            case 5:
+                out[0] = (byte)((slicePos >>> 32) & 0xff);
+                out[1] = (byte)((slicePos >>> 24) & 0xff);
+                out[2] = (byte)((slicePos >>> 16) & 0xff);
+                out[3] = (byte)((slicePos >>> 8) & 0xff);
+                out[4] = (byte)(slicePos & 0xff);
+                out[5] = (byte)((nextPos >>> 32) & 0xff);
+                out[6] = (byte)((nextPos >>> 24) & 0xff);
+                out[7] = (byte)((nextPos >>> 16) & 0xff);
+                out[8] = (byte)((nextPos >>> 8) & 0xff);
+                out[9] = (byte)(nextPos & 0xff);
+                break;
+            default:
+        }
+
+        // インデックス情報の書き込み
+        if (!test) {
+            channel.position(EBZIP_HEADER_SIZE + index * indexSize);
+            channel.write(ByteBuffer.wrap(out, 0, out.length));
+        }
+}
+
+    private void outputHeader(final FileChannel channel, final long fileSize, final Adler32 crc32)
+            throws IOException {
+        byte[] out = new byte[EBZIP_HEADER_SIZE];
+         // ヘッダ情報の作成
+        out[0] = (byte)'E';
+        out[1] = (byte)'B';
+        out[2] = (byte)'Z';
+        out[3] = (byte)'i';
+        out[4] = (byte)'p';
+        if (fileSize < (1L<<32)) {
+            out[5] = (byte)((1 << 4) | (level & 0x0f));
+        } else {
+            out[5] = (byte)((2 << 4) | (level & 0x0f));
+        }
+        out[6] = (byte)0;
+        out[7] = (byte)0;
+        out[8] = (byte)0;
+        out[9] = (byte)((fileSize >>> 32) & 0xff);
+        out[10] = (byte)((fileSize >>> 24) & 0xff);
+        out[11] = (byte)((fileSize >>> 16) & 0xff);
+        out[12] = (byte)((fileSize >>> 8) & 0xff);
+        out[13] = (byte)(fileSize & 0xff);
+        long crc = crc32.getValue();
+        out[14] = (byte)((crc >>> 24) & 0xff);
+        out[15] = (byte)((crc >>> 16) & 0xff);
+        out[16] = (byte)((crc >>> 8) & 0xff);
+        out[17] = (byte)(crc & 0xff);
+        long mtime = System.currentTimeMillis();
+        out[18] = (byte)((mtime >>> 24) & 0xff);
+        out[19] = (byte)((mtime >>> 16) & 0xff);
+        out[20] = (byte)((mtime >>> 8) & 0xff);
+        out[21] = (byte)(mtime & 0xff);
+
+        // ヘッダ情報の書き込み
+        if (!test) {
+            channel.position(0);
+            channel.write(ByteBuffer.wrap(out, 0, EBZIP_HEADER_SIZE));
+        }
+    }
+
+    private void printZipResult(final long inTotalLength, final long outTotalLength, final long fileSize,
+                                final long inRealFileSize) {
+        if (!quiet) {
+            System.out.println("completed (" + fileSize
+                    + " / " + fileSize + " bytes)");
+            if (inTotalLength != 0) {
+                double rate = (double) (outTotalLength) / (double) inRealFileSize * 100.0;
+                System.out.println(inRealFileSize + " -> "
+                        + outTotalLength + " bytes ("
+                        + FMT.format(rate) + ")");
+            }
         }
     }
 
