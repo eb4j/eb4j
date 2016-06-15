@@ -82,7 +82,6 @@ public class SubBook {
     /** 著作権用インデックススタイル */
     private IndexStyle _copyrightStyle = null;
 
-
     /**
      * コンストラクタ。
      *

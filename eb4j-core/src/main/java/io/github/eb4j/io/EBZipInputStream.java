@@ -12,8 +12,8 @@ import io.github.eb4j.util.ByteUtil;
  *
  * @author Hisaya FUKUMOTO
  */
-public class EBZipInputStream
-    extends BookInputStream implements EBZipConstants {
+public class EBZipInputStream extends BookInputStream {
+
 
     /**
      * コンストラクタ。
@@ -43,7 +43,7 @@ public class EBZipInputStream
         }
 
         // ヘッダの読み込み
-        byte[] b = new byte[EBZIP_HEADER_SIZE];
+        byte[] b = new byte[EBZipConstants.EBZIP_HEADER_SIZE];
         readRawFully(b, 0, b.length);
 
         int mode = b[5] >>> 4;
@@ -65,7 +65,7 @@ public class EBZipInputStream
         // 妥当性の検証
         String str = new String(b, 0, 5);
         if (!str.equals("EBZip")
-            || info.getSliceSize() > (PAGE_SIZE << EBZIP_MAX_LEVEL)) {
+            || info.getSliceSize() > (PAGE_SIZE << EBZipConstants.EBZIP_MAX_LEVEL)) {
             throw new EBException(EBException.UNEXP_FILE, info.getPath());
         }
         if (mode != 1 && mode != 2) {
@@ -127,7 +127,7 @@ public class EBZipInputStream
                 // 圧縮されたスライスのインデックスデータの位置
                 // (スライスオフセット * インデックスサイズ) + ヘッダサイズ
                 long pos = filePos / info.getSliceSize() * info.getZipIndexSize()
-                    + EBZIP_HEADER_SIZE;
+                    + EBZipConstants.EBZIP_HEADER_SIZE;
                 try {
                     stream.seek(pos);
                 } catch (IOException e) {

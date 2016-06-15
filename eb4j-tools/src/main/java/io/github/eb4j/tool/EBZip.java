@@ -41,7 +41,7 @@ import io.github.eb4j.io.EBZipConstants;
  *
  * @author Hisaya FUKUMOTO
  */
-public final class EBZip implements EBZipConstants {
+public final class EBZip {
 
     /** コピーライト */
     private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
@@ -82,7 +82,7 @@ public final class EBZip implements EBZipConstants {
     /** 上書き方法 */
     private static int overwrite = OVERWRITE_QUERY;
     /** EBZIP圧縮レベル */
-    private static int level = EBZIP_DEFAULT_LEVEL;
+    private static int level = EBZipConstants.EBZIP_DEFAULT_LEVEL;
     /** オリジナルファイル保持フラグ */
     private static boolean keep = false;
     /** 出力メッセージ抑止フラグ */
@@ -110,7 +110,7 @@ public final class EBZip implements EBZipConstants {
         options.addOption("n", "no-overwrite", false, "don't overwrite output files");
         options.addOption("i", "information", false, "list information of compressed files");
         options.addOption("k", "keep", false, "keep (don't delete) original files");
-        options.addOption("l", "level", true, "compression level; 0.." + EBZIP_MAX_LEVEL);
+        options.addOption("l", "level", true, "compression level; 0.." + EBZipConstants.EBZIP_MAX_LEVEL);
         options.addOption("o", "output-directory", true, "output files under DIRECTORY");
         options.addOption("q", "quiet", false, "suppress all warnings");
         options.addOption("s", "skip-content", true, "skip content; font, graphic, sound or movie");
@@ -160,7 +160,7 @@ public final class EBZip implements EBZipConstants {
                 System.err.println(PROGRAM + ": invalid compression level `" + optionValue + "'");
                 System.exit(1);
             }
-            if (EBZip.level > EBZIP_MAX_LEVEL || EBZip.level < 0) {
+            if (EBZip.level > EBZipConstants.EBZIP_MAX_LEVEL || EBZip.level < 0) {
                 System.err.println(PROGRAM + ": invalid compression level `" + optionValue + "'");
                 System.exit(1);
             }
@@ -456,7 +456,7 @@ public final class EBZip implements EBZipConstants {
             int indexSize = calcIndexSize(fileSize);
             int totalSlice = (int)((fileSize + sliceSize - 1) / sliceSize);
             long indexLength = (totalSlice + 1) * indexSize;
-            long slicePos = EBZIP_HEADER_SIZE + indexLength;
+            long slicePos = EBZipConstants.EBZIP_HEADER_SIZE + indexLength;
 
             // ヘッダとインデックスのダミーデータを書き込む
             if (!test) {
@@ -498,7 +498,7 @@ public final class EBZip implements EBZipConstants {
             outputHeader(channel, fileSize, crc32);
             long inRealFileSize = bis.getRealFileSize();
             // 結果の表示
-            outTotalLength += EBZIP_HEADER_SIZE + indexSize;
+            outTotalLength += EBZipConstants.EBZIP_HEADER_SIZE + indexSize;
             printZipResult(inTotalLength, outTotalLength, fileSize, inRealFileSize);
        } catch (EBException e) {
             System.err.println(PROGRAM + ": " + e.getMessage());
@@ -655,14 +655,14 @@ public final class EBZip implements EBZipConstants {
 
         // インデックス情報の書き込み
         if (!test) {
-            channel.position(EBZIP_HEADER_SIZE + index * indexSize);
+            channel.position(EBZipConstants.EBZIP_HEADER_SIZE + index * indexSize);
             channel.write(ByteBuffer.wrap(out, 0, out.length));
         }
 }
 
     private void outputHeader(final FileChannel channel, final long fileSize, final Adler32 crc32)
             throws IOException {
-        byte[] out = new byte[EBZIP_HEADER_SIZE];
+        byte[] out = new byte[EBZipConstants.EBZIP_HEADER_SIZE];
          // ヘッダ情報の作成
         out[0] = (byte)'E';
         out[1] = (byte)'B';
@@ -696,7 +696,7 @@ public final class EBZip implements EBZipConstants {
         // ヘッダ情報の書き込み
         if (!test) {
             channel.position(0);
-            channel.write(ByteBuffer.wrap(out, 0, EBZIP_HEADER_SIZE));
+            channel.write(ByteBuffer.wrap(out, 0, EBZipConstants.EBZIP_HEADER_SIZE));
         }
     }
 
