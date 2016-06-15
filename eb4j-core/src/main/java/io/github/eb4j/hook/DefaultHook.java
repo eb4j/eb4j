@@ -35,7 +35,7 @@ public class DefaultHook extends HookAdapter<String> {
      *
      * @param sub 副本
      */
-    public DefaultHook(SubBook sub) {
+    public DefaultHook(final SubBook sub) {
         this(sub, 500);
     }
 
@@ -45,7 +45,7 @@ public class DefaultHook extends HookAdapter<String> {
      * @param sub 副本
      * @param maxLine 最大読み込み行数
      */
-    public DefaultHook(SubBook sub, int maxLine) {
+    public DefaultHook(final SubBook sub, final int maxLine) {
         super();
         _appendix = sub.getSubAppendix();
         _maxLine = maxLine;
@@ -92,11 +92,12 @@ public class DefaultHook extends HookAdapter<String> {
      * @param str 文字列
      */
     @Override
-    public void append(String str) {
+    public void append(final String str) {
+        String tmpStr = str;
         if (_narrow) {
-            str = ByteUtil.wideToNarrow(str);
+            tmpStr = ByteUtil.wideToNarrow(str);
         }
-        _buf.append(str);
+        _buf.append(tmpStr);
     }
 
     /**
@@ -107,7 +108,7 @@ public class DefaultHook extends HookAdapter<String> {
      * @param code 外字の文字コード
      */
     @Override
-    public void append(int code) {
+    public void append(final int code) {
         String str = null;
         if (_narrow) {
             if (_appendix != null) {

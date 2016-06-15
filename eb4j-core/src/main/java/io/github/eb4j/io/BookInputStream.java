@@ -12,7 +12,7 @@ import io.github.eb4j.EBException;
  *
  * @author Hisaya FUKUMOTO
  */
-public abstract class BookInputStream {
+public abstract class BookInputStream implements AutoCloseable {
 
     /** ページサイズ */
     public static final int PAGE_SIZE = 2048;
@@ -35,7 +35,7 @@ public abstract class BookInputStream {
      *
      * @param info ファイル情報
      */
-    protected BookInputStream(FileInfo info) {
+    protected BookInputStream(final FileInfo info) {
         super();
         this.info = info;
     }
@@ -124,7 +124,7 @@ public abstract class BookInputStream {
      * @param b データの読み込み先のバッファ
      * @exception EBException 入出力エラーが発生した場合
      */
-    public void readFully(byte[] b) throws EBException {
+    public void readFully(final byte[] b) throws EBException {
         readFully(b, 0, b.length);
     }
 
@@ -136,7 +136,7 @@ public abstract class BookInputStream {
      * @param len 読み込まれる最大バイト数
      * @exception EBException 入出力エラーが発生した場合
      */
-    public void readFully(byte[] b, int off, int len) throws EBException {
+    public void readFully(final byte[] b, final int off, final int len) throws EBException {
         int rlen = len;
         int offset = off;
         while (rlen > 0) {
@@ -157,7 +157,7 @@ public abstract class BookInputStream {
      *         (ストリームの終わりに達してデータがない場合は-1)
      * @exception EBException 入出力エラーが発生した場合
      */
-    public int read(byte[] b) throws EBException {
+    public int read(final byte[] b) throws EBException {
         return read(b, 0, b.length);
     }
 
@@ -171,7 +171,7 @@ public abstract class BookInputStream {
      *         (ストリームの終わりに達してデータがない場合は-1)
      * @exception EBException 入出力エラーが発生した場合
      */
-    public abstract int read(byte[] b, int off, int len) throws EBException;
+    public abstract int read(final byte[] b, final int off, final int len) throws EBException;
 
     /**
      * 指定位置にファイルポインタを設定します。
@@ -179,7 +179,7 @@ public abstract class BookInputStream {
      * @param page ページ番号
      * @param offset ページ内オフセット
      */
-    public void seek(long page, int offset) {
+    public void seek(final long page, final int offset) {
         seek(getPosition(page, offset));
     }
 
@@ -188,7 +188,7 @@ public abstract class BookInputStream {
      *
      * @param pos データ位置
      */
-    public void seek(long pos) {
+    public void seek(final long pos) {
         if (pos < 0) {
             filePos = 0;
         } else if (pos > info.getFileSize()) {
@@ -206,7 +206,7 @@ public abstract class BookInputStream {
      *         (ストリームの終わりに達してデータがない場合は-1)
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected int readRaw(byte[] b) throws EBException {
+    protected int readRaw(final byte[] b) throws EBException {
         return readRaw(b, 0, b.length);
     }
 
@@ -220,7 +220,7 @@ public abstract class BookInputStream {
      *         (ストリームの終わりに達してデータがない場合は-1)
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected int readRaw(byte[] b, int off, int len) throws EBException {
+    protected int readRaw(final byte[] b, final int off, final int len) throws EBException {
         int ret;
         try {
             ret = stream.read(b, off, len);
@@ -236,7 +236,7 @@ public abstract class BookInputStream {
      * @param b データの読み込み先のバッファ
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected void readRawFully(byte[] b) throws EBException {
+    protected void readRawFully(final byte[] b) throws EBException {
         readRawFully(b, 0, b.length);
     }
 
@@ -248,7 +248,7 @@ public abstract class BookInputStream {
      * @param len 読み込まれる最大バイト数
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected void readRawFully(byte[] b, int off, int len) throws EBException {
+    protected void readRawFully(final byte[] b, final int off, final int len) throws EBException {
         try {
             stream.readFully(b, off, len);
         } catch (EOFException e) {
@@ -265,7 +265,7 @@ public abstract class BookInputStream {
      * @param offset ページ内オフセット
      * @return 先頭からの位置
      */
-    public static long getPosition(long page, int offset) {
+    public static long getPosition(final long page, final int offset) {
         return (page - 1) * PAGE_SIZE + offset;
     }
 
@@ -275,7 +275,7 @@ public abstract class BookInputStream {
      * @param pos 先頭からの位置
      * @return ページ番号
      */
-    public static long getPage(long pos) {
+    public static long getPage(final long pos) {
         return pos / PAGE_SIZE + 1;
     }
 
@@ -285,7 +285,7 @@ public abstract class BookInputStream {
      * @param pos 先頭からの位置
      * @return ページ内オフセット
      */
-    public static int getOffset(long pos) {
+    public static int getOffset(final long pos) {
         return (int)(pos % PAGE_SIZE);
     }
 }

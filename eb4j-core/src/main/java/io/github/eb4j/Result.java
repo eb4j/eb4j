@@ -27,7 +27,8 @@ public class Result {
      * @param textPage 本文位置のページ番号
      * @param textOff 本文位置のページ内オフセット
      */
-    protected Result(SubBook sub, long headPage, int headOff, long textPage, int textOff) {
+    protected Result(final SubBook sub, final long headPage, final int headOff,
+                     final long textPage, final int textOff) {
         this(sub,
              BookInputStream.getPosition(headPage, headOff),
              BookInputStream.getPosition(textPage, textOff));
@@ -41,7 +42,8 @@ public class Result {
      * @param textPage 本文位置のページ番号
      * @param textOff 本文位置のページ内オフセット
      */
-    protected Result(SubBook sub, long heading, long textPage, int textOff) {
+    protected Result(final SubBook sub, final long heading,
+                     final long textPage, final int textOff) {
         this(sub, heading, BookInputStream.getPosition(textPage, textOff));
     }
 
@@ -53,7 +55,7 @@ public class Result {
      * @param headOff 見出し位置のページ内オフセット
      * @param text 本文位置
      */
-    protected Result(SubBook sub, long headPage, int headOff, long text) {
+    protected Result(final SubBook sub, final long headPage, final int headOff, final long text) {
         this(sub, BookInputStream.getPosition(headPage, headOff), text);
     }
 
@@ -64,7 +66,7 @@ public class Result {
      * @param heading 見出し位置
      * @param text 本文位置
      */
-    protected Result(SubBook sub, long heading, long text) {
+    protected Result(final SubBook sub, final long heading, final long text) {
         super();
         _sub = sub;
         _heading = heading;
@@ -94,10 +96,11 @@ public class Result {
      * 指定位置の見出しを返します。
      *
      * @param hook フック (nullの場合はデフォルトのフック)
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public <T> T getHeading(Hook<T> hook) throws EBException {
+    public <T> T getHeading(final Hook<T> hook) throws EBException {
         return _sub.getHeading(_heading, hook);
     }
 
@@ -105,10 +108,11 @@ public class Result {
      * 指定位置の本文を返します。
      *
      * @param hook フック (nullの場合はデフォルトのフック)
+     * @param <T> type to be return from hook.
      * @return フックによって加工されたオブジェクト
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public <T> T getText(Hook<T> hook) throws EBException {
+    public <T> T getText(final Hook<T> hook) throws EBException {
         return _sub.getText(_text, hook);
     }
 }

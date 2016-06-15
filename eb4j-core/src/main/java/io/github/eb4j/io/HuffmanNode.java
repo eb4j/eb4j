@@ -38,7 +38,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * @param frequency 出現頻度値
      * @param leafType 葉ノードの種類
      */
-    protected HuffmanNode(long value, int frequency, int leafType) {
+    protected HuffmanNode(final long value, final int frequency, final int leafType) {
         _value = value;
         _frequency = frequency;
         _leafType = leafType;
@@ -50,7 +50,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * @param left 左子ノード
      * @param right 右子ノード
      */
-    protected HuffmanNode(HuffmanNode left, HuffmanNode right) {
+    protected HuffmanNode(final HuffmanNode left, final HuffmanNode right) {
         _left = left;
         _right = right;
         _frequency = _left.getFrequency() + _right.getFrequency();
@@ -129,7 +129,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * @param obj 比較対象オブジェクト
      * @return 等しい場合はtrue、そうでない場合はfalse
      */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof HuffmanNode) {
             HuffmanNode node = (HuffmanNode)obj;
             if (node.getLeafType() == getLeafType()
@@ -150,7 +150,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      *         このノードの頻度値が引数ノードの頻度値より大きい場合は0より大きい値
      */
     @Override
-    public int compareTo(HuffmanNode node) {
+    public int compareTo(final HuffmanNode node) {
         int ret = getFrequency() - node.getFrequency();
         return ret;
     }
@@ -161,7 +161,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * @param list HuffmanNodeのリスト
      * @return ルートノード
      */
-    protected static HuffmanNode makeTree(List<HuffmanNode> list) {
+    protected static HuffmanNode makeTree(final List<HuffmanNode> list) {
         HuffmanNode node1, node2, tmp;
 
         // ソート (選択ソート)

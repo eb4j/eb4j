@@ -81,7 +81,7 @@ public class FileInfo {
      *
      * @param file ファイル
      */
-    protected void setFile(File file) {
+    protected void setFile(final File file) {
         _file = file;
     }
 
@@ -107,7 +107,7 @@ public class FileInfo {
      * @see EBFile#FORMAT_EPWING
      * @see EBFile#FORMAT_EPWING6
      */
-    protected void setFormat(int format) {
+    protected void setFormat(final int format) {
         _format = format;
     }
 
@@ -125,7 +125,7 @@ public class FileInfo {
      *
      * @param size フィイルサイズ
      */
-    protected void setFileSize(long size) {
+    protected void setFileSize(final long size) {
         _fileSize = size;
     }
 
@@ -143,7 +143,7 @@ public class FileInfo {
      *
      * @param size 実ファイルサイズ
      */
-    protected void setRealFileSize(long size) {
+    protected void setRealFileSize(final long size) {
         _realFileSize = size;
     }
 
@@ -161,7 +161,7 @@ public class FileInfo {
      *
      * @param size スライスサイズ
      */
-    protected void setSliceSize(int size) {
+    protected void setSliceSize(final int size) {
         _sliceSize = size;
     }
 
@@ -179,7 +179,7 @@ public class FileInfo {
      *
      * @param level 圧縮レベル
      */
-    protected void setZipLevel(int level) {
+    protected void setZipLevel(final int level) {
         _zipLevel = level;
     }
 
@@ -197,7 +197,7 @@ public class FileInfo {
      *
      * @param size インデックスサイズ
      */
-    protected void setZipIndexSize(int size) {
+    protected void setZipIndexSize(final int size) {
         _zipIndexSize = size;
     }
 
@@ -215,7 +215,7 @@ public class FileInfo {
      *
      * @param crc CRC
      */
-    protected void setZipCRC(long crc) {
+    protected void setZipCRC(final long crc) {
         _zipCrc = crc;
     }
 
@@ -233,7 +233,7 @@ public class FileInfo {
      *
      * @param pos インデックステーブル位置
      */
-    protected void setEpwingIndexPosition(long pos) {
+    protected void setEpwingIndexPosition(final long pos) {
         _epwingIndexPos = pos;
     }
 
@@ -251,7 +251,7 @@ public class FileInfo {
      *
      * @param size インデックステーブルサイズ
      */
-    protected void setEpwingIndexSize(long size) {
+    protected void setEpwingIndexSize(final long size) {
         _epwingIndexSize = size;
     }
 
@@ -269,7 +269,7 @@ public class FileInfo {
      *
      * @param pos 頻度テーブル位置
      */
-    protected void setEpwingFrequencyPosition(long pos) {
+    protected void setEpwingFrequencyPosition(final long pos) {
         _epwingFreqPos = pos;
     }
 
@@ -287,7 +287,7 @@ public class FileInfo {
      *
      * @param size 頻度テーブルサイズ
      */
-    protected void setEpwingFrequencySize(long size) {
+    protected void setEpwingFrequencySize(final long size) {
         _epwingFreqSize = size;
     }
 
@@ -305,7 +305,7 @@ public class FileInfo {
      *
      * @param node ハフマンツリールートノード
      */
-    protected void setEpwingRootNode(HuffmanNode node) {
+    protected void setEpwingRootNode(final HuffmanNode node) {
         _epwingRootNode = node;
     }
 
@@ -323,7 +323,7 @@ public class FileInfo {
      *
      * @param pos インデックス開始位置
      */
-    protected void setSebxaIndexPosition(long pos) {
+    protected void setSebxaIndexPosition(final long pos) {
         _sebxaIndexPos = pos;
     }
 
@@ -341,7 +341,7 @@ public class FileInfo {
      *
      * @param pos 圧縮本文開始位置
      */
-    protected void setSebxaBasePosition(long pos) {
+    protected void setSebxaBasePosition(final long pos) {
         _sebxaBasePos = pos;
     }
 
@@ -359,7 +359,7 @@ public class FileInfo {
      *
      * @param pos 本文開始位置
      */
-    protected void setSebxaStartPosition(long pos) {
+    protected void setSebxaStartPosition(final long pos) {
         _sebxaStartPos = pos;
     }
 
@@ -377,7 +377,7 @@ public class FileInfo {
      *
      * @param pos 本文終了位置
      */
-    protected void setSebxaEndPosition(long pos) {
+    protected void setSebxaEndPosition(final long pos) {
         _sebxaEndPos = pos;
     }
 }

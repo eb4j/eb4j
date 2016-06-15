@@ -5,7 +5,7 @@ package io.github.eb4j.util;
  *
  * @author Hisaya FUKUMOTO
  */
-public class CompareUtil {
+public final class CompareUtil {
 
     /**
      * コンストラクタ。
@@ -26,7 +26,8 @@ public class CompareUtil {
      *         キーがパターンより大きい場合は1以上、
      *         キーがパターンより小さい場合は-1以下
      */
-    public static int compareToByte(byte[] key, byte[] pattern, boolean presearch) {
+    public static int compareToByte(final byte[] key, final byte[] pattern,
+                                    final boolean presearch) {
         int klen = key.length;
         int plen = pattern.length;
         int kByte, pByte;
@@ -60,7 +61,8 @@ public class CompareUtil {
      *         キーがパターンより大きい場合は1以上、
      *         キーがパターンより小さい場合は-1以下
      */
-    public static int compareToJISX0208(byte[] key, byte[] pattern, boolean presearch) {
+    public static int compareToJISX0208(final byte[] key, final byte[] pattern,
+                                        final boolean presearch) {
         int klen = key.length;
         int plen = pattern.length;
         int kByte, pByte;
@@ -104,7 +106,8 @@ public class CompareUtil {
      *         キーがパターンより大きい場合は1以上、
      *         キーがパターンより小さい場合は-1以下
      */
-    public static int compareToLatin(byte[] key, byte[] pattern, boolean presearch) {
+    public static int compareToLatin(final byte[] key, final byte[] pattern,
+                                     final boolean presearch) {
         int klen = key.length;
         int plen = pattern.length;
         int kByte, pByte;
@@ -148,7 +151,8 @@ public class CompareUtil {
      *         キーがパターンより大きい場合は1以上、
      *         キーがパターンより小さい場合は-1以下
      */
-    public static int compareToKanaGroup(byte[] key, byte[] pattern, boolean exact) {
+    public static int compareToKanaGroup(final byte[] key, final byte[] pattern,
+                                         final boolean exact) {
         int klen = key.length;
         int plen = pattern.length;
         int kc0, kc1, pc0, pc1;
@@ -158,7 +162,7 @@ public class CompareUtil {
             }
             if (key[i] == '\0') {
                 if (exact) {
-                    return - (pattern[i] & 0xff);
+                    return 0 - (pattern[i] & 0xff);
                 } else {
                     return 0;
                 }
@@ -182,7 +186,7 @@ public class CompareUtil {
             }
         }
         if (klen < plen && exact) {
-            return - (pattern[klen] & 0xff);
+            return 0 - (pattern[klen] & 0xff);
         }
         return 0;
      }
@@ -197,7 +201,8 @@ public class CompareUtil {
      *         キーがパターンより大きい場合は1以上、
      *         キーがパターンより小さい場合は-1以下
      */
-    public static int compareToKanaSingle(byte[] key, byte[] pattern, boolean exact) {
+    public static int compareToKanaSingle(final byte[] key, final byte[] pattern,
+                                          final boolean exact) {
         int klen = key.length;
         int plen = pattern.length;
         int kc0, kc1, pc0, pc1;
@@ -207,7 +212,7 @@ public class CompareUtil {
             }
             if (key[i] == '\0') {
                 if (exact) {
-                    return - (pattern[i] & 0xff);
+                    return 0 - (pattern[i] & 0xff);
                 } else {
                     return 0;
                 }
@@ -231,7 +236,7 @@ public class CompareUtil {
             }
         }
         if (klen < plen && exact) {
-            return - (pattern[klen] & 0xff);
+            return 0 - (pattern[klen] & 0xff);
         }
         return 0;
      }

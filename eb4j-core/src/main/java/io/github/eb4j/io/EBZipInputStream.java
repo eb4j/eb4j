@@ -12,8 +12,8 @@ import io.github.eb4j.util.ByteUtil;
  *
  * @author Hisaya FUKUMOTO
  */
-public class EBZipInputStream
-    extends BookInputStream implements EBZipConstants {
+public class EBZipInputStream extends BookInputStream {
+
 
     /**
      * コンストラクタ。
@@ -21,7 +21,7 @@ public class EBZipInputStream
      * @param info ファイル情報
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected EBZipInputStream(FileInfo info) throws EBException {
+    protected EBZipInputStream(final FileInfo info) throws EBException {
         super(info);
         open();
         // スライス単位でキャッシュする
@@ -43,7 +43,7 @@ public class EBZipInputStream
         }
 
         // ヘッダの読み込み
-        byte[] b = new byte[EBZIP_HEADER_SIZE];
+        byte[] b = new byte[EBZipConstants.EBZIP_HEADER_SIZE];
         readRawFully(b, 0, b.length);
 
         int mode = b[5] >>> 4;
@@ -65,7 +65,7 @@ public class EBZipInputStream
         // 妥当性の検証
         String str = new String(b, 0, 5);
         if (!str.equals("EBZip")
-            || info.getSliceSize() > (PAGE_SIZE << EBZIP_MAX_LEVEL)) {
+            || info.getSliceSize() > (PAGE_SIZE << EBZipConstants.EBZIP_MAX_LEVEL)) {
             throw new EBException(EBException.UNEXP_FILE, info.getPath());
         }
         if (mode != 1 && mode != 2) {
@@ -103,7 +103,7 @@ public class EBZipInputStream
      * @exception EBException 入出力エラーが発生した場合
      */
     @Override
-    public int read(byte[] b, int off, int len) throws EBException {
+    public int read(final byte[] b, final int off, final int len) throws EBException {
         int rlen = 0;
         while (rlen < len) {
             if (info.getFileSize() <= filePos) {
@@ -127,7 +127,7 @@ public class EBZipInputStream
                 // 圧縮されたスライスのインデックスデータの位置
                 // (スライスオフセット * インデックスサイズ) + ヘッダサイズ
                 long pos = filePos / info.getSliceSize() * info.getZipIndexSize()
-                    + EBZIP_HEADER_SIZE;
+                    + EBZipConstants.EBZIP_HEADER_SIZE;
                 try {
                     stream.seek(pos);
                 } catch (IOException e) {
@@ -197,7 +197,7 @@ public class EBZipInputStream
      * @param size 圧縮スライスサイズ
      * @exception EBException 入出力エラーが発生した場合
      */
-    private void _decode(int size) throws EBException {
+    private void _decode(final int size) throws EBException {
         if (size == info.getSliceSize()) {
             // 圧縮されていないのでそのままキャッシュに読み込む
             readRawFully(cache, 0, size);

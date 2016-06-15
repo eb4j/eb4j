@@ -20,7 +20,7 @@ public class EPWINGInputStream extends BookInputStream {
      * @param info ファイル情報
      * @exception EBException 入出力エラーが発生した場合
      */
-    protected EPWINGInputStream(FileInfo info) throws EBException {
+    protected EPWINGInputStream(final FileInfo info) throws EBException {
         super(info);
         open();
         cache = new byte[PAGE_SIZE];
@@ -157,7 +157,7 @@ public class EPWINGInputStream extends BookInputStream {
      * @exception EBException 入出力エラーが発生した場合
      */
     @Override
-    public int read(byte[] b, int off, int len) throws EBException {
+    public int read(final byte[] b, final int off, final int len) throws EBException {
         int rlen = 0;
         while (rlen < len) {
             if (info.getFileSize() <= filePos) {

@@ -42,8 +42,8 @@ public class EBFile {
      * @see EBFile#FORMAT_EPWING
      * @see EBFile#FORMAT_EPWING6
      */
-    public EBFile(File dir, String name,
-                  int defaultFormat) throws EBException {
+    public EBFile(final File dir, final String name,
+                  final int defaultFormat) throws EBException {
         super();
         _info = new FileInfo();
 
@@ -96,9 +96,10 @@ public class EBFile {
      *
      * @param path ディレクトリパス
      * @param name ディレクトリ名
+     * @return File Directory object.
      * @exception EBException ファイルが存在しない場合
      */
-    public static File searchDirectory(String path, String name) throws EBException {
+    public static File searchDirectory(final String path, final String name) throws EBException {
         return searchDirectory(new File(path), name);
     }
 
@@ -108,9 +109,10 @@ public class EBFile {
      *
      * @param dir ディレクトリ
      * @param name ディレクトリ名
+     * @return File directory object.
      * @exception EBException ファイルが存在しない場合
      */
-    public static File searchDirectory(File dir, String name) throws EBException {
+    public static File searchDirectory(final File dir, final String name) throws EBException {
         String[] list = dir.list();
         File d = null;
         if (!ArrayUtils.isEmpty(list)) {
@@ -183,7 +185,7 @@ public class EBFile {
      * @param start 本文開始位置
      * @param end 本文終了位置
      */
-    public void setSEBXAInfo(long index, long base, long start, long end) {
+    public void setSEBXAInfo(final long index, final long base, final long start, final long end) {
         _info.setSebxaIndexPosition(index);
         _info.setSebxaBasePosition(base);
         _info.setSebxaStartPosition(start);

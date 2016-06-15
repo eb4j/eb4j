@@ -19,14 +19,14 @@ import io.github.eb4j.util.HexUtil;
  *
  * @author Hisaya FUKUMOTO
  */
-public class EBInfo {
+public final class EBInfo {
 
     /** コピーライト */
-    private static final String _COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
+    private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
     /** E-Mailアドレス */
-    private static final String _EMAIL = "fukumoto@users.sourceforge.jp";
+    private static final String EMAIL = "fukumoto@users.sourceforge.jp";
     /** プロブラム名 */
-    private static final String _PROGRAM = EBInfo.class.getName();
+    private static final String PROGRAM = EBInfo.class.getName();
 
     /** デフォルト読み込みディレクトリ */
     private static final String DEFAULT_BOOK_DIR = ".";
@@ -40,7 +40,7 @@ public class EBInfo {
      *
      * @param args コマンド行引数
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Options options = new Options();
         options.addOption("m", "multi-serarch", false, "also output multi-search information");
         options.addOption("h", "help", false, "display this help and exit");
@@ -51,7 +51,7 @@ public class EBInfo {
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
             System.exit(1);
         }
 
@@ -76,7 +76,7 @@ public class EBInfo {
                 path = paths[0];
                 break;
             default:
-                System.err.println(_PROGRAM + ": too many arguments");
+                System.err.println(PROGRAM + ": too many arguments");
                 _usage();
                 System.exit(1);
         }
@@ -85,7 +85,7 @@ public class EBInfo {
             EBInfo ebinfo = new EBInfo(path);
             ebinfo._show(multi);
         } catch (EBException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ public class EBInfo {
      *
      */
     private static void _usage() {
-        System.out.println("Try `java " + _PROGRAM + " --help' for more information");
+        System.out.println("Try `java " + PROGRAM + " --help' for more information");
     }
 
     /**
@@ -103,11 +103,11 @@ public class EBInfo {
      *
      * @param options コマンドラインオプション
      */
-    private static void _usage(Options options) {
+    private static void _usage(final Options options) {
         HelpFormatter fmt = new HelpFormatter();
-        fmt.printHelp("java " + _PROGRAM + " [option...] [book-directory]",
+        fmt.printHelp("java " + PROGRAM + " [option...] [book-directory]",
                       "\nOptions:", options,
-                      "\nReport bugs to <" + _EMAIL + ">.", false);
+                      "\nReport bugs to <" + EMAIL + ">.", false);
     }
 
     /**
@@ -116,8 +116,8 @@ public class EBInfo {
      */
     private static void _version() {
         Package pkg = EBInfo.class.getPackage();
-        System.out.println(_PROGRAM + " " + pkg.getImplementationVersion());
-        System.out.println(_COPYRIGHT);
+        System.out.println(PROGRAM + " " + pkg.getImplementationVersion());
+        System.out.println(COPYRIGHT);
         System.out.println("All right reserved.");
     }
 
@@ -128,7 +128,7 @@ public class EBInfo {
      * @param path 書籍のパス
      * @exception EBException 書籍の初期化中に例外が発生した場合
      */
-    private EBInfo(String path) throws EBException {
+    private EBInfo(final String path) throws EBException {
         super();
         _book = new Book(path);
     }
@@ -139,7 +139,7 @@ public class EBInfo {
      *
      * @param multi 複合検索の詳細情報を出力することを示すフラグ
      */
-    private void _show(boolean multi) {
+    private void _show(final boolean multi) {
         String text = null;
         // 書籍の種類
         System.out.print("disc type: ");
@@ -263,7 +263,7 @@ public class EBInfo {
      *
      * @param sub 副本
      */
-    private void _showMulti(SubBook sub) {
+    private void _showMulti(final SubBook sub) {
         if (!sub.hasMultiSearch()) {
             return;
         }

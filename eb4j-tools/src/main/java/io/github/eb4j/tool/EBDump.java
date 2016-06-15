@@ -23,11 +23,11 @@ import io.github.eb4j.util.HexUtil;
 public class EBDump {
 
     /** コピーライト */
-    private static final String _COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
+    private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
     /** E-Mailアドレス */
-    private static final String _EMAIL = "fukumoto@users.sourceforge.jp";
+    private static final String EMAIL = "fukumoto@users.sourceforge.jp";
     /** プロブラム名 */
-    private static final String _PROGRAM = EBDump.class.getName();
+    private static final String PROGRAM = EBDump.class.getName();
 
     /** デフォルト読み込みディレクトリ */
     private static final String DEFAULT_BOOK_DIR = ".";
@@ -41,7 +41,7 @@ public class EBDump {
      *
      * @param args コマンド行引数
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Options options = new Options();
         options.addOption("s", "subbook", true, "subbook index number");
         options.addOption("p", "page", true, "page number (HEX)");
@@ -56,7 +56,7 @@ public class EBDump {
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
             System.exit(1);
         }
 
@@ -70,11 +70,11 @@ public class EBDump {
             try {
                 subindex = Integer.parseInt(arg);
             } catch (NumberFormatException e) {
-                System.err.println(_PROGRAM + ": invalid subbook index `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid subbook index `" + arg + "'");
                 System.exit(1);
             }
             if (subindex <= 0) {
-                System.err.println(_PROGRAM + ": invalid subbook index `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid subbook index `" + arg + "'");
                 System.exit(1);
             }
             subindex--;
@@ -84,11 +84,11 @@ public class EBDump {
             try {
                 page = Long.parseLong(arg, 16);
             } catch (NumberFormatException e) {
-                System.err.println(_PROGRAM + ": invalid page number `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid page number `" + arg + "'");
                 System.exit(1);
             }
             if (page <= 0) {
-                System.err.println(_PROGRAM + ": invalid page number `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid page number `" + arg + "'");
                 System.exit(1);
             }
         }
@@ -97,11 +97,11 @@ public class EBDump {
             try {
                 off = Integer.parseInt(arg, 16);
             } catch (NumberFormatException e) {
-                System.err.println(_PROGRAM + ": invalid offset number `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid offset number `" + arg + "'");
                 System.exit(1);
             }
             if (off < 0) {
-                System.err.println(_PROGRAM + ": invalid offset number `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid offset number `" + arg + "'");
                 System.exit(1);
             }
         }
@@ -110,11 +110,11 @@ public class EBDump {
             try {
                 pos = Long.parseLong(arg, 16);
             } catch (NumberFormatException e) {
-                System.err.println(_PROGRAM + ": invalid position `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid position `" + arg + "'");
                 System.exit(1);
             }
             if (pos < 0) {
-                System.err.println(_PROGRAM + ": invalid position `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid position `" + arg + "'");
                 System.exit(1);
             }
         }
@@ -123,11 +123,11 @@ public class EBDump {
             try {
                 size = Integer.parseInt(arg, 16);
             } catch (NumberFormatException e) {
-                System.err.println(_PROGRAM + ": invalid dump size `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid dump size `" + arg + "'");
                 System.exit(1);
             }
             if (size <= 0) {
-                System.err.println(_PROGRAM + ": invalid dump size `" + arg + "'");
+                System.err.println(PROGRAM + ": invalid dump size `" + arg + "'");
                 System.exit(1);
             }
         }
@@ -151,7 +151,7 @@ public class EBDump {
                 path = paths[0];
                 break;
             default:
-                System.err.println(_PROGRAM + ": too many arguments");
+                System.err.println(PROGRAM + ": too many arguments");
                 _usage();
                 System.exit(1);
         }
@@ -163,7 +163,7 @@ public class EBDump {
             }
             ebdump.dump(subindex, pos, size);
         } catch (EBException e) {
-            System.err.println(_PROGRAM + ": " + e.getMessage());
+            System.err.println(PROGRAM + ": " + e.getMessage());
         }
     }
 
@@ -173,7 +173,7 @@ public class EBDump {
      *
      */
     private static void _usage() {
-        System.out.println("Try `java " + _PROGRAM + " --help' for more information");
+        System.out.println("Try `java " + PROGRAM + " --help' for more information");
     }
 
     /**
@@ -181,11 +181,11 @@ public class EBDump {
      *
      * @param options コマンドラインオプション
      */
-    private static void _usage(Options options) {
+    private static void _usage(final Options options) {
         HelpFormatter fmt = new HelpFormatter();
-        fmt.printHelp("java " + _PROGRAM + " [option...] [book-directory]",
+        fmt.printHelp("java " + PROGRAM + " [option...] [book-directory]",
                       "\nOptions:", options,
-                      "\nReport bugs to <" + _EMAIL + ">.", false);
+                      "\nReport bugs to <" + EMAIL + ">.", false);
     }
 
     /**
@@ -194,8 +194,8 @@ public class EBDump {
      */
     private static void _version() {
         Package pkg = EBDump.class.getPackage();
-        System.out.println(_PROGRAM + " " + pkg.getImplementationVersion());
-        System.out.println(_COPYRIGHT);
+        System.out.println(PROGRAM + " " + pkg.getImplementationVersion());
+        System.out.println(COPYRIGHT);
         System.out.println("All right reserved.");
     }
 
@@ -206,7 +206,7 @@ public class EBDump {
      * @param path 書籍のパス
      * @exception EBException 書籍の初期化中に例外が発生した場合
      */
-    public EBDump(String path) throws EBException {
+    public EBDump(final String path) throws EBException {
         super();
         _book = new Book(path);
     }
@@ -220,17 +220,21 @@ public class EBDump {
      * @param size ダンプサイズ
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    public void dump(int subindex, long pos, int size) throws EBException {
+    public void dump(final int subindex, final long pos, final int size) throws EBException {
+        int dumpsize;
+
         SubBook sub = _book.getSubBook(subindex);
         if (sub == null) {
             return;
         }
         if (size <= 0) {
-            size = BookInputStream.PAGE_SIZE;
+            dumpsize = BookInputStream.PAGE_SIZE;
+        } else {
+            dumpsize = size;
         }
 
         BookInputStream bis = sub.getTextFile().getInputStream();
-        byte[] b = new byte[size];
+        byte[] b = new byte[dumpsize];
         try {
             bis.seek(pos);
             bis.readFully(b, 0, b.length);
@@ -239,7 +243,7 @@ public class EBDump {
         }
 
         long page = BookInputStream.getPage(pos);
-        long pos2 = pos + size;
+        long pos2 = pos + dumpsize;
         long start = pos - (pos & 0x0f);
         long end = pos2;
         if ((end % 16) > 0) {
@@ -317,7 +321,7 @@ public class EBDump {
      * @param hex byte値
      * @return 変換後の文字列
      */
-    private String _toHexString(byte hex) {
+    private String _toHexString(final byte hex) {
         return HexUtil.toHexString(hex);
     }
 
@@ -327,7 +331,7 @@ public class EBDump {
      * @param hex int値
      * @return 変換後の文字列
      */
-    private String _toHexString(int hex) {
+    private String _toHexString(final int hex) {
         return HexUtil.toHexString(hex, 3);
     }
 
@@ -337,7 +341,7 @@ public class EBDump {
      * @param hex long値
      * @return 変換後の文字列
      */
-    private String _toHexString(long hex) {
+    private String _toHexString(final long hex) {
         return HexUtil.toHexString(hex, 5);
     }
 }

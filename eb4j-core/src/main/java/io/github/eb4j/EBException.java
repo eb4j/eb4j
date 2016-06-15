@@ -24,7 +24,7 @@ public class EBException extends Exception {
     public static final int FAILED_SEEK_FILE = 6;
 
     /** エラーメッセージ */
-    private static final String[] _ERR_MSG = {
+    private static final String[] ERR_MSG = {
         "directory not found",
         "can't read directory",
 
@@ -45,7 +45,7 @@ public class EBException extends Exception {
      *
      * @param msg 詳細メッセージ
      */
-   private EBException(String msg) {
+   private EBException(final String msg) {
         super(msg);
     }
 
@@ -56,7 +56,7 @@ public class EBException extends Exception {
      * @param msg 詳細メッセージ
      * @param cause 原因
      */
-   private EBException(String msg, Throwable cause) {
+   private EBException(final String msg, final Throwable cause) {
         super(msg, cause);
     }
 
@@ -66,8 +66,8 @@ public class EBException extends Exception {
      *
      * @param code エラーコード
      */
-    public EBException(int code) {
-        this(_ERR_MSG[code]);
+    public EBException(final int code) {
+        this(ERR_MSG[code]);
         _code = code;
     }
 
@@ -78,8 +78,8 @@ public class EBException extends Exception {
      * @param code エラーコード
      * @param cause 原因
      */
-    public EBException(int code, Throwable cause) {
-        this(_ERR_MSG[code] + " (" + cause.getMessage() + ")", cause);
+    public EBException(final int code, final Throwable cause) {
+        this(ERR_MSG[code] + " (" + cause.getMessage() + ")", cause);
         _code = code;
     }
 
@@ -90,8 +90,8 @@ public class EBException extends Exception {
      * @param code エラーコード
      * @param msg 追加メッセージ
      */
-    public EBException(int code, String msg) {
-        this(_ERR_MSG[code] + " (" + msg + ")");
+    public EBException(final int code, final String msg) {
+        this(ERR_MSG[code] + " (" + msg + ")");
         _code = code;
     }
 
@@ -103,8 +103,8 @@ public class EBException extends Exception {
      * @param msg 追加メッセージ
      * @param cause 原因
      */
-    public EBException(int code, String msg, Throwable cause) {
-        this(_ERR_MSG[code] + " (" + msg + ": " + cause.getMessage() + ")", cause);
+    public EBException(final int code, final String msg, final Throwable cause) {
+        this(ERR_MSG[code] + " (" + msg + ": " + cause.getMessage() + ")", cause);
         _code = code;
     }
 
@@ -116,8 +116,8 @@ public class EBException extends Exception {
      * @param msg1 追加メッセージ1
      * @param msg2 追加メッセージ2
      */
-    public EBException(int code, String msg1, String msg2) {
-        this(_ERR_MSG[code] + " (" + msg1 + ": " + msg2 + ")");
+    public EBException(final int code, final String msg1, final String msg2) {
+        this(ERR_MSG[code] + " (" + msg1 + ": " + msg2 + ")");
         _code = code;
     }
 
