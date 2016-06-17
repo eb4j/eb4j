@@ -1,6 +1,7 @@
 package io.github.eb4j.util;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 /**
  * バイト操作ユーティリティクラス。
@@ -351,9 +352,12 @@ public final class ByteUtil {
      *
      * @param code ASCIIコード (0x20〜0x7E)
      * @return JIS X 0208コード
-     * @exception ArrayIndexOfOutOfBoundsException ASCIIコードが0x20〜0x7Eの範囲外の場合
+     * @exception AssertionError ASCIIコードが0x20〜0x7Eの範囲外の場合
      */
     public static int asciiToJISX0208(final int code) {
+        if (!(0x20 <= code && code <= 0x7e)) {
+            throw new AssertionError();
+        }
         return ASCII_TO_JISX0208_TABLE[code-0x20];
     }
 
@@ -362,9 +366,12 @@ public final class ByteUtil {
      *
      * @param code JIS X 0201コード (0xA0〜0xDF)
      * @return JIS X 0208コード
-     * @exception ArrayIndexOfOutOfBoundsException JIS X 0201コードが0xA0〜0xDFの範囲外の場合
+     * @exception AssertionError JIS X 0201コードが0xA0〜0xDFの範囲外の場合
      */
     public static int jisx0201ToJISX0208(final int code) {
+        if (!(0xA0 <= code && code <= 0xdf)) {
+            throw new AssertionError();
+        }
         return JISX0201_TO_JISX0208_TABLE[code-0xa0];
     }
 
@@ -402,7 +409,7 @@ public final class ByteUtil {
         try {
             str = new String(buf, "EUC-CN");
         } catch (UnsupportedEncodingException e) {
-            str = new String(buf);
+            str = new String(buf, Charset.defaultCharset());
         }
         return str.trim();
     }
@@ -439,7 +446,7 @@ public final class ByteUtil {
         try {
             str = new String(buf, "EUC-JP");
         } catch (UnsupportedEncodingException e) {
-            str = new String(buf);
+            str = new String(buf, Charset.defaultCharset());
         }
         return str.trim();
     }
@@ -475,7 +482,7 @@ public final class ByteUtil {
         try {
             b = buf.toString().getBytes("EUC-JP");
         } catch (UnsupportedEncodingException e) {
-            b = buf.toString().getBytes();
+            b = buf.toString().getBytes(Charset.defaultCharset());
         }
 
         int size = b.length;

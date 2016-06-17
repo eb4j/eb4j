@@ -1,6 +1,7 @@
 package io.github.eb4j;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.BookInputStream;
@@ -291,13 +292,14 @@ public class Book {
                 int off = 2;
                 String title = null;
                 if (_charCode == CHARCODE_ISO8859_1) {
-                    title = new String(b, off, SIZE_TITLE[DISC_EB]).trim();
+                    title = new String(b, off, SIZE_TITLE[DISC_EB], Charset.forName("ISO8859-1"))
+                            .trim();
                     // タイトルの修正が必要かどうか調べる
                     for (int j=0; j<MISLEADED.length; j++) {
                         if (title.equals(MISLEADED[j])) {
                             // タイトルの修正
                             _charCode = CHARCODE_JISX0208;
-                            byte[] tmp = title.getBytes();
+                            byte[] tmp = title.getBytes(Charset.forName("ISO8859-1"));
                             title = ByteUtil.jisx0208ToString(tmp, 0, tmp.length);
                             break;
                         }
@@ -309,7 +311,7 @@ public class Book {
                 off += SIZE_TITLE[DISC_EB];
 
                 // ディレクトリ名の取得
-                String name = new String(b, off, SIZE_DIRNAME).trim();
+                String name = new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
 
                 // 副本オブジェクトの作成
                 String[] fname = new String[3];
@@ -356,13 +358,14 @@ public class Book {
                 int off = 2;
                 String title = null;
                 if (_charCode == CHARCODE_ISO8859_1) {
-                    title = new String(b, off, SIZE_TITLE[DISC_EPWING]).trim();
+                    title = new String(b, off, SIZE_TITLE[DISC_EPWING], Charset
+                            .forName("ISO8859-1")).trim();
                     // タイトルの修正が必要かどうか調べる
                     for (int j=0; j<MISLEADED.length; j++) {
                         if (title.equals(MISLEADED[j])) {
                             // タイトルの修正
                             _charCode = CHARCODE_JISX0208;
-                            byte[] tmp = title.getBytes();
+                            byte[] tmp = title.getBytes(Charset.forName("ISO8859-1"));
                             title = ByteUtil.jisx0208ToString(tmp, 0, tmp.length);
                             break;
                         }
@@ -374,7 +377,7 @@ public class Book {
                 off += SIZE_TITLE[DISC_EPWING];
 
                 // ディレクトリ名の取得
-                String name = new String(b, off, SIZE_DIRNAME).trim();
+                String name = new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
                 off += SIZE_DIRNAME;
 
                 // インデックス番号の取得
@@ -388,11 +391,12 @@ public class Book {
                 for (int j=0; j<4; j++) {
                     // 全角外字
                     if (b[off] != '\0' && (b[off]&0xff) < 0x80) {
-                        wide[j] = new String(b, off, SIZE_DIRNAME).trim();
+                        wide[j] = new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
                     }
                     // 半角外字
                     if (b[off+32] != '\0' && (b[off+32]&0xff) < 0x80) {
-                        narrow[j] = new String(b, off+32, SIZE_DIRNAME).trim();
+                        narrow[j] = new String(b, off+32, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                .trim();
                     }
                     off += SIZE_DIRNAME;
                 }
@@ -409,7 +413,7 @@ public class Book {
                     bis.readFully(b, 0, b.length);
                     if ((b[4] & 0xff) != 0) {
                         // 本文テキストファイル名
-                        fname[0] = new String(b, 4, SIZE_DIRNAME).trim();
+                        fname[0] = new String(b, 4, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
                         format[0] = b[55] & 0xff;
 
                         int dataType = ByteUtil.getInt2(b, 41);

@@ -1,6 +1,7 @@
 package io.github.eb4j;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.BookInputStream;
@@ -149,7 +150,8 @@ public class Appendix {
             for (int i=0; i<subCount; i++) {
                 bis.readFully(b, 0, b.length);
                 // 副本オブジェクトの作成
-                String path = new String(b, off, Book.SIZE_DIRNAME).trim();
+                String path = new String(b, off, Book.SIZE_DIRNAME, Charset.forName("ASCII"))
+                        .trim();
                 _sub[i] = new SubAppendix(this, path);
             }
         } finally {
