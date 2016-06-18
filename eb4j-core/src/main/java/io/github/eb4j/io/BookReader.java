@@ -6,6 +6,8 @@ import io.github.eb4j.EBException;
 import io.github.eb4j.hook.Hook;
 import io.github.eb4j.util.ByteUtil;
 
+import java.nio.charset.Charset;
+
 /**
  * 書籍入力ストリームからテキストを読み込むクラス。
  *
@@ -648,7 +650,7 @@ public class BookReader<T> {
                 }
                 if (size != 0) {
                     hook.beginMovie(format >>> 12, width, height,
-                            new String(name, 0, size));
+                            new String(name, 0, size, Charset.forName("ASCII")));
                 }
             }
             off += 46;

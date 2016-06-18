@@ -1,6 +1,7 @@
 package io.github.eb4j.io;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.zip.Inflater;
 import java.util.zip.DataFormatException;
 
@@ -63,7 +64,7 @@ public class EBZipInputStream extends BookInputStream {
         }
 
         // 妥当性の検証
-        String str = new String(b, 0, 5);
+        String str = new String(b, 0, 5, Charset.forName("ASCII"));
         if (!str.equals("EBZip")
             || info.getSliceSize() > (PAGE_SIZE << EBZipConstants.EBZIP_MAX_LEVEL)) {
             throw new EBException(EBException.UNEXP_FILE, info.getPath());

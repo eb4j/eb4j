@@ -1,6 +1,7 @@
 package io.github.eb4j;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
@@ -1436,7 +1437,7 @@ public class SubBook {
             if (idx1 < idx2) {
                 str = key.substring(idx1, idx2);
                 if (_book.getCharCode() == Book.CHARCODE_ISO8859_1) {
-                    tmp = str.getBytes();
+                    tmp = str.getBytes(Charset.forName("ISO8859-1"));
                 } else {
                     tmp = ByteUtil.stringToJISX0208(str);
                 }
@@ -1479,7 +1480,7 @@ public class SubBook {
         if (idx1 < len) {
             str = key.substring(idx1, len);
             if (_book.getCharCode() == Book.CHARCODE_ISO8859_1) {
-                tmp = str.getBytes();
+                tmp = str.getBytes(Charset.forName("ISO8859-1"));
             } else {
                 tmp = ByteUtil.stringToJISX0208(str);
             }

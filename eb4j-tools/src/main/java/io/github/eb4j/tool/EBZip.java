@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -1169,7 +1170,7 @@ public final class EBZip {
                 System.err.print("do you wish to overwrite (y or n)? ");
                 BufferedReader br = null;
                 try {
-                    br = new BufferedReader(new InputStreamReader(System.in));
+                    br = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
                     String line = br.readLine();
                     if (line != null) {
                         line = line.trim();

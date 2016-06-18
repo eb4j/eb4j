@@ -3,6 +3,8 @@ package io.github.eb4j;
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.BookInputStream;
 
+import java.nio.charset.Charset;
+
 /**
  * 音声データクラス。
  *
@@ -58,7 +60,7 @@ public class SoundData {
             bis.seek(pos1);
             byte[] b = new byte[4];
             bis.readFully(b, 0, b.length);
-            if ("fmt ".equals(new String(b, 0, 4))) {
+            if ("fmt ".equals(new String(b, 0, 4, Charset.forName("ASCII")))) {
                 if (size >= 32) {
                     size -= 32;
                 } else {

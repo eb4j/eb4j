@@ -4,6 +4,8 @@ import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
+import java.nio.charset.Charset;
+
 /**
  * 画像データクラス。
  *
@@ -103,7 +105,7 @@ public class GraphicData {
             bis.readFully(b, 0, b.length);
 
             int size = 0;
-            if (new String(b, 0, 4).equals("data")) {
+            if (new String(b, 0, 4, Charset.forName("ASCII")).equals("data")) {
                 size = (int)ByteUtil.getLongLE4(b, 4);
             }
             img = new byte[size];

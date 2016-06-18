@@ -1,7 +1,7 @@
 apply plugin: 'findbugs'
 
 findbugs {
-    ignoreFailures = true
+    ignoreFailures = false
 }
 
 // Force prevent findbugs on Test.
@@ -13,4 +13,8 @@ tasks.withType(FindBugs) {
         xml.enabled = false
         html.enabled = true
     }
+}
+
+dependencies {
+    compile 'com.google.code.findbugs:annotations:3.0.1'
 }
