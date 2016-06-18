@@ -419,19 +419,23 @@ public class Book {
                         int dataType = ByteUtil.getInt2(b, 41);
                         // 画像ファイル名
                         if ((dataType & 0x03) == 0x02) {
-                            fname[1] = new String(b, 44, SIZE_DIRNAME).trim();
+                            fname[1] = new String(b, 44, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                    .trim();
                             format[1] = b[54] & 0xff;
                         } else if (((dataType>>>8) & 0x03) == 0x02) {
-                            fname[1] = new String(b, 56, SIZE_DIRNAME).trim();
+                            fname[1] = new String(b, 56, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                    .trim();
                             format[1] = b[53] & 0xff;
                         }
 
                         // 音声ファイル名
                         if ((dataType & 0x03) == 0x01) {
-                            fname[2] = new String(b, 44, SIZE_DIRNAME).trim();
+                            fname[2] = new String(b, 44, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                    .trim();
                             format[2] = b[54] & 0xff;
                         } else if (((dataType>>>8) & 0x03) == 0x01) {
-                            fname[2] = new String(b, 56, SIZE_DIRNAME).trim();
+                            fname[2] = new String(b, 56, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                    .trim();
                             format[2] = b[53] & 0xff;
                         }
 
