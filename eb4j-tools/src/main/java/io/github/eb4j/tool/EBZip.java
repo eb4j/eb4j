@@ -45,9 +45,10 @@ import io.github.eb4j.io.EBZipConstants;
 public final class EBZip {
 
     /** コピーライト */
-    private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
+    private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.\n" +
+                                            "Copyright (c) 2016 Hiroshi Miura";
     /** E-Mailアドレス */
-    private static final String EMAIL = "fukumoto@users.sourceforge.jp";
+    private static final String EMAIL = "miurahr@linux.com";
     /** プロブラム名 */
     private static final String PROGRAM = EBZip.class.getName();
 
@@ -111,7 +112,8 @@ public final class EBZip {
         options.addOption("n", "no-overwrite", false, "don't overwrite output files");
         options.addOption("i", "information", false, "list information of compressed files");
         options.addOption("k", "keep", false, "keep (don't delete) original files");
-        options.addOption("l", "level", true, "compression level; 0.." + EBZipConstants.EBZIP_MAX_LEVEL);
+        options.addOption("l", "level", true, "compression level; 0.." + EBZipConstants
+                .EBZIP_MAX_LEVEL);
         options.addOption("o", "output-directory", true, "output files under DIRECTORY");
         options.addOption("q", "quiet", false, "suppress all warnings");
         options.addOption("s", "skip-content", true, "skip content; font, graphic, sound or movie");
@@ -701,8 +703,8 @@ public final class EBZip {
         }
     }
 
-    private void printZipResult(final long inTotalLength, final long outTotalLength, final long fileSize,
-                                final long inRealFileSize) {
+    private void printZipResult(final long inTotalLength, final long outTotalLength,
+                                final long fileSize, final long inRealFileSize) {
         if (!quiet) {
             System.out.println("completed (" + fileSize
                     + " / " + fileSize + " bytes)");
@@ -1170,7 +1172,8 @@ public final class EBZip {
                 System.err.print("do you wish to overwrite (y or n)? ");
                 BufferedReader br = null;
                 try {
-                    br = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
+                    br = new BufferedReader(new InputStreamReader(System.in,
+                            Charset.defaultCharset()));
                     String line = br.readLine();
                     if (line != null) {
                         line = line.trim();

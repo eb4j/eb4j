@@ -22,9 +22,10 @@ import io.github.eb4j.util.HexUtil;
 public final class EBInfo {
 
     /** コピーライト */
-    private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.";
+    private static final String COPYRIGHT = "Copyright (c) 2002-2007 by Hisaya FUKUMOTO.\n" +
+                                            "Copyright (c) 2016 Hiroshi Miura";
     /** E-Mailアドレス */
-    private static final String EMAIL = "fukumoto@users.sourceforge.jp";
+    private static final String EMAIL = "miurahr@linux.com";
     /** プロブラム名 */
     private static final String PROGRAM = EBInfo.class.getName();
 
