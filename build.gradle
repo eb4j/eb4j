@@ -13,13 +13,13 @@ plugins {
     id "com.jfrog.bintray" version "1.6"
 }
 
+// Release Management
 apply from: "$rootDir/gradle/github.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
 
 // common settings
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'jacoco'
     apply plugin: 'maven'
 
     // Java version set in gradle.properties
@@ -29,6 +29,7 @@ subprojects {
     [compileJava, compileTestJava]*.options*.bootClasspath = "$JDK_HOME/jre/lib/rt.jar"
 
     // Quality managements
+    apply plugin: 'jacoco'
     apply from: "$rootDir/gradle/integration-test.gradle"
     apply from: "$rootDir/gradle/checkstyle.gradle"
     apply from: "$rootDir/gradle/findbugs.gradle"
@@ -152,5 +153,5 @@ project(':eb4j-tools') {
 // Configure GPG singing.
 if (gradle.startParameter.taskNames.contains('bintrayUpload')  ||
     gradle.startParameter.taskNames.contains('githubRelease')) {
-        apply from: "${rootProject.projectDir}/gradle/build.publish.gradle"
+        apply from: "$rootDir/gradle/build.publish.gradle"
 }
