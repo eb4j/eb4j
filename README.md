@@ -4,13 +4,19 @@ EPWING/Ebook access library and utilities.
 ## Build
 
 EB4j uses Gradle for build system. You can build library and utilities
-by typing command:
+by typing command (in Mac/Linux/Unix):
 
 ```
-$ gradle build
+$ ./gradlew build
 ```
 
-You will find archive files at
+or (in Windows):
+
+```
+C:> gradlew.bat build
+```
+
+You will find generated archive files at
 
 ```
 eb4j-core/build/libs/eb4j-core-<version>.jar
