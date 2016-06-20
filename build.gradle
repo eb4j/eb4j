@@ -5,17 +5,33 @@
 //
 //
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctorj-diagram:1.3.1'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+    }
+}
+
 // Here is only place where plugins {} can be located.
 plugins {
     // github
     id "co.riiid.gradle" version "0.4.2"
     // bintray
     id "com.jfrog.bintray" version "1.6"
+    // Publish to gh-pages
+    id 'org.ajoberstar.github-pages' version '1.1.0'
+    // AsciiDoc
+    id 'org.asciidoctor.gradle.asciidoctor' version '1.5.1'
+    id 'org.asciidoctor.convert' version '1.5.3'
 }
 
 // Release Management
 apply from: "$rootDir/gradle/github.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
+apply from: "$rootDir/gradle/ghpages.gradle"
 
 // common settings
 subprojects {

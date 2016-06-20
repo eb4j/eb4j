@@ -1,0 +1,24 @@
+== LINKS
+
+=== Technical references 技術資料
+
+* link:http://www.nerimadors.or.jp/~jiro/cdrom2/doc/spec[12cmＣＤ(EPWING)と、電子ブック(EB)のデータ構造について]
+
+* link:http://www.sra.co.jp/people/m-kasahr/dict-compress/epwing-compress.html[EPWINGの圧縮形式について]
+
+* link:http://www.sra.co.jp/people/m-kasahr/dict-compress/sebxa-compress.html[S-EBXAの圧縮形式について]
+
+* link:http://www31.ocn.ne.jp/~h_ishida/tech/EPWING_MMDATA.txt[EPWINGのマルチメディアデータについて]
+
+* link:http://www31.ocn.ne.jp/~h_ishida/EBStudio/Tech.html[EBStudioにおけるJIS X4081の実装について]
+
+
+=== Reference Software 参考ソフトウェア
+
+* link:http://www.sra.co.jp/people/m-kasahr/eb/index.html[EBライブラリ]
+
+* link:http://www.sra.co.jp/people/m-kasahr/freepwing/index.html[FreePWING]
+
+=== Standard organization 標準化団体
+
+* link:http://www.jisc.go.jp/[日本工業標準調査会]
