@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.4">
-<title>INDEX</title>
+<title>CONVERTER</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -511,42 +511,172 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>INDEX</h1>
+<h1>CONVERTER</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#about-eb4j">About eb4j</a></li>
-<li><a href="#no-warranty">No warranty</a></li>
-<li><a href="#contacts">Contacts</a></li>
+<li><a href="#dictionary-converter-tools">Dictionary converter tools</a></li>
+<li><a href="#通信用語-等-の基礎知識用変換ツール-conv-wdic-について">通信用語(等)の基礎知識用変換ツール(conv-wdic)について</a>
+<ul class="sectlevel2">
+<li><a href="#usage">Usage</a></li>
+</ul>
+</li>
+<li><a href="#郵便番号用変換ツール-conv-zipcode-について">郵便番号用変換ツール(conv-zipcode)について</a>
+<ul class="sectlevel2">
+<li><a href="#usage-2">Usage:</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="about-eb4j">About eb4j</h2>
+<h2 id="dictionary-converter-tools">Dictionary converter tools</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>eb4j is a 100% pure Java library to access electric dictionary and eBooks based on
-<a href="http://www.sra.co.jp/people/m-kasahr/eb/index.html">EB library</a>.</p>
+<p>There are a couple of tools to convert several dictionary data into XML files that can be used by xml2eb.
+Now there are two tools supporting  following dictionaries:</p>
 </div>
-<div class="paragraph">
-<p>eb4j library bundles utility commands
-(ebinfo, ebzip, ebdump).</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.wdic.org/">通信用語(等)の基礎知識 (V6フォーマット)</a></p>
+</li>
+<li>
+<p><a href="http://www.post.japanpost.jp/zipcode/download.html">郵便番号データ</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="no-warranty">No warranty</h2>
+<h2 id="通信用語-等-の基礎知識用変換ツール-conv-wdic-について">通信用語(等)の基礎知識用変換ツール(conv-wdic)について</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>eb4j is distributed without any warranty.</p>
+<div class="sect2">
+<h3 id="usage">Usage</h3>
+<div class="literalblock">
+<div class="content">
+<pre>$ bin/conv-wdic.sh [辞書データディレクトリ]</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>実行後、辞書データディレクトリ内に book.xml が作成されます。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>辞書データディレクトリは以下の構造になっている必要があります。</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/diag-9215958cdcc503d374d1d94ad7efc7e3.png" alt="diag 9215958cdcc503d374d1d94ad7efc7e3" width="300" height="196">
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>gaiji/tableディレクトリについては自動的に作成されるため、
+事前に作成する必要はありません。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>プラグインデータについては以下の条件を満している必要があります。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[画像] pngについては対応するbmpが存在する
+       (ファイル名は *.png.bmp)</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[音声] mp3/oggについては対応するwavが存在する
+       (ファイル名は *.mp3.wav/*.ogg.wav)</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[テキスト] テキストの文字コードがUTF-8になっている</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[]</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>グリフ画像データとは辞書データ中の \\glyph\{コード\} 機能に対応する画像です。
+画像ファイル名は "コード.50px.png.bmp" となっている必要があります。
+予め辞書データから必要なコードを抽出しておき、
+以下のサイトからPNG画像を取得してBMPに変換して下さい。</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>{{{http://glyphwiki.org/}グリフウィキ(GlyphWiki)}}</p>
+<div class="literalblock">
+<div class="content">
+<pre>[]</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>"http://glyphwiki.org/glyph/コード.50px.png" でPNG画像が取得できます。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>なお、JIS X4081形式の電子書籍では扱える文字がJIS X0208に限られているため、
+すべての文字を表現することができません。
+そのため、表現できない文字については外字を自動的に作成し、
+外字によって表現しています。
+また、表についても表現方法がないため画像に変換して登録しています。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>自動作成する外字や表については使用するフォントの設定が必要となりますが、
+この設定は wdic-fonts.properties にて行う必要があります。
+ご使用の環境に合せて wdic-fonts.properties を変更して下さい。</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="contacts">Contacts</h2>
+<h2 id="郵便番号用変換ツール-conv-zipcode-について">郵便番号用変換ツール(conv-zipcode)について</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="usage-2">Usage:</h3>
+<div class="literalblock">
+<div class="content">
+<pre>$ bin/conv-zipcode.sh [データディレクトリ]</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>実行後、データディレクトリ内に book.xml が作成されます。</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>データディレクトリは以下の構造になっている必要があります。</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/diag-ded08c211bc9e6e70e64b452d4137bd6.png" alt="diag ded08c211bc9e6e70e64b452d4137bd6" width="220" height="126">
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
