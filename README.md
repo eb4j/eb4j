@@ -37,7 +37,7 @@ EB4j, an access library for EPWING/Ebook.
 
 Copyright(C) 2003-2010 Hisaya FUKUMOTO
 
-Copyright(C) 2016 Hiroshi Miura
+Copyright(C) 2016 Hiroshi Miura, Aaron Madlon-Kay
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free
