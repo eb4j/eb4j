@@ -116,6 +116,7 @@ project(':eb4j-tools') {
   dependencies {
     compile project(':eb4j-core'),
         'commons-cli:commons-cli:1.2'
+    testCompile 'tokyo.northside:northside-io:0.2.0'
   }
   version = projectVersion
   group = projectGroup

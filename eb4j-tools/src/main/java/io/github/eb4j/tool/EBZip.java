@@ -595,7 +595,7 @@ public final class EBZip {
         def.finish();
         int outLen = 0;
         while (!def.needsInput()) {
-            int n = def.deflate(out, outLen, out.length - outLen);
+            int n = def.deflate(out, outLen, out.length - outLen, Deflater.SYNC_FLUSH);
             outLen += n;
         }
         // 圧縮スライスがオリジナルより大きい場合はオリジナルを書き込む
