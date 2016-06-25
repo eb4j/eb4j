@@ -28,8 +28,8 @@ eb4j-tools/build/distributions/eb4j-tools-<version>.zip
 
 As usual of other projects hosted on GitHub, we are welcome
 forking source and send modification as a Pull Request.
-It is recommended to post an issue before sending a patch.
-
+It is recommended to post an issue before sending a patch,
+and share your opinions and/or problems.
 
 ## Copyrights and License
 
@@ -51,3 +51,15 @@ PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License along
 with this library; if not, write to the Free Software Foundation, Inc.,
 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+## Why forked
+
+This project was forked from an original http://eb4j.osdn.jp.
+The original project seems stopping development over 5 years
+and there seems not to maintain issue tracking tickets.
+
+Here is a new place for eb4j project in order to maintain it by community
+basis, to accept patches and comments, and to improve library.
+
+You are welcome to contribute here by pushing PRs, leaving comments or
+join as development member.
