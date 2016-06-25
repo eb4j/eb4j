@@ -59,7 +59,7 @@ public class EBZipTest {
      * Test EBZip results.
      * @throws Exception when read error happened.
      */
-    @Test(enabled = false, description = "This test fails because of EBZip's bug. So disabled now.")
+    @Test
     public void testEBZip_compress() throws Exception {
         String bookPath = new File(this.getClass().getResource("/data/epwing").getFile())
                 .getAbsolutePath();
