@@ -307,7 +307,7 @@ public final class ImageUtil {
                             break;
                         case 0x01: // end of block
                             return dib;
-                        case 0x02: { // skip
+                        case 0x02: // skip
                             code1 = rle[sidx++] & 0xff;
                             code2 = rle[sidx++] & 0xff;
                             x += code1;
@@ -320,7 +320,6 @@ public final class ImageUtil {
                                 }
                             }
                             break;
-                        }
                         default: // absolute mode
                             x += code2;
                             int cnt = (code2 + 1) / 2;
