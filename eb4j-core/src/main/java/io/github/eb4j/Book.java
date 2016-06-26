@@ -318,8 +318,11 @@ public class Book {
                 int[] format = new int[3];
                 fname[0] = "start";
                 format[0] = EBFile.FORMAT_PLAIN;
-                _sub[i] = new SubBook(this, title, name, 1,
-                                      fname, format, null, null);
+                _sub[i] = new SubBookBuilder().setBook(this)
+                        .setTitle(title).setPath(name)
+                        .setIndex(1).setFname(fname)
+                        .setFormat(format).setNarrow(null).setWide(null)
+                        .createSubBook();
             }
         } finally {
             bis.close();
@@ -458,8 +461,10 @@ public class Book {
                 }
 
                 // 副本オブジェクトの作成
-                _sub[i] = new SubBook(this, title, name, index,
-                                      fname, format, narrow, wide);
+                _sub[i] = new SubBookBuilder().setBook(this)
+                        .setTitle(title).setPath(name).setIndex(index).setFname(fname)
+                        .setFormat(format).setNarrow(narrow).setWide(wide)
+                        .createSubBook();
             }
         } finally {
             bis.close();

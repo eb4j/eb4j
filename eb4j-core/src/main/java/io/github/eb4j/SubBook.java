@@ -84,36 +84,25 @@ public class SubBook {
     private IndexStyle _copyrightStyle = null;
 
     /**
-     * コンストラクタ。
+     * SubBook minimal constructor.
      *
      * @param book 書籍
      * @param title 副本のタイトル
-     * @param path 副本のディレクトリ名
      * @param index 副本のインデックスページ
-     * @param fname データファイル名
-     * @param format フォーマット形式
-     * @param narrow 半角外字ファイル名
-     * @param wide 全角外字ファイル名
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected SubBook(final Book book, final String title, final String path, final int index,
-                      final String[] fname, final int[] format,
-                      final String[] narrow, final String[] wide) throws EBException {
-        super();
+    protected SubBook(final Book book, final String title, final int index) {
         _book = book;
         _title = title;
         _indexPage = index;
+    }
 
-        if (_book.getBookType() == Book.DISC_EB) {
-            _setupEB(path, fname, format);
-        } else {
-            _setupEPWING(path, fname, format, narrow, wide);
-        }
-
-        if (_text != null) {
-            _load();
-        }
-
+    /**
+     * SubBook construction.
+     *
+     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     */
+    protected void selectExtFonts() throws EBException {
         // 半角/全角両方存在するものを選択
         int len = _fonts.length;
         for (int i=0; i<len; i++) {
@@ -131,6 +120,30 @@ public class SubBook {
                     break;
                 }
             }
+        }
+    }
+
+    /**
+     * SubBook construction.
+     *
+     * @param path 副本のディレクトリ名
+     * @param fname データファイル名
+     * @param format フォーマット形式
+     * @param narrow 半角外字ファイル名
+     * @param wide 全角外字ファイル名
+     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     */
+    protected void load(final String path,
+                      final String[] fname, final int[] format,
+                      final String[] narrow, final String[] wide) throws EBException {
+        if (_book.getBookType() == Book.DISC_EB) {
+            _setupEB(path, fname, format);
+        } else {
+            _setupEPWING(path, fname, format, narrow, wide);
+        }
+
+        if (_text != null) {
+            _load();
         }
     }
 
@@ -180,7 +193,7 @@ public class SubBook {
         File dataDir = null;
         try {
             dataDir = EBFile.searchDirectory(dir, "data");
-        } catch (EBException e) {
+        } catch (EBException ignored) {
         }
         if (dataDir != null) {
             // 本文データファイル
@@ -190,7 +203,7 @@ public class SubBook {
         if (fname[1] != null) {
             try {
                 _graphic = new EBFile(dataDir, fname[1], format[1]);
-            } catch (EBException e2) {
+            } catch (EBException ignored) {
             }
         } else {
             _graphic = _text;
@@ -199,7 +212,7 @@ public class SubBook {
         if (fname[2] != null) {
             try {
                 _sound = new EBFile(dataDir, fname[2], format[2]);
-            } catch (EBException e2) {
+            } catch (EBException ignored) {
             }
         } else {
             _sound = _text;
@@ -209,12 +222,12 @@ public class SubBook {
         File gaijiDir = null;
         try {
             gaijiDir = EBFile.searchDirectory(dir, "gaiji");
-        } catch (EBException e) {
+        } catch (EBException ignored) {
         }
         // 外字の設定
-        EBFile file = null;
+        EBFile file;
         int len = _fonts.length;
-        for (int i=0; i<len; i++) {
+        for (int i = 0; i < len; i++) {
             _fonts[i] = new ExtFont(this, i);
             if (gaijiDir != null) {
                 if (narrow[i] != null) {
@@ -272,8 +285,8 @@ public class SubBook {
         IndexStyle[] sebxa = new IndexStyle[2];
 
         // インデックススタイルの取得
-        ArrayList<IndexStyle> multi = new ArrayList<IndexStyle>(indexCount);
-        for (int i=0, off=16; i<indexCount; i++, off+=16) {
+        ArrayList<IndexStyle> multi = new ArrayList<>(indexCount);
+        for (int i = 0, off = 16; i < indexCount; i++, off += 16) {
             IndexStyle style = new IndexStyle();
             int id = b[off] & 0xff;
             style.setIndexID(id);
@@ -462,11 +475,10 @@ public class SubBook {
     private void _loadMulti() throws EBException {
         int len = _multiStyle.length;
         _entryStyle = new IndexStyle[len][];
-        ArrayList<IndexStyle> list = new ArrayList<IndexStyle>(len*4);
+        ArrayList<IndexStyle> list = new ArrayList<>(len * 4);
         byte[] b = new byte[BookInputStream.PAGE_SIZE];
-        BookInputStream bis = _text.getInputStream();
-        try {
-            for (int i=0; i<len; i++) {
+        try (BookInputStream bis = _text.getInputStream()) {
+            for (int i = 0; i < len; i++) {
                 // インデックステーブルの読み込み
                 bis.seek(_multiStyle[i].getStartPage(), 0);
                 bis.readFully(b, 0, b.length);
@@ -478,7 +490,7 @@ public class SubBook {
                 }
 
                 int off = 16;
-                for (int j=0; j<entryCount; j++) {
+                for (int j = 0; j < entryCount; j++) {
                     IndexStyle style = new IndexStyle();
                     style.setSpaceStyle(IndexStyle.ASIS);
                     style.setKatakanaStyle(IndexStyle.ASIS);
@@ -493,24 +505,24 @@ public class SubBook {
                     // エントリのインデックス数
                     int indexCount = b[off] & 0xff;
                     // エントリのラベル
-                    String label = ByteUtil.jisx0208ToString(b, off+2, SIZE_MULTI_LABEL);
+                    String label = ByteUtil.jisx0208ToString(b, off + 2, SIZE_MULTI_LABEL);
                     style.setLabel(label);
                     off += 2 + SIZE_MULTI_LABEL;
-                    for (int k=0; k<indexCount; k++) {
+                    for (int k = 0; k < indexCount; k++) {
                         // インデックスページの情報
                         int indexID = b[off] & 0xff;
-                        long page = ByteUtil.getLong4(b, off+2);
+                        long page = ByteUtil.getLong4(b, off + 2);
                         switch (indexID) {
                             case 0x71:
                             case 0x91:
                             case 0xa1:
                                 if (style.getStartPage() != 0
-                                    && style.getIndexID() != 0x71) {
+                                        && style.getIndexID() != 0x71) {
                                     break;
                                 }
                                 style.setIndexID(indexID);
                                 style.setStartPage(page);
-                                page += ByteUtil.getLong4(b, off+6) - 1;
+                                page += ByteUtil.getLong4(b, off + 6) - 1;
                                 style.setEndPage(page);
                                 break;
                             case 0x01:
@@ -527,8 +539,6 @@ public class SubBook {
                 _entryStyle[i] = list.toArray(new IndexStyle[list.size()]);
                 list.clear();
             }
-        } finally {
-            bis.close();
         }
     }
 
@@ -558,12 +568,9 @@ public class SubBook {
 
         // タイトルページの読み込み
         byte[] b = new byte[BookInputStream.PAGE_SIZE];
-        BookInputStream bis = _text.getInputStream();
-        try {
+        try (BookInputStream bis = _text.getInputStream()) {
             bis.seek(_titlePage, 0);
             bis.readFully(b, 0, b.length);
-        } finally {
-            bis.close();
         }
 
         int titleCount = ByteUtil.getInt2(b, 0);
@@ -1182,10 +1189,7 @@ public class SubBook {
      * @return イメージメニューをサポートしている場合はtrue、そうでない場合はfalse
      */
     public boolean hasImageMenu() {
-        if (_imageMenuStyle == null || _imageMenuStyle.getStartPage() == 0) {
-            return false;
-        }
-        return true;
+        return ((_imageMenuStyle != null) && (_imageMenuStyle.getStartPage() != 0));
     }
 
     /**
@@ -1194,10 +1198,7 @@ public class SubBook {
      * @return 著作権表示をサポートしている場合はtrue、そうでない場合はfalse
      */
     public boolean hasCopyright() {
-        if (_copyrightStyle == null || _copyrightStyle.getStartPage() == 0) {
-            return false;
-        }
-        return true;
+        return ((_copyrightStyle != null) && (_copyrightStyle.getStartPage() != 0));
     }
 
     /**
@@ -1215,16 +1216,16 @@ public class SubBook {
      * @return 前方一致検索をサポートしている場合はtrue、そうでない場合はfalse
      */
     public boolean hasWordSearch() {
-        if (_wordStyle == null) {
-            return false;
-        }
-        int len = _wordStyle.length;
-        for (int i=0; i<len; i++) {
-            if (_wordStyle[i] != null && _wordStyle[i].getStartPage() > 0) {
-                return true;
+        boolean res = false;
+        if (_wordStyle != null) {
+            for (IndexStyle a_wordStyle : _wordStyle) {
+                if (a_wordStyle != null && a_wordStyle.getStartPage() > 0) {
+                    res = true;
+                    break;
+                }
             }
         }
-        return false;
+        return res;
     }
 
     /**
@@ -1233,16 +1234,16 @@ public class SubBook {
      * @return 後方一致検索をサポートしている場合はtrue、そうでない場合はfalse
      */
     public boolean hasEndwordSearch() {
-        if (_endwordStyle == null) {
-            return false;
-        }
-        int len = _endwordStyle.length;
-        for (int i=0; i<len; i++) {
-            if (_endwordStyle[i] != null && _endwordStyle[i].getStartPage() > 0) {
-                return true;
+        boolean res = false;
+        if (_endwordStyle != null) {
+            for (IndexStyle a_endwordStyle : _endwordStyle) {
+                if (a_endwordStyle != null && a_endwordStyle.getStartPage() > 0) {
+                    res = true;
+                    break;
+                }
             }
         }
-        return false;
+        return res;
     }
 
     /**
@@ -1251,10 +1252,7 @@ public class SubBook {
      * @return 条件検索をサポートしている場合はtrue、そうでない場合はfalse
      */
     public boolean hasKeywordSearch() {
-        if (_keywordStyle == null || _keywordStyle.getStartPage() == 0) {
-            return false;
-        }
-        return true;
+        return (_keywordStyle != null && _keywordStyle.getStartPage() != 0);
     }
 
     /**
@@ -1263,10 +1261,7 @@ public class SubBook {
      * @return クロス検索をサポートしている場合はtrue、そうでない場合はfalse
      */
     public boolean hasCrossSearch() {
-        if (_crossStyle == null || _crossStyle.getStartPage() == 0) {
-            return false;
-        }
-        return true;
+        return (_crossStyle != null && _crossStyle.getStartPage() != 0);
     }
 
     /**
@@ -1275,10 +1270,7 @@ public class SubBook {
      * @return 複合検索をサポートしている場合はtrue、そうでない場合はfalse
      */
     public boolean hasMultiSearch() {
-        if (_multiStyle == null) {
-            return false;
-        }
-        return true;
+        return (_multiStyle != null);
     }
 
     /**
@@ -1304,7 +1296,7 @@ public class SubBook {
         if (_multiStyle == null) {
             return null;
         }
-        if (multiIndex < 0 || multiIndex >= _multiStyle.length) {
+        if ((multiIndex < 0) || (multiIndex >= _multiStyle.length)) {
             throw new IllegalArgumentException("Illegal multi index: "
                                                + Integer.toString(multiIndex));
         }
@@ -1403,10 +1395,7 @@ public class SubBook {
             throw new IllegalArgumentException("Illegal entry index: "
                                                + Integer.toString(entryIndex));
         }
-        if (_entryStyle[multiIndex][entryIndex].getCandidatePage() > 0) {
-            return true;
-        }
-        return false;
+        return _entryStyle[multiIndex][entryIndex].getCandidatePage() > 0;
     }
 
     /**
@@ -1425,14 +1414,14 @@ public class SubBook {
      * @return バイト配列
      */
     private byte[] _unescapeExtFontCode(final String word) {
-        ArrayList<byte[]> list = new ArrayList<byte[]>(4);
+        ArrayList<byte[]> list = new ArrayList<>(4);
         String key = word.trim();
         int len = key.length();
         int size = 0;
         int idx1 = 0;
         int idx2 = key.indexOf('\\', 0);
-        String str = null;
-        byte[] tmp = null;
+        String str;
+        byte[] tmp;
         while (idx2 >= 0) {
             if (idx1 < idx2) {
                 str = key.substring(idx1, idx2);
@@ -1454,7 +1443,7 @@ public class SubBook {
             str = key.substring(idx2+1, idx3);
             int code = -1;
             // 4文字以下で16進数の文字が外字の文字コード
-            for (int i=4; i>0; i--) {
+            for (int i = 4; i > 0; i--) {
                 try {
                     code = Integer.parseInt(str, 16);
                     idx1 = idx2 + 1 + i;
@@ -1491,9 +1480,8 @@ public class SubBook {
         }
         byte[] b = new byte[size];
         int pos = 0;
-        int n = list.size();
-        for (int i=0; i<n; i++) {
-            tmp = list.get(i);
+        for (byte[] aList : list) {
+            tmp = aList;
             System.arraycopy(tmp, 0, b, pos, tmp.length);
             pos += tmp.length;
         }
