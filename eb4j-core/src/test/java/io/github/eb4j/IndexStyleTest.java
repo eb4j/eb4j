@@ -1,5 +1,6 @@
 package io.github.eb4j;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -62,7 +63,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setSpaceStyle(IndexStyle.DELETE);// ASIS|DELETE
         style.fixWordLatin(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -73,7 +74,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLowerStyle(IndexStyle.CONVERT);// ASIS|CONVERT
         style.fixWordLatin(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -84,29 +85,29 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setSpaceStyle(IndexStyle.DELETE);// ASIS|DELETE
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
     public void testKanaStyle_convert() throws Exception {
-        byte[] b = {0x24, 0x22, 0x24, 0x24, 0x24, 0x26, (byte) 0xef}; // a, i, u in Hiragana
-        byte[] expected = {0x25, 0x22, 0x25, 0x24, 0x25, 0x26, 0x00}; // a, i, u in Katanaka
-        IndexStyle style = new IndexStyle();
-        resetToAsis(style);
-        style.setKatakanaStyle(IndexStyle.CONVERT);// ASIS|REVERSE|CONVERT
-        style.fixWord(b);
-        assertEquals(b, expected);
-    }
-
-    @Test(groups = {"style"})
-    public void testKanaStyle_reverse() throws Exception {
         byte[] b = {0x25, 0x22, 0x25, 0x24, 0x25, 0x26, 0x00}; // a, i, u in Katanaka
         byte[] expected = {0x24, 0x22, 0x24, 0x24, 0x24, 0x26, (byte) 0xef}; // a, i, u in Hiragana
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
+        style.setKatakanaStyle(IndexStyle.CONVERT);// ASIS|REVERSE|CONVERT
+        style.fixWord(b);
+        assertTrue(ArrayUtils.isEquals(b, expected));
+    }
+
+    @Test(groups = {"style"})
+    public void testKanaStyle_reverse() throws Exception {
+        byte[] b = {0x24, 0x22, 0x24, 0x24, 0x24, 0x26, (byte) 0xef}; // a, i, u in Hiragana
+        byte[] expected = {0x25, 0x22, 0x25, 0x24, 0x25, 0x26, 0x00}; // a, i, u in Katanaka
+        IndexStyle style = new IndexStyle();
+        resetToAsis(style);
         style.setKatakanaStyle(IndexStyle.REVERSE);// ASIS|REVERSE|CONVERT
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -117,7 +118,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLowerStyle(IndexStyle.CONVERT);// ASIS|CONVERT
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -128,7 +129,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setMarkStyle(IndexStyle.DELETE);// ASIS|DELETE
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -139,7 +140,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLongVowelStyle(IndexStyle.CONVERT);// ASIS|CONVERT|DELETE
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -150,7 +151,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLongVowelStyle(IndexStyle.DELETE);// ASIS|CONVERT|DELETE
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -161,7 +162,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setDoubleConsonantStyle(IndexStyle.CONVERT);// ASIS|CONVERT
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -172,18 +173,18 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setContractedSoundStyle(IndexStyle.CONVERT);// ASIS|CONVERT
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
-    public void testSmallVowlelStyle_convert() throws Exception {
+    public void testSmallVowelStyle_convert() throws Exception {
         byte[] b = {};
         byte[] expected = {};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setSmallVowelStyle(IndexStyle.CONVERT);// ASIS|CONVERT
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -194,7 +195,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setVoicedConsonantStyle(IndexStyle.CONVERT);// ASIS|CONVERT
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -205,7 +206,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setPSoundStyle(IndexStyle.CONVERT);// ASIS|CONVERT
         style.fixWord(b);
-        assertEquals(b, expected);
+        assertTrue(ArrayUtils.isEquals(b, expected));
     }
 
     public void resetToAsis(IndexStyle style) throws Exception {
