@@ -62,7 +62,7 @@ public class MultiWordSearcher implements Searcher {
      */
     protected void search(final byte[][] word) throws EBException {
         int len = word.length;
-        ArrayList<SingleWordSearcher> list = new ArrayList<SingleWordSearcher>(len);
+        ArrayList<SingleWordSearcher> list = new ArrayList<>(len);
         SingleWordSearcher search;
         for (int i=0; i<len; i++) {
             if (!ArrayUtils.isEmpty(word[i])) {
