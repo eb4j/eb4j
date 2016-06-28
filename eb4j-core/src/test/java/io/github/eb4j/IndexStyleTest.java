@@ -167,8 +167,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testContractedSoundStyle_convert() throws Exception {
-        byte[] b = {};
-        byte[] expected = {};
+        byte[] b = {0x23, 0x61, 0x23, 0x62, 0x24, 0x63, 0x25, 0x43, 0x23, 0x79, 0x24, 0x75};
+        byte[] expected = {0x23, 0x61, 0x23, 0x62, 0x24, 0x64, 0x25, 0x43, 0x23, 0x79, 0x24, 0x2b};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setContractedSoundStyle(IndexStyle.CONVERT);// ASIS|CONVERT
@@ -178,8 +178,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testSmallVowelStyle_convert() throws Exception {
-        byte[] b = {};
-        byte[] expected = {};
+        byte[] b = {0x23, 0x61, 0x23, 0x62, 0x24, 0x21, 0x25, 0x29, 0x24, 0x43, 0x23, 0x79};
+        byte[] expected = {0x23, 0x61, 0x23, 0x62, 0x24, 0x22, 0x25, 0x2a, 0x24, 0x43, 0x23, 0x79};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setSmallVowelStyle(IndexStyle.CONVERT);// ASIS|CONVERT
@@ -189,8 +189,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testVoicedConsonantStyle_convert() throws Exception {
-        byte[] b = {};
-        byte[] expected = {};
+        byte[] b = {0x23, 0x61, 0x23, 0x62, 0x24, 0x2c, 0x25, 0x3e, 0x24, 0x43, 0x23, 0x79};
+        byte[] expected = {0x23, 0x61, 0x23, 0x62, 0x24, 0x2b, 0x25, 0x3d, 0x24, 0x43, 0x23, 0x79};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setVoicedConsonantStyle(IndexStyle.CONVERT);// ASIS|CONVERT
@@ -200,8 +200,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testPSoundStyle_convert() throws Exception {
-        byte[] b = {};
-        byte[] expected = {};
+        byte[] b = {0x23, 0x61, 0x23, 0x62, 0x24, 0x51, 0x25, 0x5d, 0x24, 0x43, 0x23, 0x79};
+        byte[] expected = {0x23, 0x61, 0x23, 0x62, 0x24, 0x4f, 0x25, 0x5b, 0x24, 0x43, 0x23, 0x79};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setPSoundStyle(IndexStyle.CONVERT);// ASIS|CONVERT
