@@ -57,8 +57,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testSpaceStyle_LatinDelete() throws Exception {
-        byte[] b = {'a', 'b', 'c'};
-        byte[] expected = {'a', 'b', 'c'};
+        byte[] b = {'a', 'b', ' ', 'c', 0};
+        byte[] expected = {'a', 'b', 'c', 0, 0};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setSpaceStyle(IndexStyle.DELETE);// ASIS|DELETE
@@ -69,7 +69,7 @@ public class IndexStyleTest {
     @Test(groups = {"style"})
     public void testLowerStyle_LatinConvert() throws Exception {
         byte[] b = {'a', 'b', 'c'};
-        byte[] expected = {'a', 'b', 'c'};
+        byte[] expected = {'A', 'B', 'C'};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setLowerStyle(IndexStyle.CONVERT);// ASIS|CONVERT
@@ -79,8 +79,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testSpaceStyle_delete() throws Exception {
-        byte[] b = {'a', 'b', 'c'};
-        byte[] expected = {'a', 'b', 'c'};
+        byte[] b = {0x23, 0x61, 0x21, 0x21, 0x23, 0x62, 0x23, 0x79, 0x23, 0x7a};
+        byte[] expected = {0x23, 0x61, 0x23, 0x62, 0x23, 0x79, 0x23, 0x7a, 0, 0};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setSpaceStyle(IndexStyle.DELETE);// ASIS|DELETE
@@ -91,7 +91,7 @@ public class IndexStyleTest {
     @Test(groups = {"style"})
     public void testKanaStyle_convert() throws Exception {
         byte[] b = {0x25, 0x22, 0x25, 0x24, 0x25, 0x26, 0x00}; // a, i, u in Katanaka
-        byte[] expected = {0x24, 0x22, 0x24, 0x24, 0x24, 0x26, (byte) 0xef}; // a, i, u in Hiragana
+        byte[] expected = {0x24, 0x22, 0x24, 0x24, 0x24, 0x26, 0x00}; // a, i, u in Hiragana
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setKatakanaStyle(IndexStyle.CONVERT);// ASIS|REVERSE|CONVERT
@@ -112,8 +112,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testLowerStyle_convert() throws Exception {
-        byte[] b = {'a', 'b', 'c'};
-        byte[] expected = {'A', 'B', 'C'};
+        byte[] b = {0x23, 0x61, 0x23, 0x62, 0x23, 0x79, 0x23, 0x7a};
+        byte[] expected = {0x23, 0x41, 0x23, 0x42, 0x23, 0x59, 0x23, 0x5a};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setLowerStyle(IndexStyle.CONVERT);// ASIS|CONVERT
@@ -134,8 +134,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testLongVowelStyle_convert() throws Exception {
-        byte[] b = {'a', 'b', 'c'};
-        byte[] expected = {'a', 'b', 'c'};
+        byte[] b = {0x23, 0x30, 0x21, 0x26, 0x21, 0x2a, 0x25, 0x22, 0x21, 0x3c, 0x21, 0x3e, 0x25, 0x22, 0x00, 0x00};
+        byte[] expected = {0x23, 0x30, 0x21, 0x26, 0x21, 0x2a, 0x25, 0x22, 0x25, 0x22, 0x21, 0x3e, 0x25, 0x22, 0x00, 0x00};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setLongVowelStyle(IndexStyle.CONVERT);// ASIS|CONVERT|DELETE
@@ -145,8 +145,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testLongVowelStyle_delete() throws Exception {
-        byte[] b = {'a', 'b', 'c'};
-        byte[] expected = {'a', 'b', 'c'};
+        byte[] b = {0x23, 0x30, 0x21, 0x26, 0x21, 0x2a, 0x25, 0x22, 0x21, 0x3c, 0x21, 0x3e, 0x25, 0x22, 0, 0};
+        byte[] expected = {0x23, 0x30, 0x21, 0x26, 0x21, 0x2a, 0x25, 0x22, 0x21, 0x3e, 0x25, 0x22, 0, 0, 0, 0};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setLongVowelStyle(IndexStyle.DELETE);// ASIS|CONVERT|DELETE
@@ -156,8 +156,8 @@ public class IndexStyleTest {
 
     @Test(groups = {"style"})
     public void testDoubleConsonantStyle_convert() throws Exception {
-        byte[] b = {'a', 'b', 'c'};
-        byte[] expected = {'a', 'b', 'c'};
+        byte[] b = {0x23, 0x61, 0x23, 0x62, 0x24, 0x43, 0x25, 0x43, 0x23, 0x79, 0x23, 0x7a};
+        byte[] expected = {0x23, 0x61, 0x23, 0x62, 0x24, 0x44, 0x25, 0x44, 0x23, 0x79, 0x23, 0x7a};
         IndexStyle style = new IndexStyle();
         resetToAsis(style);
         style.setDoubleConsonantStyle(IndexStyle.CONVERT);// ASIS|CONVERT
