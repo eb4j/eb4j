@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.github.eb4j.io.EBFile;
+import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
@@ -68,7 +69,7 @@ public class SubAppendix {
      */
     private void _setupEB(final String path) throws EBException {
         File dir = EBFile.searchDirectory(_appendix.getPath(), path);
-        _file = new EBFile(dir, "appendix", EBFile.FORMAT_PLAIN);
+        _file = new EBFile(dir, "appendix", EBFormat.FORMAT_PLAIN);
     }
 
     /**
@@ -80,7 +81,7 @@ public class SubAppendix {
     private void _setupEPWING(final String path) throws EBException {
         File dir = EBFile.searchDirectory(_appendix.getPath(), path);
         File dataDir = EBFile.searchDirectory(dir, "data");
-        _file = new EBFile(dataDir, "furoku", EBFile.FORMAT_PLAIN);
+        _file = new EBFile(dataDir, "furoku", EBFormat.FORMAT_PLAIN);
     }
 
     /**

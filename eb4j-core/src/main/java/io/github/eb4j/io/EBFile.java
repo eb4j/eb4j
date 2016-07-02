@@ -13,22 +13,10 @@ import io.github.eb4j.EBException;
  */
 public class EBFile {
 
-    /** PLAIN形式 */
-    public static final int FORMAT_PLAIN = 0;
-    /** EBZIP形式 */
-    public static final int FORMAT_EBZIP = 1;
-    /** EPWING V4/V5形式 */
-    public static final int FORMAT_EPWING = 2;
-    /** EPWING V6形式 */
-    public static final int FORMAT_EPWING6 = 3;
-    /** S-EBXA形式 */
-    public static final int FORMAT_SEBXA = 4;
-
     /** ファイル情報 */
     private FileInfo _info = null;
     /** オリジナルファイル名 */
     private String _name = null;
-
 
     /**
      * コンストラクタ。
@@ -37,13 +25,13 @@ public class EBFile {
      * @param name ファイル名
      * @param defaultFormat デフォルトのフォーマット形式
      * @exception EBException ファイルが存在しない場合
-     * @see EBFile#FORMAT_PLAIN
-     * @see EBFile#FORMAT_EBZIP
-     * @see EBFile#FORMAT_EPWING
-     * @see EBFile#FORMAT_EPWING6
+     * @see EBFormat#FORMAT_PLAIN
+     * @see EBFormat#FORMAT_EBZIP
+     * @see EBFormat#FORMAT_EPWING
+     * @see EBFormat#FORMAT_EPWING6
      */
     public EBFile(final File dir, final String name,
-                  final int defaultFormat) throws EBException {
+                  final EBFormat defaultFormat) throws EBException {
         super();
         _info = new FileInfo();
 
@@ -52,7 +40,7 @@ public class EBFile {
         String[] list = dir.list();
         if (!ArrayUtils.isEmpty(list)) {
             int len = list.length;
-            for (int i=0; i<len; i++) {
+            for (int i = 0; i < len; i++) {
                 File f = new File(dir, list[i]);
                 if (f.isDirectory()) {
                     continue;
@@ -64,12 +52,12 @@ public class EBFile {
                     break;
                 } else if (list[i].equalsIgnoreCase(orgName)) {
                     _info.setFile(f);
-                    _info.setFormat(FORMAT_PLAIN);
+                    _info.setFormat(EBFormat.FORMAT_PLAIN);
                     _name = list[i].substring(0, list[i].length() - 4);
                     break;
                 } else if (list[i].equalsIgnoreCase(ebzName)) {
                     _info.setFile(f);
-                    _info.setFormat(FORMAT_EBZIP);
+                    _info.setFormat(EBFormat.FORMAT_EBZIP);
                     _name = list[i].substring(0, list[i].length() - 4);
                     break;
                 }
@@ -168,12 +156,12 @@ public class EBFile {
      * このファイルのフォーマット形式を返します。
      *
      * @return フォーマット形式
-     * @see EBFile#FORMAT_PLAIN
-     * @see EBFile#FORMAT_EBZIP
-     * @see EBFile#FORMAT_EPWING
-     * @see EBFile#FORMAT_EPWING6
+     * @see EBFormat#FORMAT_PLAIN
+     * @see EBFormat#FORMAT_EBZIP
+     * @see EBFormat#FORMAT_EPWING
+     * @see EBFormat#FORMAT_EPWING6
      */
-    public int getFormat() {
+    public EBFormat getFormat() {
         return _info.getFormat();
     }
 
@@ -191,7 +179,7 @@ public class EBFile {
         _info.setSebxaStartPosition(start);
         _info.setSebxaEndPosition(end);
         _info.setFileSize(end);
-        _info.setFormat(FORMAT_SEBXA);
+        _info.setFormat(EBFormat.FORMAT_SEBXA);
     }
 
     /**

@@ -1,59 +1,54 @@
 package io.github.eb4j;
 
-public class SubBookBuilder {
+/**
+ * SubBook class builder.
+ */
+class SubBookBuilder {
     private Book book;
     private String title;
     private String path;
     private int index;
-    private String[] fname;
-    private int[] format;
-    private String[] narrow;
-    private String[] wide;
+    private DataFiles files;
+    private String[] narrow = new String[4];
+    private String[] wide = new String[4];
 
-    public SubBookBuilder setBook(Book book) {
+    SubBookBuilder(final Book book) {
         this.book = book;
+    }
+
+    SubBookBuilder setTitle(final String val) {
+        this.title = val;
         return this;
     }
 
-    public SubBookBuilder setTitle(String title) {
-        this.title = title;
+    SubBookBuilder setPath(final String val) {
+        this.path = val;
         return this;
     }
 
-    public SubBookBuilder setPath(String path) {
-        this.path = path;
+    SubBookBuilder setIndex(final int val) {
+        this.index = val;
         return this;
     }
 
-    public SubBookBuilder setIndex(int index) {
-        this.index = index;
+    SubBookBuilder setDataFiles(final DataFiles dataFiles) {
+        this.files = dataFiles;
         return this;
     }
 
-    public SubBookBuilder setFname(String[] fname) {
-        this.fname = fname;
+    SubBookBuilder setNarrow(final int i, final String val) {
+        this.narrow[i] = val;
         return this;
     }
 
-    public SubBookBuilder setFormat(int[] format) {
-        this.format = format;
+    SubBookBuilder setWide(final int i, final String val) {
+        this.wide[i] = val;
         return this;
     }
 
-    public SubBookBuilder setNarrow(String[] narrow) {
-        this.narrow = narrow;
-        return this;
-    }
-
-    public SubBookBuilder setWide(String[] wide) {
-        this.wide = wide;
-        return this;
-    }
-
-    public SubBook createSubBook() throws EBException {
+    SubBook createSubBook() throws EBException {
         SubBook subbook = new SubBook(book, title, index);
-        subbook.load(path, fname, format, narrow, wide);
-        subbook.selectExtFonts();
+        subbook.loadSubBookFile(path, files, narrow, wide);
         return subbook;
     }
 }

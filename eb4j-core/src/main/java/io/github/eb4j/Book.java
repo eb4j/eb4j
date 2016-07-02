@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 
 import io.github.eb4j.io.EBFile;
+import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
@@ -242,12 +243,12 @@ public class Book {
         // カタログファイルの検索
         EBFile file = null;
         try {
-            file = new EBFile(dir, "catalog", EBFile.FORMAT_PLAIN);
+            file = new EBFile(dir, "catalog", EBFormat.FORMAT_PLAIN);
             _bookType = DISC_EB;
         } catch (EBException e) {
             switch (e.getErrorCode()) {
                 case EBException.FILE_NOT_FOUND:
-                    file = new EBFile(dir, "catalogs", EBFile.FORMAT_PLAIN);
+                    file = new EBFile(dir, "catalogs", EBFormat.FORMAT_PLAIN);
                     _bookType = DISC_EPWING;
                     break;
                 default:
@@ -314,14 +315,10 @@ public class Book {
                 String name = new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
 
                 // 副本オブジェクトの作成
-                String[] fname = new String[3];
-                int[] format = new int[3];
-                fname[0] = "start";
-                format[0] = EBFile.FORMAT_PLAIN;
-                _sub[i] = new SubBookBuilder().setBook(this)
+                DataFiles files = new DataFiles("start", EBFormat.FORMAT_PLAIN);
+                _sub[i] = new SubBookBuilder(this)
                         .setTitle(title).setPath(name)
-                        .setIndex(1).setFname(fname)
-                        .setFormat(format).setNarrow(null).setWide(null)
+                        .setIndex(1).setDataFiles(files)
                         .createSubBook();
             }
         } finally {
@@ -357,6 +354,8 @@ public class Book {
                 bis.seek(16 + i * b.length);
                 bis.readFully(b, 0, b.length);
 
+                SubBookBuilder builder = new SubBookBuilder(this);
+
                 // タイトルの取得
                 int off = 2;
                 String title = null;
@@ -377,38 +376,35 @@ public class Book {
                     title = ByteUtil.jisx0208ToString(b, off,
                                                       SIZE_TITLE[DISC_EPWING]);
                 }
+                builder.setTitle(title);
                 off += SIZE_TITLE[DISC_EPWING];
 
                 // ディレクトリ名の取得
-                String name = new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
+                builder.setPath(new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim());
                 off += SIZE_DIRNAME;
 
                 // インデックス番号の取得
-                int index = ByteUtil.getInt2(b, off+4);
+                builder.setIndex(ByteUtil.getInt2(b, off+4));
                 off += 6;
 
                 // 外字ファイル名の取得
-                String[] narrow = new String[4];
-                String[] wide = new String[4];
                 off += 4;
-                for (int j=0; j<4; j++) {
+                for (int j = 0; j < 4; j++) {
                     // 全角外字
                     if (b[off] != '\0' && (b[off]&0xff) < 0x80) {
-                        wide[j] = new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
+                        builder.setWide(j, new String(b, off, SIZE_DIRNAME,
+                                Charset.forName("ASCII")).trim());
                     }
                     // 半角外字
                     if (b[off+32] != '\0' && (b[off+32]&0xff) < 0x80) {
-                        narrow[j] = new String(b, off+32, SIZE_DIRNAME, Charset.forName("ASCII"))
-                                .trim();
+                        builder.setNarrow(j, new String(b, off+32, SIZE_DIRNAME,
+                                Charset.forName("ASCII")).trim());
                     }
                     off += SIZE_DIRNAME;
                 }
 
                 // 副本のファイル名の取得
-                String[] fname = new String[3];
-                int[] format = new int[3];
-                fname[0] = "honmon";
-                format[0] = EBFile.FORMAT_PLAIN;
+                DataFiles files = new DataFiles("honmon", EBFormat.FORMAT_PLAIN);
 
                 if (_version != 1) {
                     // 拡張情報の取得
@@ -416,59 +412,55 @@ public class Book {
                     bis.readFully(b, 0, b.length);
                     if ((b[4] & 0xff) != 0) {
                         // 本文テキストファイル名
-                        fname[0] = new String(b, 4, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
-                        format[0] = b[55] & 0xff;
-
+                        files.setHonmon(new String(b, 4, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                .trim(), getFormat(b[55] & 0xff));
                         int dataType = ByteUtil.getInt2(b, 41);
                         // 画像ファイル名
                         if ((dataType & 0x03) == 0x02) {
-                            fname[1] = new String(b, 44, SIZE_DIRNAME, Charset.forName("ASCII"))
-                                    .trim();
-                            format[1] = b[54] & 0xff;
+                            files.setGraphic(new String(b, 44, SIZE_DIRNAME,
+                                    Charset.forName("ASCII")).trim(), getFormat(b[54] & 0xff));
                         } else if (((dataType>>>8) & 0x03) == 0x02) {
-                            fname[1] = new String(b, 56, SIZE_DIRNAME, Charset.forName("ASCII"))
-                                    .trim();
-                            format[1] = b[53] & 0xff;
+                            files.setGraphic(new String(b, 56, SIZE_DIRNAME,
+                                    Charset.forName("ASCII")).trim(), getFormat(b[53] & 0xff));
                         }
 
                         // 音声ファイル名
                         if ((dataType & 0x03) == 0x01) {
-                            fname[2] = new String(b, 44, SIZE_DIRNAME, Charset.forName("ASCII"))
-                                    .trim();
-                            format[2] = b[54] & 0xff;
+                            files.setSound(new String(b, 44, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                    .trim(), getFormat(b[54] & 0xff));
                         } else if (((dataType>>>8) & 0x03) == 0x01) {
-                            fname[2] = new String(b, 56, SIZE_DIRNAME, Charset.forName("ASCII"))
-                                    .trim();
-                            format[2] = b[53] & 0xff;
+                            files.setSound(new String(b, 56, SIZE_DIRNAME, Charset.forName("ASCII"))
+                                    .trim(), getFormat(b[53] & 0xff));
                         }
 
-                        for (int j=0; j<3; j++) {
-                            switch (format[j]) {
-                                case 0x00:
-                                    format[j] = EBFile.FORMAT_PLAIN;
-                                    break;
-                                case 0x11:
-                                    format[j] = EBFile.FORMAT_EPWING;
-                                    break;
-                                case 0x12:
-                                    format[j] = EBFile.FORMAT_EPWING6;
-                                    break;
-                                default:
-                                    throw new EBException(EBException.UNEXP_FILE, file.getPath());
-                            }
-                        }
+                        throw new EBException(EBException.UNEXP_FILE, file.getPath());
                     }
                 }
-
                 // 副本オブジェクトの作成
-                _sub[i] = new SubBookBuilder().setBook(this)
-                        .setTitle(title).setPath(name).setIndex(index).setFname(fname)
-                        .setFormat(format).setNarrow(narrow).setWide(wide)
-                        .createSubBook();
+                _sub[i] = builder.setDataFiles(files)
+                          .createSubBook();
             }
         } finally {
             bis.close();
         }
+    }
+
+    private EBFormat getFormat(final int val) {
+        EBFormat res;
+        switch (val) {
+            case 0x00:
+                res = EBFormat.FORMAT_PLAIN;
+                break;
+            case 0x11:
+                res = EBFormat.FORMAT_EPWING;
+                break;
+            case 0x12:
+                res = EBFormat.FORMAT_EPWING6;
+                break;
+            default:
+                res = EBFormat.FORMAT_UNKNOWN;
+        }
+        return res;
     }
 
     /**
@@ -482,7 +474,7 @@ public class Book {
 
         EBFile file = null;
         try {
-            file = new EBFile(dir, "language", EBFile.FORMAT_PLAIN);
+            file = new EBFile(dir, "language", EBFormat.FORMAT_PLAIN);
         } catch (EBException e) {
         }
         if (file == null) {

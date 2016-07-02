@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 
 import io.github.eb4j.io.EBFile;
+import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.io.BookReader;
 import io.github.eb4j.hook.Hook;
@@ -53,7 +54,7 @@ public class SubBook {
     private long _titlePage = 0L;
 
     /** タイトル */
-    private String _title = null;
+    private String _title;
     /** 外字 */
     private ExtFont[] _fonts = new ExtFont[4];
     /** 選択中の外字 */
@@ -67,7 +68,7 @@ public class SubBook {
     /** 前方一致検索用インデックススタイル */
     private IndexStyle[] _wordStyle = new IndexStyle[3];
     /** 後方一致検索用インデックススタイル */
-    private IndexStyle[] _endwordStyle = new IndexStyle[3];
+    private IndexStyle[] endwordStyle = new IndexStyle[3];
     /** 条件検索用インデックススタイル */
     private IndexStyle _keywordStyle = null;
     /** クロス検索用インデックススタイル */
@@ -100,9 +101,25 @@ public class SubBook {
     /**
      * SubBook construction.
      *
+     * @param path 副本のディレクトリ名
+     * @param fname データファイル名
+     * @param narrow 半角外字ファイル名
+     * @param wide 全角外字ファイル名
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected void selectExtFonts() throws EBException {
+    protected void loadSubBookFile(final String path,
+                                   final DataFiles fname,
+                                   final String[] narrow, final String[] wide) throws EBException {
+        if (_book.getBookType() == Book.DISC_EB) {
+            _setupEB(path, fname);
+        } else {
+            _setupEPWING(path, fname, narrow, wide);
+        }
+
+        if (_text != null) {
+            _load();
+        }
+
         // 半角/全角両方存在するものを選択
         int len = _fonts.length;
         for (int i=0; i<len; i++) {
@@ -121,47 +138,22 @@ public class SubBook {
                 }
             }
         }
-    }
-
-    /**
-     * SubBook construction.
-     *
-     * @param path 副本のディレクトリ名
-     * @param fname データファイル名
-     * @param format フォーマット形式
-     * @param narrow 半角外字ファイル名
-     * @param wide 全角外字ファイル名
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
-     */
-    protected void load(final String path,
-                      final String[] fname, final int[] format,
-                      final String[] narrow, final String[] wide) throws EBException {
-        if (_book.getBookType() == Book.DISC_EB) {
-            _setupEB(path, fname, format);
-        } else {
-            _setupEPWING(path, fname, format, narrow, wide);
-        }
-
-        if (_text != null) {
-            _load();
-        }
-    }
+     }
 
     /**
      * この副本の書籍内でのパスを設定します。
      *
      * @param path パス名
-     * @param fname データファイル名
-     * @param format フォーマット形式
+     * @param fname データファイル
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEB(final String path, final String[] fname, final int[] format)
+    private void _setupEB(final String path, final DataFiles fname)
             throws EBException {
         // ルートディレクトリ
         File dir = EBFile.searchDirectory(_book.getPath(), path);
         _name = dir.getName();
         // 本文データファイル
-        _text = new EBFile(dir, fname[0], format[0]);
+        _text = new EBFile(dir, fname.getHonmon(), fname.getHonmonFormat());
         // 画像データファイル
         _graphic = _text;
     }
@@ -170,13 +162,12 @@ public class SubBook {
      * この副本の書籍内でのパスを設定します。
      *
      * @param path パス名
-     * @param fname データファイル名
-     * @param format フォーマット形式
+     * @param fname データファイル
      * @param narrow 半角外字ファイル名
      * @param wide 全角外字ファイル名
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEPWING(final String path, final String[] fname, final int[] format,
+    private void _setupEPWING(final String path, final DataFiles fname,
                               final String[] narrow, final String[] wide) throws EBException {
         // ルートディレクトリ
         File dir = EBFile.searchDirectory(_book.getPath(), path);
@@ -197,21 +188,21 @@ public class SubBook {
         }
         if (dataDir != null) {
             // 本文データファイル
-            _text = new EBFile(dataDir, fname[0], format[0]);
+            _text = new EBFile(dataDir, fname.getHonmon(), fname.getHonmonFormat());
         }
         // 画像データファイル
-        if (fname[1] != null) {
+        if (fname.hasGraphic()) {
             try {
-                _graphic = new EBFile(dataDir, fname[1], format[1]);
+                _graphic = new EBFile(dataDir, fname.getGraphic(), fname.getGraphicFormat());
             } catch (EBException ignored) {
             }
         } else {
             _graphic = _text;
         }
         // 音声データファイル
-        if (fname[2] != null) {
+        if (fname.hasSound()) {
             try {
-                _sound = new EBFile(dataDir, fname[2], format[2]);
+                _sound = new EBFile(dataDir, fname.getSound(), fname.getSoundFormat());
             } catch (EBException ignored) {
             }
         } else {
@@ -231,11 +222,11 @@ public class SubBook {
             _fonts[i] = new ExtFont(this, i);
             if (gaijiDir != null) {
                 if (narrow[i] != null) {
-                    file = new EBFile(gaijiDir, narrow[i], EBFile.FORMAT_PLAIN);
+                    file = new EBFile(gaijiDir, narrow[i], EBFormat.FORMAT_PLAIN);
                     _fonts[i].setNarrowFont(file, 1);
                 }
                 if (wide[i] != null) {
-                    file = new EBFile(gaijiDir, wide[i], EBFile.FORMAT_PLAIN);
+                    file = new EBFile(gaijiDir, wide[i], EBFormat.FORMAT_PLAIN);
                     _fonts[i].setWideFont(file, 1);
                 }
             }
@@ -263,188 +254,51 @@ public class SubBook {
         } finally {
             bis.close();
         }
+        setStyles(b);
+    }
 
-        // インデックス数
-        int indexCount = b[1] & 0xff;
-        if (indexCount >= BookInputStream.PAGE_SIZE/16-1) {
-            throw new EBException(EBException.UNEXP_FILE, _text.getPath());
-        }
-        int avail1 = b[4] & 0xff;
-        if (avail1 > 0x02) {
-            avail1 = 0;
-        }
-
-        // EB用
-        int len = _fonts.length;
+    private long[][] initialFontPage(final int len) {
         long[][] fontPage = new long[len][2];
         for (int i=0; i<len; i++) {
             fontPage[i][0] = -1;
             fontPage[i][1] = -1;
         }
-        // S-EBXA用
+        return fontPage;
+    }
+
+    private void setStyles(final byte[] b) throws EBException {
+        // インデックス数
+        int indexCount = b[1] & 0xff;
+        if (indexCount >= BookInputStream.PAGE_SIZE/16-1) {
+            throw new EBException(EBException.UNEXP_FILE, _text.getPath());
+        }
+       // EB用
+        int len = _fonts.length;
+        long[][] fontPage = initialFontPage(len);
         IndexStyle[] sebxa = new IndexStyle[2];
+        ArrayList<IndexStyle> multi = new ArrayList<>(indexCount);
 
         // インデックススタイルの取得
-        ArrayList<IndexStyle> multi = new ArrayList<>(indexCount);
         for (int i = 0, off = 16; i < indexCount; i++, off += 16) {
-            IndexStyle style = new IndexStyle();
-            int id = b[off] & 0xff;
-            style.setIndexID(id);
-            style.setStartPage(ByteUtil.getLong4(b, off+2));
-            style.setEndPage(style.getStartPage()
-                             + ByteUtil.getLong4(b, off+6) - 1);
-            if (_book.getCharCode() == Book.CHARCODE_ISO8859_1
-                || id == 0x72 || id == 0x92) {
-                style.setSpaceStyle(IndexStyle.ASIS);
-            }
-
-            int avail2 = b[off+10] & 0xff;
-            if ((avail1 == 0x00 && avail2 == 0x02) || avail1 == 0x02) {
-                int flag = ByteUtil.getInt3(b, off+11);
-                style.setKatakanaStyle((flag & 0xc00000) >>> 22);
-                style.setLowerStyle((flag & 0x300000) >>> 20);
-                if ((flag & 0x0c0000) >>> 18 == 0) {
-                    style.setMarkStyle(IndexStyle.DELETE);
-                } else {
-                    style.setMarkStyle(IndexStyle.ASIS);
-                }
-                style.setLongVowelStyle((flag & 0x030000) >>> 16);
-                style.setDoubleConsonantStyle((flag & 0x00c000) >>> 14);
-                style.setContractedSoundStyle((flag & 0x003000) >>> 12);
-                style.setSmallVowelStyle((flag & 0x000c00) >>> 10);
-                style.setVoicedConsonantStyle((flag & 0x000300) >>> 8);
-                style.setPSoundStyle((flag & 0x0000c0) >>> 6);
-            } else if (id == 0x70 || id == 0x90) {
-                style.setKatakanaStyle(IndexStyle.CONVERT);
-                style.setLowerStyle(IndexStyle.CONVERT);
-                style.setMarkStyle(IndexStyle.DELETE);
-                style.setLongVowelStyle(IndexStyle.CONVERT);
-                style.setDoubleConsonantStyle(IndexStyle.CONVERT);
-                style.setContractedSoundStyle(IndexStyle.CONVERT);
-                style.setSmallVowelStyle(IndexStyle.CONVERT);
-                style.setVoicedConsonantStyle(IndexStyle.CONVERT);
-                style.setPSoundStyle(IndexStyle.CONVERT);
-            } else {
-                style.setKatakanaStyle(IndexStyle.ASIS);
-                style.setLowerStyle(IndexStyle.CONVERT);
-                style.setMarkStyle(IndexStyle.ASIS);
-                style.setLongVowelStyle(IndexStyle.ASIS);
-                style.setDoubleConsonantStyle(IndexStyle.ASIS);
-                style.setContractedSoundStyle(IndexStyle.ASIS);
-                style.setSmallVowelStyle(IndexStyle.ASIS);
-                style.setVoicedConsonantStyle(IndexStyle.ASIS);
-                style.setPSoundStyle(IndexStyle.ASIS);
-            }
-
-            int idx;
-            switch (style.getIndexID()) {
-                case 0x00:
-                    _textStyle = style;
-                    break;
-                case 0x01:
-                    _menuStyle = style;
-                    break;
-                case 0x02:
-                    _copyrightStyle = style;
-                    break;
-                case 0x10:
-                    _imageMenuStyle = style;
-                    break;
-                case 0x16:
-                    if (_book.getBookType() == Book.DISC_EPWING) {
-                        _titlePage = style.getStartPage();
-                    }
-                    break;
-                case 0x21:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        sebxa[1] = style;
-                    }
-                    break;
-                case 0x22:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        sebxa[0] = style;
-                    }
-                    break;
-                case 0x70:
-                case 0x71:
-                case 0x72:
-                    idx = style.getIndexID() % 0x70;
-                    _endwordStyle[idx] = style;
-                    break;
-                case 0x80:
-                    _keywordStyle = style;
-                    break;
-                case 0x81:
-                    _crossStyle = style;
-                    break;
-                case 0x90:
-                case 0x91:
-                case 0x92:
-                    idx = style.getIndexID() % 0x90;
-                    _wordStyle[idx] = style;
-                    break;
-                case 0xd8:
-                    _soundStyle = style;
-                    break;
-                case 0xf1:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[0][0] = style.getStartPage();
-                    }
-                    break;
-                case 0xf2:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[0][1] = style.getStartPage();
-                    }
-                    break;
-                case 0xf3:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[1][0] = style.getStartPage();
-                    }
-                    break;
-                case 0xf4:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[1][1] = style.getStartPage();
-                    }
-                    break;
-                case 0xf5:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[2][0] = style.getStartPage();
-                    }
-                    break;
-                case 0xf6:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[2][1] = style.getStartPage();
-                    }
-                    break;
-                case 0xf7:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[3][0] = style.getStartPage();
-                    }
-                    break;
-                case 0xf8:
-                    if (_book.getBookType() == Book.DISC_EB) {
-                        fontPage[3][1] = style.getStartPage();
-                    }
-                    break;
-                case 0xff:
+            IndexStyle style = getStyleDefaults(b, off);
+            setTextStyle(style, sebxa);
+            setFontPage(style, fontPage);
+            if (style.getIndexID() == 0xff) {
                     multi.add(style);
-                    break;
-                default:
-                    break;
             }
         }
+
         if (!multi.isEmpty()) {
             _multiStyle = multi.toArray(new IndexStyle[multi.size()]);
             _loadMulti();
             _loadMultiTitle();
         }
-
         if (_book.getBookType() == Book.DISC_EB) {
-            if (_text.getFormat() == EBFile.FORMAT_PLAIN
-                && sebxa[0] != null && sebxa[1] != null
-                && _textStyle.getStartPage() != 0
-                && sebxa[0].getStartPage() != 0
-                && sebxa[1].getStartPage() != 0) {
+            if (_text.getFormat() == EBFormat.FORMAT_PLAIN
+                    && sebxa[0] != null && sebxa[1] != null
+                    && _textStyle.getStartPage() != 0
+                    && sebxa[0].getStartPage() != 0
+                    && sebxa[1].getStartPage() != 0) {
                 long index = (sebxa[0].getStartPage() - 1) * BookInputStream.PAGE_SIZE;
                 long base = (sebxa[1].getStartPage() - 1) * BookInputStream.PAGE_SIZE;
                 long start = (_textStyle.getStartPage() - 1) * BookInputStream.PAGE_SIZE;
@@ -453,7 +307,7 @@ public class SubBook {
                 _text.setSEBXAInfo(index, base, start, end);
             }
             // 外字ファイルの設定
-            for (int i=0; i<len; i++) {
+            for (int i = 0; i < len; i++) {
                 _fonts[i] = new ExtFont(this, i);
                 long page = fontPage[i][0];
                 if (page >= 0) {
@@ -464,6 +318,161 @@ public class SubBook {
                     _fonts[i].setNarrowFont(_text, page);
                 }
             }
+        }
+    }
+
+    private IndexStyle getStyleDefaults(final byte[] b, final int off) {
+        IndexStyle style = new IndexStyle();
+        int id = b[off] & 0xff;
+        style.setIndexID(id);
+        style.setStartPage(ByteUtil.getLong4(b, off + 2));
+        style.setEndPage(style.getStartPage()
+                + ByteUtil.getLong4(b, off + 6) - 1);
+        if (_book.getCharCode() == Book.CHARCODE_ISO8859_1
+                || id == 0x72 || id == 0x92) {
+            style.setSpaceStyle(IndexStyle.ASIS);
+        }
+        int avail1 = b[4] & 0xff;
+        if (avail1 > 0x02) {
+            avail1 = 0;
+        }
+        int avail2 = b[off + 10] & 0xff;
+        if ((avail1 == 0x00 && avail2 == 0x02) || avail1 == 0x02) {
+            int flag = ByteUtil.getInt3(b, off + 11);
+            style.setKatakanaStyle((flag & 0xc00000) >>> 22);
+            style.setLowerStyle((flag & 0x300000) >>> 20);
+            if ((flag & 0x0c0000) >>> 18 == 0) {
+                style.setMarkStyle(IndexStyle.DELETE);
+            } else {
+                style.setMarkStyle(IndexStyle.ASIS);
+            }
+            style.setLongVowelStyle((flag & 0x030000) >>> 16);
+            style.setDoubleConsonantStyle((flag & 0x00c000) >>> 14);
+            style.setContractedSoundStyle((flag & 0x003000) >>> 12);
+            style.setSmallVowelStyle((flag & 0x000c00) >>> 10);
+            style.setVoicedConsonantStyle((flag & 0x000300) >>> 8);
+            style.setPSoundStyle((flag & 0x0000c0) >>> 6);
+        } else if (id == 0x70 || id == 0x90) {
+            style.setKatakanaStyle(IndexStyle.CONVERT);
+            style.setLowerStyle(IndexStyle.CONVERT);
+            style.setMarkStyle(IndexStyle.DELETE);
+            style.setLongVowelStyle(IndexStyle.CONVERT);
+            style.setDoubleConsonantStyle(IndexStyle.CONVERT);
+            style.setContractedSoundStyle(IndexStyle.CONVERT);
+            style.setSmallVowelStyle(IndexStyle.CONVERT);
+            style.setVoicedConsonantStyle(IndexStyle.CONVERT);
+            style.setPSoundStyle(IndexStyle.CONVERT);
+        } else {
+            style.setKatakanaStyle(IndexStyle.ASIS);
+            style.setLowerStyle(IndexStyle.CONVERT);
+            style.setMarkStyle(IndexStyle.ASIS);
+            style.setLongVowelStyle(IndexStyle.ASIS);
+            style.setDoubleConsonantStyle(IndexStyle.ASIS);
+            style.setContractedSoundStyle(IndexStyle.ASIS);
+            style.setSmallVowelStyle(IndexStyle.ASIS);
+            style.setVoicedConsonantStyle(IndexStyle.ASIS);
+            style.setPSoundStyle(IndexStyle.ASIS);
+        }
+    return style;
+    }
+
+    private void setTextStyle(final IndexStyle style, final IndexStyle[] sebxa){
+        switch (style.getIndexID()) {
+            case 0x00:
+                 _textStyle = style;
+                 break;
+            case 0x01:
+                 _menuStyle = style;
+                 break;
+            case 0x02:
+                 _copyrightStyle = style;
+                 break;
+            case 0x10:
+                 _imageMenuStyle = style;
+                 break;
+            case 0x16:
+                 if (_book.getBookType() == Book.DISC_EPWING) {
+                     _titlePage = style.getStartPage();
+                 }
+                 break;
+            case 0x21:
+                 if (_book.getBookType() == Book.DISC_EB) {
+                     sebxa[1] = style;
+                 }
+                 break;
+            case 0x22:
+                 if (_book.getBookType() == Book.DISC_EB) {
+                     sebxa[0] = style;
+                 }
+                 break;
+            case 0x70:
+            case 0x71:
+            case 0x72:
+                 endwordStyle[style.getIndexID() % 0x70] = style;
+                 break;
+            case 0x80:
+                 _keywordStyle = style;
+                 break;
+            case 0x81:
+                 _crossStyle = style;
+                 break;
+            case 0x90:
+            case 0x91:
+            case 0x92:
+                 _wordStyle[style.getIndexID() % 0x90] = style;
+                 break;
+            case 0xd8:
+                 _soundStyle = style;
+                 break;
+            default:
+                break;
+        }
+    }
+
+    private void setFontPage(final IndexStyle style, final long[][] fontPage) {
+        switch (style.getIndexID()) {
+            case 0xf1:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[0][0] = style.getStartPage();
+                }
+                break;
+            case 0xf2:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[0][1] = style.getStartPage();
+                }
+                break;
+            case 0xf3:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[1][0] = style.getStartPage();
+                }
+                break;
+            case 0xf4:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[1][1] = style.getStartPage();
+                }
+                break;
+            case 0xf5:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[2][0] = style.getStartPage();
+                }
+                break;
+            case 0xf6:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[2][1] = style.getStartPage();
+                }
+                break;
+            case 0xf7:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[3][0] = style.getStartPage();
+                }
+                break;
+            case 0xf8:
+                if (_book.getBookType() == Book.DISC_EB) {
+                    fontPage[3][1] = style.getStartPage();
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -778,7 +787,7 @@ public class SubBook {
         }
         File file = null;
         try {
-            EBFile ebfile = new EBFile(_movieDir, name, EBFile.FORMAT_PLAIN);
+            EBFile ebfile = new EBFile(_movieDir, name, EBFormat.FORMAT_PLAIN);
             file = ebfile.getFile();
         } catch (EBException e) {
         }
@@ -986,8 +995,8 @@ public class SubBook {
      * @see #ALPHABET
      */
     protected IndexStyle getEndwordIndexStyle(final int type) {
-        if (type >= 0 && type < _endwordStyle.length) {
-            return _endwordStyle[type];
+        if (type >= 0 && type < endwordStyle.length) {
+            return endwordStyle[type];
         }
         return null;
     }
@@ -1075,15 +1084,15 @@ public class SubBook {
         int type = ALPHABET;
         if (_book.getCharCode() != Book.CHARCODE_ISO8859_1) {
             type = _getWordType(b);
-            if (_endwordStyle[type] == null) {
+            if (endwordStyle[type] == null) {
                 type = KANJI;
             }
         }
-        if (_endwordStyle[type] == null) {
+        if (endwordStyle[type] == null) {
             return new NullSearcher();
         }
         SingleWordSearcher searcher =
-            new SingleWordSearcher(this, _endwordStyle[type], SingleWordSearcher.ENDWORD);
+            new SingleWordSearcher(this, endwordStyle[type], SingleWordSearcher.ENDWORD);
         searcher.search(b);
         return searcher;
     }
@@ -1218,8 +1227,8 @@ public class SubBook {
     public boolean hasWordSearch() {
         boolean res = false;
         if (_wordStyle != null) {
-            for (IndexStyle a_wordStyle : _wordStyle) {
-                if (a_wordStyle != null && a_wordStyle.getStartPage() > 0) {
+            for (IndexStyle wordStyle : _wordStyle) {
+                if (wordStyle != null && wordStyle.getStartPage() > 0) {
                     res = true;
                     break;
                 }
@@ -1235,9 +1244,9 @@ public class SubBook {
      */
     public boolean hasEndwordSearch() {
         boolean res = false;
-        if (_endwordStyle != null) {
-            for (IndexStyle a_endwordStyle : _endwordStyle) {
-                if (a_endwordStyle != null && a_endwordStyle.getStartPage() > 0) {
+        if (endwordStyle != null) {
+            for (IndexStyle endWordStyle : endwordStyle) {
+                if (endWordStyle != null && endWordStyle.getStartPage() > 0) {
                     res = true;
                     break;
                 }
