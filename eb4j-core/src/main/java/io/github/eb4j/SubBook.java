@@ -247,38 +247,28 @@ public class SubBook {
     private void _load() throws EBException {
         byte[] b = new byte[BookInputStream.PAGE_SIZE];
         // インデックステーブルの読み込み
-        BookInputStream bis = _text.getInputStream();
-        try {
+        try (BookInputStream bis = _text.getInputStream()) {
             bis.seek(_indexPage, 0);
             bis.readFully(b, 0, b.length);
-        } finally {
-            bis.close();
         }
-        setStyles(b);
-    }
 
-    private long[][] initialFontPage(final int len) {
-        long[][] fontPage = new long[len][2];
-        for (int i=0; i<len; i++) {
-            fontPage[i][0] = -1;
-            fontPage[i][1] = -1;
-        }
-        return fontPage;
-    }
-
-    private void setStyles(final byte[] b) throws EBException {
         // インデックス数
         int indexCount = b[1] & 0xff;
         if (indexCount >= BookInputStream.PAGE_SIZE/16-1) {
             throw new EBException(EBException.UNEXP_FILE, _text.getPath());
         }
-       // EB用
+
+        // EB用
         int len = _fonts.length;
-        long[][] fontPage = initialFontPage(len);
+        long[][] fontPage = new long[len][2];
+        for (int i=0; i<len; i++) {
+            fontPage[i][0] = -1;
+            fontPage[i][1] = -1;
+        }
         IndexStyle[] sebxa = new IndexStyle[2];
-        ArrayList<IndexStyle> multi = new ArrayList<>(indexCount);
 
         // インデックススタイルの取得
+        ArrayList<IndexStyle> multi = new ArrayList<>(indexCount);
         for (int i = 0, off = 16; i < indexCount; i++, off += 16) {
             IndexStyle style = getStyleDefaults(b, off);
             setTextStyle(style, sebxa);
@@ -373,7 +363,7 @@ public class SubBook {
             style.setVoicedConsonantStyle(IndexStyle.ASIS);
             style.setPSoundStyle(IndexStyle.ASIS);
         }
-    return style;
+        return style;
     }
 
     private void setTextStyle(final IndexStyle style, final IndexStyle[] sebxa){
