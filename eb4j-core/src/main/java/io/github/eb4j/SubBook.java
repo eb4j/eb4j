@@ -92,7 +92,7 @@ public class SubBook {
      * @param index 副本のインデックスページ
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected SubBook(final Book book, final String title, final int index) {
+    SubBook(final Book book, final String title, final int index) {
         _book = book;
         _title = title;
         _indexPage = index;
@@ -102,18 +102,18 @@ public class SubBook {
      * SubBook construction.
      *
      * @param path 副本のディレクトリ名
-     * @param fname データファイル名
+     * @param dataFiles データファイル名
      * @param narrow 半角外字ファイル名
      * @param wide 全角外字ファイル名
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
-    protected void loadSubBookFile(final String path,
-                                   final DataFiles fname,
-                                   final String[] narrow, final String[] wide) throws EBException {
+    SubBook loadSubBookFile(final String path,
+                         final DataFiles dataFiles,
+                         final String[] narrow, final String[] wide) throws EBException {
         if (_book.getBookType() == Book.DISC_EB) {
-            _setupEB(path, fname);
+            _setupEB(path, dataFiles);
         } else {
-            _setupEPWING(path, fname, narrow, wide);
+            _setupEPWING(path, dataFiles, narrow, wide);
         }
 
         if (_text != null) {
@@ -138,22 +138,23 @@ public class SubBook {
                 }
             }
         }
-     }
+        return this;
+    }
 
     /**
      * この副本の書籍内でのパスを設定します。
      *
      * @param path パス名
-     * @param fname データファイル
+     * @param dataFiles データファイル
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEB(final String path, final DataFiles fname)
+    private void _setupEB(final String path, final DataFiles dataFiles)
             throws EBException {
         // ルートディレクトリ
         File dir = EBFile.searchDirectory(_book.getPath(), path);
         _name = dir.getName();
         // 本文データファイル
-        _text = new EBFile(dir, fname.getHonmon(), fname.getHonmonFormat());
+        _text = new EBFile(dir, dataFiles.getHonmon(), dataFiles.getHonmonFormat());
         // 画像データファイル
         _graphic = _text;
     }
@@ -162,12 +163,12 @@ public class SubBook {
      * この副本の書籍内でのパスを設定します。
      *
      * @param path パス名
-     * @param fname データファイル
+     * @param dataFiles データファイル
      * @param narrow 半角外字ファイル名
      * @param wide 全角外字ファイル名
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEPWING(final String path, final DataFiles fname,
+    private void _setupEPWING(final String path, final DataFiles dataFiles,
                               final String[] narrow, final String[] wide) throws EBException {
         // ルートディレクトリ
         File dir = EBFile.searchDirectory(_book.getPath(), path);
@@ -188,21 +189,22 @@ public class SubBook {
         }
         if (dataDir != null) {
             // 本文データファイル
-            _text = new EBFile(dataDir, fname.getHonmon(), fname.getHonmonFormat());
+            _text = new EBFile(dataDir, dataFiles.getHonmon(), dataFiles.getHonmonFormat());
         }
         // 画像データファイル
-        if (fname.hasGraphic()) {
+        if (dataFiles.hasGraphic()) {
             try {
-                _graphic = new EBFile(dataDir, fname.getGraphic(), fname.getGraphicFormat());
+                _graphic = new EBFile(dataDir, dataFiles.getGraphic(),
+                        dataFiles.getGraphicFormat());
             } catch (EBException ignored) {
             }
         } else {
             _graphic = _text;
         }
         // 音声データファイル
-        if (fname.hasSound()) {
+        if (dataFiles.hasSound()) {
             try {
-                _sound = new EBFile(dataDir, fname.getSound(), fname.getSoundFormat());
+                _sound = new EBFile(dataDir, dataFiles.getSound(), dataFiles.getSoundFormat());
             } catch (EBException ignored) {
             }
         } else {
@@ -235,7 +237,7 @@ public class SubBook {
         // 動画データディレクトリ
         try {
             _movieDir = EBFile.searchDirectory(dir, "movie");
-        } catch (EBException e) {
+        } catch (EBException ignored) {
         }
     }
 
