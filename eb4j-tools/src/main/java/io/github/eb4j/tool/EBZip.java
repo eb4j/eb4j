@@ -33,6 +33,7 @@ import io.github.eb4j.SubBook;
 import io.github.eb4j.ExtFont;
 import io.github.eb4j.EBException;
 import io.github.eb4j.io.EBFile;
+import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.io.EBZipInputStream;
 import io.github.eb4j.io.EBZipConstants;
@@ -313,7 +314,7 @@ public final class EBZip {
                 file = aSub.getTextFile();
                 _act(action, file);
                 if (action == ACTION_UNZIP
-                        && file.getFormat() == EBFile.FORMAT_SEBXA) {
+                        && file.getFormat() == EBFormat.FORMAT_SEBXA) {
                     // SEBXA圧縮フラグの削除
                     _fixSEBXA(_getOutFile(file, ".org"));
                 }
@@ -367,18 +368,18 @@ public final class EBZip {
         }
         if (book.getBookType() == Book.DISC_EB) {
             try {
-                file = new EBFile(root, "language", EBFile.FORMAT_PLAIN);
+                file = new EBFile(root, "language", EBFormat.FORMAT_PLAIN);
                 _act(action, file);
             } catch (EBException e) {
             }
-            file = new EBFile(root, "catalog", EBFile.FORMAT_PLAIN);
+            file = new EBFile(root, "catalog", EBFormat.FORMAT_PLAIN);
             if (action == ACTION_ZIP) {
                 _copy(file);
             } else {
                 _act(action, file);
             }
         } else {
-            file = new EBFile(root, "catalogs", EBFile.FORMAT_PLAIN);
+            file = new EBFile(root, "catalogs", EBFormat.FORMAT_PLAIN);
             if (action == ACTION_ZIP) {
                 _copy(file);
             } else {
@@ -686,7 +687,7 @@ public final class EBZip {
      */
     private void _unzip(final EBFile file) {
         // 無圧縮ファイルはそのままコピーする
-        if (file.getFormat() == EBFile.FORMAT_PLAIN) {
+        if (file.getFormat() == EBFormat.FORMAT_PLAIN) {
             _copy(file);
             return;
         }
@@ -696,7 +697,7 @@ public final class EBZip {
         }
 
         String suffix = null;
-        if (file.getFormat() != EBFile.FORMAT_EBZIP) {
+        if (file.getFormat() != EBFormat.FORMAT_EBZIP) {
             suffix = ".org";
         }
         File f = _getOutFile(file, suffix);
@@ -830,14 +831,14 @@ public final class EBZip {
             StringBuilder buf = new StringBuilder();
             String text = null;
             switch (file.getFormat()) {
-                case EBFile.FORMAT_PLAIN:
+                case FORMAT_PLAIN:
                     buf.append(bis.getFileSize());
                     buf.append(" bytes (not compressed)");
                     break;
-                case EBFile.FORMAT_EBZIP:
+                case FORMAT_EBZIP:
                     text = "ebzip level " + ((EBZipInputStream)bis).getLevel() + " compression)";
                     break;
-                case EBFile.FORMAT_SEBXA:
+                case FORMAT_SEBXA:
                     text = "S-EBXA compression)";
                     break;
                 default:

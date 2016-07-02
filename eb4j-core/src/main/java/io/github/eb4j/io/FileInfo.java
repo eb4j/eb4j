@@ -3,16 +3,17 @@ package io.github.eb4j.io;
 import java.io.File;
 
 /**
- * ファイル情報クラス。
+ * File informations.
  *
  * @author Hisaya FUKUMOTO
+ * @author Hiroshi Miura
  */
-public class FileInfo {
+class FileInfo {
 
     /** ファイル */
     private File _file = null;
     /** フォーマット形式 */
-    private int _format = EBFile.FORMAT_PLAIN;
+    private EBFormat _format = EBFormat.FORMAT_PLAIN;
 
     /** ファイルサイズ */
     private long _fileSize = 0L;
@@ -53,7 +54,7 @@ public class FileInfo {
      * コンストラクタ。
      *
      */
-    protected FileInfo() {
+    FileInfo() {
         super();
     }
 
@@ -89,12 +90,12 @@ public class FileInfo {
      * フォーマット形式を返します。
      *
      * @return フォーマット形式
-     * @see EBFile#FORMAT_PLAIN
-     * @see EBFile#FORMAT_EBZIP
-     * @see EBFile#FORMAT_EPWING
-     * @see EBFile#FORMAT_EPWING6
+     * @see EBFormat#FORMAT_PLAIN
+     * @see EBFormat#FORMAT_EBZIP
+     * @see EBFormat#FORMAT_EPWING
+     * @see EBFormat#FORMAT_EPWING6
      */
-    protected int getFormat() {
+    EBFormat getFormat() {
         return _format;
     }
 
@@ -102,12 +103,12 @@ public class FileInfo {
      * フォーマット形式を設定します。
      *
      * @param format フォーマット形式
-     * @see EBFile#FORMAT_PLAIN
-     * @see EBFile#FORMAT_EBZIP
-     * @see EBFile#FORMAT_EPWING
-     * @see EBFile#FORMAT_EPWING6
+     * @see EBFormat#FORMAT_PLAIN
+     * @see EBFormat#FORMAT_EBZIP
+     * @see EBFormat#FORMAT_EPWING
+     * @see EBFormat#FORMAT_EPWING6
      */
-    protected void setFormat(final int format) {
+    void setFormat(final EBFormat format) {
         _format = format;
     }
 
@@ -116,7 +117,7 @@ public class FileInfo {
      *
      * @return ファイルサイズ
      */
-    protected long getFileSize() {
+    long getFileSize() {
         return _fileSize;
     }
 
@@ -125,7 +126,7 @@ public class FileInfo {
      *
      * @param size フィイルサイズ
      */
-    protected void setFileSize(final long size) {
+    void setFileSize(final long size) {
         _fileSize = size;
     }
 
@@ -134,7 +135,7 @@ public class FileInfo {
      *
      * @return 実ファイルサイズ
      */
-    protected long getRealFileSize() {
+    long getRealFileSize() {
         return _realFileSize;
     }
 
@@ -143,7 +144,7 @@ public class FileInfo {
      *
      * @param size 実ファイルサイズ
      */
-    protected void setRealFileSize(final long size) {
+    void setRealFileSize(final long size) {
         _realFileSize = size;
     }
 
@@ -152,7 +153,7 @@ public class FileInfo {
      *
      * @return スライスサイズ
      */
-    protected int getSliceSize() {
+    int getSliceSize() {
         return _sliceSize;
     }
 
@@ -161,7 +162,7 @@ public class FileInfo {
      *
      * @param size スライスサイズ
      */
-    protected void setSliceSize(final int size) {
+    void setSliceSize(final int size) {
         _sliceSize = size;
     }
 
@@ -170,7 +171,7 @@ public class FileInfo {
      *
      * @return 圧縮レベル
      */
-    protected int getZipLevel() {
+    int getZipLevel() {
         return _zipLevel;
     }
 
@@ -179,7 +180,7 @@ public class FileInfo {
      *
      * @param level 圧縮レベル
      */
-    protected void setZipLevel(final int level) {
+    void setZipLevel(final int level) {
         _zipLevel = level;
     }
 
@@ -188,7 +189,7 @@ public class FileInfo {
      *
      * @return インデックスサイズ
      */
-    protected int getZipIndexSize() {
+    int getZipIndexSize() {
         return _zipIndexSize;
     }
 
@@ -197,7 +198,7 @@ public class FileInfo {
      *
      * @param size インデックスサイズ
      */
-    protected void setZipIndexSize(final int size) {
+    void setZipIndexSize(final int size) {
         _zipIndexSize = size;
     }
 
@@ -206,7 +207,7 @@ public class FileInfo {
      *
      * @return CRC
      */
-    protected long getZipCRC() {
+    long getZipCRC() {
         return _zipCrc;
     }
 
@@ -215,7 +216,7 @@ public class FileInfo {
      *
      * @param crc CRC
      */
-    protected void setZipCRC(final long crc) {
+    void setZipCRC(final long crc) {
         _zipCrc = crc;
     }
 
@@ -224,7 +225,7 @@ public class FileInfo {
      *
      * @return インデックステーブル位置
      */
-    protected long getEpwingIndexPosition() {
+    long getEpwingIndexPosition() {
         return _epwingIndexPos;
     }
 
@@ -233,7 +234,7 @@ public class FileInfo {
      *
      * @param pos インデックステーブル位置
      */
-    protected void setEpwingIndexPosition(final long pos) {
+    void setEpwingIndexPosition(final long pos) {
         _epwingIndexPos = pos;
     }
 
@@ -242,7 +243,7 @@ public class FileInfo {
      *
      * @return インデックステーブルサイズ
      */
-    protected long getEpwingIndexSize() {
+    long getEpwingIndexSize() {
         return _epwingIndexSize;
     }
 
@@ -251,7 +252,7 @@ public class FileInfo {
      *
      * @param size インデックステーブルサイズ
      */
-    protected void setEpwingIndexSize(final long size) {
+    void setEpwingIndexSize(final long size) {
         _epwingIndexSize = size;
     }
 
@@ -260,7 +261,7 @@ public class FileInfo {
      *
      * @return 頻度テーブル位置
      */
-    protected long getEpwingFrequencyPosition() {
+    long getEpwingFrequencyPosition() {
         return _epwingFreqPos;
     }
 
@@ -269,7 +270,7 @@ public class FileInfo {
      *
      * @param pos 頻度テーブル位置
      */
-    protected void setEpwingFrequencyPosition(final long pos) {
+    void setEpwingFrequencyPosition(final long pos) {
         _epwingFreqPos = pos;
     }
 
@@ -278,7 +279,7 @@ public class FileInfo {
      *
      * @return 頻度テーブルサイズ
      */
-    protected long getEpwingFrequencySize() {
+    long getEpwingFrequencySize() {
         return _epwingFreqSize;
     }
 
@@ -287,7 +288,7 @@ public class FileInfo {
      *
      * @param size 頻度テーブルサイズ
      */
-    protected void setEpwingFrequencySize(final long size) {
+    void setEpwingFrequencySize(final long size) {
         _epwingFreqSize = size;
     }
 
@@ -296,7 +297,7 @@ public class FileInfo {
      *
      * @return ハフマンツリールートノード
      */
-    protected HuffmanNode getEpwingRootNode() {
+    HuffmanNode getEpwingRootNode() {
         return _epwingRootNode;
     }
 
@@ -305,7 +306,7 @@ public class FileInfo {
      *
      * @param node ハフマンツリールートノード
      */
-    protected void setEpwingRootNode(final HuffmanNode node) {
+    void setEpwingRootNode(final HuffmanNode node) {
         _epwingRootNode = node;
     }
 
@@ -314,7 +315,7 @@ public class FileInfo {
      *
      * @return インデックス開始位置
      */
-    protected long getSebxaIndexPosition() {
+    long getSebxaIndexPosition() {
         return _sebxaIndexPos;
     }
 
@@ -323,7 +324,7 @@ public class FileInfo {
      *
      * @param pos インデックス開始位置
      */
-    protected void setSebxaIndexPosition(final long pos) {
+    void setSebxaIndexPosition(final long pos) {
         _sebxaIndexPos = pos;
     }
 
@@ -332,7 +333,7 @@ public class FileInfo {
      *
      * @return 圧縮本文開始位置
      */
-    protected long getSebxaBasePosition() {
+    long getSebxaBasePosition() {
         return _sebxaBasePos;
     }
 
@@ -341,7 +342,7 @@ public class FileInfo {
      *
      * @param pos 圧縮本文開始位置
      */
-    protected void setSebxaBasePosition(final long pos) {
+    void setSebxaBasePosition(final long pos) {
         _sebxaBasePos = pos;
     }
 
@@ -350,7 +351,7 @@ public class FileInfo {
      *
      * @return 本文開始位置
      */
-    protected long getSebxaStartPosition() {
+    long getSebxaStartPosition() {
         return _sebxaStartPos;
     }
 
@@ -359,7 +360,7 @@ public class FileInfo {
      *
      * @param pos 本文開始位置
      */
-    protected void setSebxaStartPosition(final long pos) {
+    void setSebxaStartPosition(final long pos) {
         _sebxaStartPos = pos;
     }
 
@@ -368,7 +369,7 @@ public class FileInfo {
      *
      * @return 本文終了位置
      */
-    protected long getSebxaEndPosition() {
+    long getSebxaEndPosition() {
         return _sebxaEndPos;
     }
 
@@ -377,7 +378,7 @@ public class FileInfo {
      *
      * @param pos 本文終了位置
      */
-    protected void setSebxaEndPosition(final long pos) {
+    void setSebxaEndPosition(final long pos) {
         _sebxaEndPos = pos;
     }
 }

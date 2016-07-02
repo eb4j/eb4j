@@ -13,6 +13,7 @@ import static org.testng.Assert.*;
  * Created by miurahr on 16/06/05.
  */
 public class SubBookTest {
+
     Book book;
     SubBook[] subbooks;
 

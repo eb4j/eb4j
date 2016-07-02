@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 
 import io.github.eb4j.io.EBFile;
+import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
@@ -123,12 +124,12 @@ public class Appendix {
      */
     private void _loadCatalog(final File dir) throws EBException {
         // カタログファイルの検索
-        EBFile file = null;
+        EBFile file;
         try {
-            file = new EBFile(dir, "catalog", EBFile.FORMAT_PLAIN);
+            file = new EBFile(dir, "catalog", EBFormat.FORMAT_PLAIN);
             _appendixType = Book.DISC_EB;
         } catch (EBException e) {
-            file = new EBFile(dir, "catalogs", EBFile.FORMAT_PLAIN);
+            file = new EBFile(dir, "catalogs", EBFormat.FORMAT_PLAIN);
             _appendixType = Book.DISC_EPWING;
         }
 

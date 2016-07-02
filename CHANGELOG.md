@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 - Add unit tests.
 
 ### Changed
+- Introduce EBFormat enum class.
+  Now EBFile.FORMAT_* integer constants are deprecated. Please use EBFormat enum instead of constants.
 - [#3] Build with Gradle build system.
 - [#4] Change package location to io.github.eb4j from original's fuku.eb4j.
 - [#30] Refactoring to reduce method size smaller.
