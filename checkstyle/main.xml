@@ -4,6 +4,8 @@
 </file>
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/Book.java">
 </file>
+<file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/DataFiles.java">
+</file>
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/EBException.java">
 </file>
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/ExtFont.java">
@@ -27,8 +29,8 @@
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SubAppendix.java">
 </file>
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SubBook.java">
-<error line="99" column="15" severity="warning" message="パラメータ数が 7 を超えています。" source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
-<error line="243" column="5" severity="warning" message="メソッドが 213 行あります（最大 150 行まで）。" source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
+</file>
+<file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SubBookBuilder.java">
 </file>
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/hook/DefaultHook.java">
 </file>
@@ -41,6 +43,8 @@
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/BookReader.java">
 </file>
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EBFile.java">
+</file>
+<file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EBFormat.java">
 </file>
 <file name="/home/miurahr/projects/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EBZipConstants.java">
 </file>
