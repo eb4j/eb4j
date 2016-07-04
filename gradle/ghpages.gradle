@@ -20,6 +20,9 @@ asciidoctorj {
 asciidoctor {
     backends = ['html5','pdf']
     requires = ['asciidoctor-diagram']
+    sources {
+        include 'index.adoc'
+    }
     attributes 'build-gradle': file('build.gradle'),
             'endpoint-url': 'http://eb4j.github.io/eb4j/',
             'source-highlighter': 'coderay',
