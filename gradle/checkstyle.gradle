@@ -2,7 +2,7 @@ apply plugin: 'checkstyle'
 
 checkstyle {
     config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
-    ignoreFailures = true
+    ignoreFailures = false
     toolVersion = '6.16.1'
 }
 
