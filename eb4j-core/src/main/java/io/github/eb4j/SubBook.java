@@ -14,7 +14,7 @@ import io.github.eb4j.hook.Hook;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * 副本クラス。
+ * Subbook class.
  *
  * @author Hisaya FUKUMOTO
  */

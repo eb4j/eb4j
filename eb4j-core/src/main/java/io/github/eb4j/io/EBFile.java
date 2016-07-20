@@ -36,10 +36,10 @@ public class EBFile {
     /**
      * EBFile constructor for backward compatibility.
      *
-     * @param dir ディレクトリ
-     * @param name ファイル名
-     * @param defaultFormat デフォルトのフォーマット形式
-     * @exception EBException ファイルが存在しない場合
+     * @param dir directory.
+     * @param name file name.
+     * @param defaultFormat default file format type.
+     * @exception EBException if not exist a file.
      * @see EBFile#FORMAT_PLAIN
      * @see EBFile#FORMAT_EBZIP
      * @see EBFile#FORMAT_EPWING
@@ -72,10 +72,10 @@ public class EBFile {
     /**
      * EBFile constructor with default Format.
      *
-     * @param dir ディレクトリ
-     * @param name ファイル名
-     * @param defaultFormat デフォルトのフォーマット形式
-     * @exception EBException ファイルが存在しない場合
+     * @param dir directory.
+     * @param name file name.名
+     * @param defaultFormat default file format type.
+     * @exception EBException if not exist a file.
      * @see EBFormat#FORMAT_PLAIN
      * @see EBFormat#FORMAT_EBZIP
      * @see EBFormat#FORMAT_EPWING
@@ -126,13 +126,12 @@ public class EBFile {
 
 
     /**
-     * 指定されたディレクトリ内から指定されたディレクトリを
-     * 大文字/小文字の区別なく検索します。
+     * Search a directory under the specified directory in case insensitive way.
      *
-     * @param path ディレクトリパス
-     * @param name ディレクトリ名
+     * @param path directory path to be searched under.
+     * @param name directory name to search.
      * @return File Directory object.
-     * @exception EBException ファイルが存在しない場合
+     * @exception EBException if not exist a specified directory.
      */
     public static File searchDirectory(final String path, final String name) throws EBException {
         return searchDirectory(new File(path), name);
@@ -172,36 +171,36 @@ public class EBFile {
     }
 
     /**
-     * このオブジェクトのファイルを返します。
+     * Returns a file in this object.
      *
-     * @return ファイル
+     * @return file.
      */
     public File getFile() {
         return _info.getFile();
     }
 
     /**
-     * このファイルのパス名を返します。
+     * Return a path name of this file object.
      *
-     * @return ファイルのパス名
+     * @return path of the file.
      */
     public String getPath() {
         return _info.getPath();
     }
 
     /**
-     * このファイルのオリジナル名を返します。
+     * Returns an original file name.
      *
-     * @return オリジナルファイル名
+     * @return original file name.
      */
     public String getName() {
         return _name;
     }
 
     /**
-     * このファイルのフォーマット形式を返します。
+     * Returns file format type.
      *
-     * @return フォーマット形式
+     * @return format type.
      * @see EBFormat#FORMAT_PLAIN
      * @see EBFormat#FORMAT_EBZIP
      * @see EBFormat#FORMAT_EPWING
@@ -212,12 +211,12 @@ public class EBFile {
     }
 
     /**
-     * S-EBXAの圧縮情報を設定します。
+     * Set compression configuration of S-EBXA.
      *
-     * @param index 圧縮本文データインデックス開始位置
-     * @param base 圧縮本文データ開始位置
-     * @param start 本文開始位置
-     * @param end 本文終了位置
+     * @param index start of index of compressed article data.
+     * @param base  base position of compressed article data.
+     * @param start start position of article.
+     * @param end end position of article.
      */
     public void setSEBXAInfo(final long index, final long base, final long start, final long end) {
         _info.setSebxaIndexPosition(index);
@@ -229,10 +228,10 @@ public class EBFile {
     }
 
     /**
-     * このファイルのデータ読み込みストリームを返します。
+     * Returns InputStream object of this file.
      *
-     * @return データ読み込みストリーム (ディレクトリの場合はnull)
-     * @exception EBException 入出力エラーが発生した場合
+     * @return InputStream of data, or null if directory.
+     * @exception EBException if file read error happended.
      */
     public BookInputStream getInputStream() throws EBException {
         BookInputStream bis;

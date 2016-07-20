@@ -7,27 +7,27 @@ package io.github.eb4j.io;
  */
 public enum EBFormat {
     /**
-     * PLAIN形式
+     * PLAIN.
      */
     FORMAT_PLAIN,
     /**
-     * EBZIP形式
+     * EBZIP.
      */
     FORMAT_EBZIP,
     /**
-     * EPWING V4/V5形式
+     * EPWING V4/V5.
      */
     FORMAT_EPWING,
     /**
-     * EPWING V6形式
+     * EPWING V6.
      */
     FORMAT_EPWING6,
     /**
-     * S-EBXA形式
+     * S-EBXA.
      */
     FORMAT_SEBXA,
     /**
-     * Unkown
+     * Unkown.
      */
     FORMAT_UNKNOWN
 }
