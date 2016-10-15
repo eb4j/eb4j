@@ -1,14 +1,14 @@
 package io.github.eb4j;
 
 /**
- * NULL検索クラス。
+ * NULL searcher class.
  *
  * @author Hisaya FUKUMOTO
  */
 public class NullSearcher implements Searcher {
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
      */
     protected NullSearcher() {
@@ -16,10 +16,10 @@ public class NullSearcher implements Searcher {
     }
 
     /**
-     * 常にnullを返します。
+     * Always return null.
      *
-     * @return 常にnull
-     * @exception EBException 検索中にエラーが発生した場合
+     * @return null
+     * @exception EBException if error is happened when searching.
      */
     @Override
     public Result getNextResult() throws EBException {

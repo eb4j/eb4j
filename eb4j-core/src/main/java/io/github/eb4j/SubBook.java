@@ -87,10 +87,10 @@ public class SubBook {
     /**
      * SubBook minimal constructor.
      *
-     * @param book 書籍
-     * @param title 副本のタイトル
-     * @param index 副本のインデックスページ
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param book the book
+     * @param title title of sub book
+     * @param index index page of sub book
+     * @exception EBException if file read error is happened.
      */
     SubBook(final Book book, final String title, final int index) {
         _book = book;
@@ -101,11 +101,11 @@ public class SubBook {
     /**
      * SubBook construction.
      *
-     * @param path 副本のディレクトリ名
-     * @param dataFiles データファイル名
-     * @param narrow 半角外字ファイル名
-     * @param wide 全角外字ファイル名
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param path directory name of sub book
+     * @param dataFiles data file name.
+     * @param narrow file name for hankaku gaiji fonts.
+     * @param wide file name for full-width gaiji fonts.
+     * @exception EBException if file read error is happened.
      */
     SubBook loadSubBookFile(final String path,
                          final DataFiles dataFiles,

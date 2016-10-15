@@ -4,6 +4,9 @@
 :toc:
 :toclevels: 2
 
+IMPORTANT: link:https://github.com/eb4j/eb4j[View on GitHub]
+ | link:https://eb4j.github.io/[Top project page]
+
 include::about.adoc[]
 
 include::links.adoc[]

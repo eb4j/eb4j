@@ -9,32 +9,32 @@ import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * 書籍クラス。
+ * Book class.
  *
  * @author Hisaya FUKUMOTO
  */
 public class Book {
 
-    /** 電子ブック(EB/EBG/EBXA/EBXA-C/S-EBXA)を示す定数 */
+    /** Book type of EBook(EB/EBG/EBXA/EBXA-C/S-EBXA) */
     public static final int DISC_EB = 0;
-    /** EPWING形式の書籍を示す定数 */
+    /** Book type of EDictionary(EPWING) */
     public static final int DISC_EPWING = 1;
 
-    /** ISO 8859-1文字セットを示す定数 */
+    /** Character set ISO 8859-1 */
     public static final int CHARCODE_ISO8859_1 = 1;
-    /** JIS X 0208文字セットを示す定数 */
+    /** Character set JIS X 0208 */
     public static final int CHARCODE_JISX0208 = 2;
-    /** JIS X 0208/GB 2312文字セットを示す定数 */
+    /** Character set JIS X 0208/GB 2312 */
     public static final int CHARCODE_JISX0208_GB2312 = 3;
 
-    /** CATALOG(S)ファイル内のデータサイズ */
+    /** Data size in CATALOG(S) file */
     static final int[] SIZE_CATALOG = {40, 164};
-    /** タイトルのデータサイズ */
+    /** Data size of title */
     static final int[] SIZE_TITLE = {30, 80};
-    /** ディレクトリ名のデータサイズ */
+    /** Data size of directory name */
     static final int SIZE_DIRNAME = 8;
 
-    /** 文字コードを正しく判断できない書籍の最初の副本のタイトル */
+    /** Heuristics to detect sub-book title */
     private static final String[] MISLEADED = {
         // SONY DataDiskMan (DD-DR1) accessories.
         // (センチュリ＋ビジネス＋クラウン)
@@ -57,46 +57,49 @@ public class Book {
     };
 
 
-    /** 書籍のディレクトリ */
+    /** Path of the book */
     private String _bookPath = null;
 
-    /** 書籍の種類 */
+    /** Type of the book */
     private int _bookType = -1;
-    /** 文字セットの種類 */
+    /** Character set */
     private int _charCode = -1;
-    /** EPWINGフォーマットのバージョン */
+    /** EPWING version */
     private int _version = -1;
 
-    /** 副本 */
+    /** Sub-books of the book */
     private SubBook[] _sub = null;
 
 
     /**
-     * コンストラクタ。
+     * Initialize the book object indicated by String bookPath.
      *
-     * @param bookPath 書籍のパス
-     * @exception EBException 初期化中にエラーが発生した場合
+     * @param bookPath path of a book.
+     * @exception EBException when initialize failed.
      */
     public Book(final String bookPath) throws EBException {
         this(bookPath, null);
     }
 
     /**
-     * コンストラクタ。
+     * Initialize the book object indicated by File bookDir.
      *
-     * @param bookDir 書籍のパス
-     * @exception EBException 初期化中にエラーが発生した場合
+     * @param bookDir path of a book.
+     * @exception EBException when initialize failed.
      */
     public Book(final File bookDir) throws EBException {
         this(bookDir, null);
     }
 
     /**
-     * コンストラクタ。
+     * Initialize the book object indicated by String bookPath and appendixPath.
+     * <p>
+     *     Create the book object that includes a main book and an appendix.
+     * </p>
      *
-     * @param bookPath 書籍のパス
-     * @param appendixPath 付録パッケージのパス
-     * @exception EBException 初期化中にエラーが発生した場合
+     * @param bookPath path of a book.
+     * @param appendixPath path of an appendix.
+     * @exception EBException when initialize failed.
      */
     @SuppressWarnings("checkstyle:avoidinlineconditionals")
     public Book(final String bookPath, final String appendixPath) throws EBException {
@@ -105,11 +108,14 @@ public class Book {
     }
 
     /**
-     * コンストラクタ。
+     * Initialize the book object indicated by File bookDir and appendixDir.
+     * <p>
+     *     Create the book object that includes a main book and an appendix.
+     * </p>
      *
-     * @param bookDir 書籍のパス
-     * @param appendixDir 付録パッケージのパス
-     * @exception EBException 初期化中にエラーが発生した場合
+     * @param bookDir path of a book.
+     * @param appendixDir path of an appendix.
+     * @exception EBException when initialize failed.
      */
     public Book(final File bookDir, final File appendixDir) throws EBException {
         super();
@@ -140,18 +146,18 @@ public class Book {
 
 
     /**
-     * この書籍のパスを文字列で返します。
+     * Returns a path of the book.
      *
-     * @return 書籍のパスの文字列形式
+     * @return path of the book.
      */
     public String getPath() {
         return _bookPath;
     }
 
     /**
-     * この書籍の種類を返します。
+     * Returns a type of the book.
      *
-     * @return 書籍の種類を示すフラグ
+     * @return flag indicating a type of the book.
      * @see Book#DISC_EB
      * @see Book#DISC_EPWING
      */
@@ -160,9 +166,9 @@ public class Book {
     }
 
     /**
-     * この書籍の文字セットを返します。
+     * Returns a character set.
      *
-     * @return 書籍の文字セットを示すフラグ
+     * @return flag indicating character set.
      * @see Book#CHARCODE_ISO8859_1
      * @see Book#CHARCODE_JISX0208
      * @see Book#CHARCODE_JISX0208_GB2312
@@ -172,9 +178,9 @@ public class Book {
     }
 
     /**
-     * この書籍の文字セットを設定します。
+     * Set a character set of the book.
      *
-     * @param charCode 書籍の文字セットを示すフラグ
+     * @param charCode flag indicating character set of the book.
      * @see Book#CHARCODE_ISO8859_1
      * @see Book#CHARCODE_JISX0208
      * @see Book#CHARCODE_JISX0208_GB2312
@@ -184,9 +190,9 @@ public class Book {
     }
 
     /**
-     * この書籍の副本数を返します。
+     * Returns a number of sub-books in the book.
      *
-     * @return 副本数
+     * @return a number of sub-books.
      */
     public int getSubBookCount() {
         int ret = 0;
@@ -197,9 +203,9 @@ public class Book {
     }
 
     /**
-     * この書籍の副本リストを返します。
+     * Returns a list of sub-books of the book.
      *
-     * @return 副本の配列
+     * @return array of sub-books.
      */
     public SubBook[] getSubBooks() {
         if (_sub == null) {
@@ -212,10 +218,10 @@ public class Book {
     }
 
     /**
-     * この書籍の指定したインデックスの副本を返します。
+     * Returns a sub-book indicated by index.
      *
-     * @param index インデックス
-     * @return 副本 (範囲外のインデックス時はnull)
+     * @param index a position of sub-book.
+     * @return SubBook object, or null when index is out of bound.
      */
     public SubBook getSubBook(final int index) {
         if (index < 0 || index >= _sub.length) {
@@ -225,22 +231,22 @@ public class Book {
     }
 
     /**
-     * EPWINGのバージョンを返します。
+     * Returns an EPWING version of the book.
      *
-     * @return EPWINGのバージョン
+     * @return version of EPWING
      */
     public int getVersion() {
         return _version;
     }
 
     /**
-     * CATALOG(S)ファイルから情報を読み込みます。
+     * Reads information from CATALOG(S) file.
      *
-     * @param dir 書籍のディレクトリ
-     * @exception EBException CATALOG(S)ファイルの読み込み中にエラーが発生した場合
+     * @param dir directory of the book.
+     * @exception EBException when occurring error in reading CATALOG(S) file.
      */
     private void _loadCatalog(final File dir) throws EBException {
-        // カタログファイルの検索
+        // try to see catalog file.
         EBFile file = null;
         try {
             file = new EBFile(dir, "catalog", EBFormat.FORMAT_PLAIN);
@@ -266,10 +272,10 @@ public class Book {
     }
 
     /**
-     * CATALOGファイルから情報を読み込みます。
+     * Reads information from CATALOG file.
      *
-     * @param file CATALOGファイル
-     * @exception EBException CATALOGファイルの読み込み中にエラーが発生した場合
+     * @param file CATALOG file.
+     * @exception EBException when occurring error in reading CATALOG file.
      */
     private void _loadCatalogEB(final EBFile file) throws EBException {
         BookInputStream bis = file.getInputStream();
@@ -277,28 +283,28 @@ public class Book {
             byte[] b = new byte[16];
             bis.readFully(b, 0, b.length);
 
-            // 副本数の取得
+            // get a number of sub-books.
             int subCount = ByteUtil.getInt2(b, 0);
             if (subCount <= 0) {
                 throw new EBException(EBException.UNEXP_FILE, file.getPath());
             }
 
-            // 副本の情報を取得
+            // read sub-book
             _sub = new SubBook[subCount];
             b = new byte[SIZE_CATALOG[DISC_EB]];
             for (int i=0; i<subCount; i++) {
                 bis.readFully(b, 0, b.length);
 
-                // タイトルの取得
+                // get title
                 int off = 2;
                 String title = null;
                 if (_charCode == CHARCODE_ISO8859_1) {
                     title = new String(b, off, SIZE_TITLE[DISC_EB], Charset.forName("ISO8859-1"))
                             .trim();
-                    // タイトルの修正が必要かどうか調べる
+                    // Checks whether correcting title or not.
                     for (int j=0; j<MISLEADED.length; j++) {
                         if (title.equals(MISLEADED[j])) {
-                            // タイトルの修正
+                            // Title correction.
                             _charCode = CHARCODE_JISX0208;
                             byte[] tmp = title.getBytes(Charset.forName("ISO8859-1"));
                             title = ByteUtil.jisx0208ToString(tmp, 0, tmp.length);
@@ -311,10 +317,10 @@ public class Book {
                 }
                 off += SIZE_TITLE[DISC_EB];
 
-                // ディレクトリ名の取得
+                // get directory name.
                 String name = new String(b, off, SIZE_DIRNAME, Charset.forName("ASCII")).trim();
 
-                // 副本オブジェクトの作成
+                // Create SubBook object.
                 DataFiles files = new DataFiles("start", EBFormat.FORMAT_PLAIN);
                 _sub[i] = new SubBookBuilder(this)
                         .setTitle(title).setPath(name)
@@ -327,10 +333,10 @@ public class Book {
     }
 
     /**
-     * CATALOGSファイルから情報を読み込みます。
+     * Reads information from CATALOGS file.
      *
-     * @param file CATALOGSファイル
-     * @exception EBException CATALOGSファイルの読み込み中にエラーが発生した場合
+     * @param file CATALOGS file.
+     * @exception EBException when occuring error in reading CATALOGS file.
      */
     private void _loadCatalogEPWING(final EBFile file) throws EBException {
         BookInputStream bis = file.getInputStream();
@@ -464,10 +470,10 @@ public class Book {
     }
 
     /**
-     * LANGUAGEファイルから情報を読み込みます。
+     * Reads information from LANGUAGE file.
      *
-     * @param dir 書籍のディレクトリ
-     * @exception EBException LANGUAGEファイルの読み込み中にエラーが発生した場合
+     * @param dir directory of the book.
+     * @exception EBException when occurring error in reading LANGUAGE file.
      */
     private void _loadLanguage(final File dir) throws EBException {
         _charCode = CHARCODE_JISX0208;

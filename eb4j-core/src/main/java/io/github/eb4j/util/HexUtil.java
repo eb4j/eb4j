@@ -10,7 +10,7 @@ import java.util.Locale;
 public final class HexUtil {
 
     /**
-     * コンストラクタ。
+     * Utility class should not be instantiated.
      *
      */
     private HexUtil() {

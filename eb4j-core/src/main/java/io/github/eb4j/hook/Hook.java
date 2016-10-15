@@ -1,10 +1,10 @@
 package io.github.eb4j.hook;
 
 /**
- * エスケープシーケンス処理インタフェース。
+ * The hook interface for processing escape sequence.
  *
  * @author Hisaya FUKUMOTO
- * @param <T> フックから取得されるオブジェクト
+ * @param <T> object to be get from hook.
  */
 public interface Hook<T> {
 

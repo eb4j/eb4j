@@ -12,7 +12,7 @@ import io.github.eb4j.util.CompareUtil;
 import io.github.eb4j.util.HexUtil;
 
 /**
- * 単一検索語検索クラス。
+ * Search class for searching with a single word.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -85,11 +85,11 @@ public class SingleWordSearcher implements Searcher {
 
 
     /**
-     * コンストラクタ。
+     * Build searcher object.
      *
-     * @param sub 副本
-     * @param style インデックススタイル
-     * @param type 検索種別
+     * @param sub subbook.
+     * @param style index style.
+     * @param type search type.
      * @see SingleWordSearcher#WORD
      * @see SingleWordSearcher#ENDWORD
      * @see SingleWordSearcher#EXACTWORD
@@ -108,9 +108,9 @@ public class SingleWordSearcher implements Searcher {
 
 
     /**
-     * 検索語を設定します。
+     * Set a word to search.
      *
-     * @param word 検索語
+     * @param word a search word.
      */
     private void _setWord(final byte[] word) {
         int len = word.length;
