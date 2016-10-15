@@ -8,14 +8,14 @@ package io.github.eb4j.io;
  */
 public final class EBZipConstants {
 
-    /** EBZIP形式のヘッダサイズ */
+    /** Header size of EBZIP. */
     public static final int EBZIP_HEADER_SIZE = 22;
-    /** EBZIP形式の最大圧縮レベル */
+    /** Maximum compression level of EBZIP. */
     public static final int EBZIP_MAX_LEVEL = 5;
-    /** EBZIP形式のデフォルト圧縮レベル */
+    /** Default compression level of EBZIP. */
     public static final int EBZIP_DEFAULT_LEVEL = 0;
 
-    // protect from instantiate
+    // protect from instantiation
     private EBZipConstants() {}
 }
 

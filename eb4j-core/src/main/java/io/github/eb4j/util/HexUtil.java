@@ -3,7 +3,7 @@ package io.github.eb4j.util;
 import java.util.Locale;
 
 /**
- * HEXユーティリティクラス。
+ * HEX utility class.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -19,74 +19,76 @@ public final class HexUtil {
 
 
     /**
-     * 指定された値を16進数表現で返します。
+     * Convert long value into a hex string.
      *
-     * @param val 値
-     * @return 16進数表現の文字列
+     * @param val value.
+     * @return a hex string.
      */
     public static String toHexString(final long val) {
         return toHexString(val, 6);
     }
 
     /**
-     * 指定された値を16進数表現で返します。
+     * Convert long value into a hex string.
      *
-     * @param val 値
-     * @param length 桁数
-     * @return 16進数表現の文字列
+     * @param val value.
+     * @param length length of output string.
+     * @return a hex string.
      */
     public static String toHexString(final long val, final int length) {
         return toHexString(Long.toHexString(val), length);
     }
 
     /**
-     * 指定された値を16進数表現で返します。
+     * Convert int value into a hex string.
      *
-     * @param val 値
-     * @return 16進数表現の文字列
+     * @param val value.
+     * @return a hex string.
      */
     public static String toHexString(final int val) {
         return toHexString(val, 4);
     }
 
     /**
-     * 指定された値を16進数表現で返します。
+     * Convert int value into a hex string.
      *
-     * @param val 値
-     * @param length 桁数
-     * @return 16進数表現の文字列
+     * @param val value.
+     * @param length length of output string.
+     * @return a hex string.
      */
     public static String toHexString(final int val, final int length) {
         return toHexString(Integer.toHexString(val), length);
     }
 
     /**
-     * 指定された値を16進数表現で返します。
+     * Convert byte value into a hex string.
      *
-     * @param val 値
-     * @return 16進数表現の文字列
+     * @param val value
+     * @return a hex string.
      */
     public static String toHexString(final byte val) {
         return toHexString(val, 2);
     }
 
     /**
-     * 指定された値を16進数表現で返します。
+     * Convert byte value into a hex string.
      *
-     * @param val 値
-     * @param length 桁数
-     * @return 16進数表現の文字列
+     * @param val value
+     * @param length length of output string.
+     * @return a hex string.
      */
     public static String toHexString(final byte val, final int length) {
         return toHexString(Integer.toHexString(val&0xff), length);
     }
 
     /**
-     * 指定された16進数文字列を大文字に変換し、指定桁数以下の場合は先頭に0を付加します。
+     * Convert a hex string into one which use capital alphabet.
+     * <p>
+     * if string length is less than specified length, padding '0' in string head.
      *
-     * @param str 文字列
-     * @param length 桁数
-     * @return 変換後の文字列
+     * @param str String
+     * @param length length of output string.
+     * @return converted string.
      */
     public static String toHexString(final String str, final int length) {
         StringBuilder buf = new StringBuilder(str.toUpperCase(Locale.ENGLISH));

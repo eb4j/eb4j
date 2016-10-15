@@ -9,7 +9,7 @@ import io.github.eb4j.EBException;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * EBZIP形式の書籍入力ストリームクラス。
+ * BookInputStream class for EBZIP.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -17,10 +17,10 @@ public class EBZipInputStream extends BookInputStream {
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param info ファイル情報
-     * @exception EBException 入出力エラーが発生した場合
+     * @param info file information.
+     * @exception EBException if file read error is happened.
      */
     protected EBZipInputStream(final FileInfo info) throws EBException {
         super(info);
@@ -31,9 +31,9 @@ public class EBZipInputStream extends BookInputStream {
 
 
     /**
-     * EBZIP形式のファイル情報を初期化します。
+     * Initialize file information of EBZIP.
      *
-     * @exception EBException 入出力エラーが発生した場合
+     * @exception EBException if file read error is happened.
      */
     @Override
     protected void initFileInfo() throws EBException {
@@ -76,7 +76,7 @@ public class EBZipInputStream extends BookInputStream {
     }
 
     /**
-     * このファイルの圧縮レベルを返します。
+     * Returns compression level of the file.
      *
      * @return 圧縮レベル
      */
@@ -85,7 +85,7 @@ public class EBZipInputStream extends BookInputStream {
     }
 
     /**
-     * このファイルのCRCを返します。
+     * Returns CRC of the file.
      *
      * @return CRC
      */
@@ -94,10 +94,10 @@ public class EBZipInputStream extends BookInputStream {
     }
 
     /**
-     * EBZIP形式のファイルから最大lenバイトのデータをバイト配列に読み込みます。
+     * Read len byte of data as byte array from EBZIP file.
      *
-     * @param b データの読み込み先のバッファ
-     * @param off データの開始オフセット
+     * @param b byte array for data.
+     * @param off start offset of data.
      * @param len 読み込まれる最大バイト数
      * @return バッファに読み込まれたバイトの合計数
      *         (ストリームの終わりに達してデータがない場合は-1)
@@ -193,10 +193,10 @@ public class EBZipInputStream extends BookInputStream {
     }
 
     /**
-     * 復号化します。
+     * Decode.
      *
-     * @param size 圧縮スライスサイズ
-     * @exception EBException 入出力エラーが発生した場合
+     * @param size slice size for compression.
+     * @exception EBException if file read error is happened.
      */
     private void _decode(final int size) throws EBException {
         if (size == info.getSliceSize()) {

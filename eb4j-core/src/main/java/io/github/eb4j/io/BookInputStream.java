@@ -8,32 +8,33 @@ import java.io.IOException;
 import io.github.eb4j.EBException;
 
 /**
- * 書籍用入力ストリームの基底クラス。
+ * Base InputStream class for book.
  *
  * @author Hisaya FUKUMOTO
+ * @author Hiroshi Miura
  */
 public abstract class BookInputStream implements AutoCloseable {
 
-    /** ページサイズ */
+    /** Page size */
     public static final int PAGE_SIZE = 2048;
 
-    /** ファイル情報 */
+    /** File information. */
     protected FileInfo info = null;
-    /** 入力ストリーム */
+    /** Input stream. */
     protected RandomAccessFile stream = null;
-    /** ファイルポインタ位置 */
+    /** File pointer position. */
     protected long filePos = 0;
 
-    /** キャッシュ */
+    /** Cache buffer. */
     protected byte[] cache = null;
-    /** キャッシュデータのファイルポインタ位置 */
+    /** Position in cache buffer. */
     protected long cachePos = -1;
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param info ファイル情報
+     * @param info File information.
      */
     protected BookInputStream(final FileInfo info) {
         super();

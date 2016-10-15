@@ -9,16 +9,16 @@ import io.github.eb4j.util.ByteUtil;
 import java.nio.charset.Charset;
 
 /**
- * 書籍入力ストリームからテキストを読み込むクラス。
+ * Read texts from BookInputStream.
  *
  * @author Hisaya FUKUMOTO
- * @param <T> フックから取得されるオブジェクト
+ * @param <T> Generated object by hook.
  */
 public class BookReader<T> {
 
-    /** 本文であることを示す定数 */
+    /** Indicate an article text */
     private static final int TEXT = 0;
-    /** 見出しであることを示す定数 */
+    /** Indicate a heading */
     private static final int HEADING = 1;
 
     /** 副本 */
@@ -36,7 +36,7 @@ public class BookReader<T> {
 
 
     /**
-     * コンストラクタ。
+     * Constructor of BookReader with subbook and hook.
      *
      * @param sub 副本
      * @param hook フック
@@ -52,9 +52,9 @@ public class BookReader<T> {
 
 
     /**
-     * このオブジェクトで使用されているシステムリソースを破棄します。
+     * Closes and destroy system resources in this object.
      *
-     * @exception Throwable このメソッドで生じた例外
+     * @exception Throwable all exceptions when close() and finalize().
      */
     @Override
     protected void finalize() throws Throwable {
@@ -63,7 +63,7 @@ public class BookReader<T> {
     }
 
     /**
-     * この読み込みストリームを閉じます。
+     * Close a reader stream.
      *
      */
     public void close() {
@@ -73,12 +73,12 @@ public class BookReader<T> {
     }
 
     /**
-     * 見出しを読み込み、フックで加工します。
+     * Read heading from the stream and processed by hook.
      *
-     * @param page ページ番号
-     * @param offset ページ内オフセット
-     * @return フックで加工されたオブジェクト
-     * @exception EBException 入出力エラーが発生した場合
+     * @param page page number.
+     * @param offset offset in the page.
+     * @return Object processed by hook.
+     * @exception EBException if read error is happened.
      */
     public T readHeading(final long page, final int offset) throws EBException {
         _hook.clear();
@@ -87,11 +87,11 @@ public class BookReader<T> {
     }
 
     /**
-     * 見出しを読み込み、フックで加工します。
+     * Read headings from stream and processed by hook.
      *
-     * @param pos 読み込み位置
-     * @return フックで加工されたオブジェクト
-     * @exception EBException 入出力エラーが発生した場合
+     * @param pos position for reading.
+     * @return Object processed by hook.
+     * @exception EBException if read error is happened.
      */
     public T readHeading(final long pos) throws EBException {
         _hook.clear();
@@ -100,23 +100,23 @@ public class BookReader<T> {
     }
 
     /**
-     * 指定された位置の次の見出し位置を返します。
+     * Returns next heading position after the specified position.
      *
-     * @param pos 読み込み位置
-     * @return 次の見出し位置 (ストリームの終りに達っしている場合は-1)
-     * @exception EBException 入出力エラーが発生した場合
+     * @param pos position.
+     * @return next position, or -1 if it is in end of stream.
+     * @exception EBException if read error is happened.
      */
     public long nextHeadingPosition(final long pos) throws EBException {
         return _read(pos, HEADING, true);
     }
 
     /**
-     * 本文を読み込み、フックで加工します。
+     * Read an article and processed by hook.
      *
      * @param page ページ番号
      * @param offset ページ内オフセット
      * @return フックで加工されたオブジェクト
-     * @exception EBException 入出力エラーが発生した場合
+     * @exception EBException if read error is happened.
      */
     public T readText(final long page, final int offset) throws EBException {
         _hook.clear();
@@ -129,7 +129,7 @@ public class BookReader<T> {
      *
      * @param pos 読み込み位置
      * @return フックで加工されたオブジェクト
-     * @exception EBException 入出力エラーが発生した場合
+     * @exception EBException if read error is happened.
      */
     public T readText(final long pos) throws EBException {
         _hook.clear();
@@ -138,13 +138,13 @@ public class BookReader<T> {
     }
 
     /**
-     * テキストを読み込み、フックで加工します。
+     * Read an article text and processed by hook.
      *
-     * @param pos 読み込み位置
-     * @param type 読み込みデータのタイプ
-     * @param skip フックによる加工は行なわず、次の読み込み位置を返す
-     * @return 次の見出し位置 (ストリームの終りに達っしている場合は-1)
-     * @exception EBException 入出力エラーが発生した場合
+     * @param pos position for read.
+     * @param type type of reading.
+     * @param skip Skip processing by hook and returns next position.
+     * @return next heading position, or -1 if it is in end of stream.
+     * @exception EBException if read error is happened.
      */
     private long _read(final long pos, final int type, final boolean skip) throws EBException {
         BookReaderHandler handler = new BookReaderHandler(_bis, _hook, pos, type, skip);

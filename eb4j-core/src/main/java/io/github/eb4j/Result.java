@@ -24,8 +24,8 @@ public class Result {
      * @param sub subbook.
      * @param headPage page number of a heading.
      * @param headOff page offset of a heading.
-     * @param textPage page number of description.
-     * @param textOff page offset of description.
+     * @param textPage page number of an article text.
+     * @param textOff page offset of an article text.
      */
     protected Result(final SubBook sub, final long headPage, final int headOff,
                      final long textPage, final int textOff) {
@@ -39,8 +39,8 @@ public class Result {
      *
      * @param sub subbook.
      * @param heading page position of a heading.
-     * @param textPage page number of description.
-     * @param textOff page offset of description.
+     * @param textPage page number of an article text.
+     * @param textOff page offset of an article text.
      */
     protected Result(final SubBook sub, final long heading,
                      final long textPage, final int textOff) {
@@ -53,7 +53,7 @@ public class Result {
      * @param sub subbook.
      * @param headPage page number of heading.
      * @param headOff page offset of heading.
-     * @param text page position of description.
+     * @param text page position of an article text.
      */
     protected Result(final SubBook sub, final long headPage, final int headOff, final long text) {
         this(sub, BookInputStream.getPosition(headPage, headOff), text);
@@ -64,7 +64,7 @@ public class Result {
      *
      * @param sub subbook.
      * @param heading Position of heading.
-     * @param text Position of description.
+     * @param text Position of an article text.
      */
     protected Result(final SubBook sub, final long heading, final long text) {
         super();
@@ -86,7 +86,7 @@ public class Result {
     /**
      * Returns a description position of a search result.
      *
-     * @return Data position of a description in subbook.
+     * @return Data position of a an article text in subbook.
      */
     public long getTextPosition() {
         return _text;
@@ -105,7 +105,7 @@ public class Result {
     }
 
     /**
-     * Returns description.
+     * Returns an article text.
      *
      * @param hook フック (nullの場合はデフォルトのフック)
      * @param <T> type to be return from hook.

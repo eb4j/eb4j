@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * ハフマンノードクラス。
+ * Huffman node class.
  *
  * @author Hisaya FUKUMOTO
  */
