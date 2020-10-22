@@ -23,6 +23,7 @@ public class EBDumpTest {
      * Setup streams.
      */
     @BeforeMethod
+    @SuppressWarnings("checkstyle:methodname")
     public void setUpStreams() {
         try {
             System.setOut(new PrintStream(outContent, true, "UTF-8"));
@@ -36,6 +37,7 @@ public class EBDumpTest {
      * @throws Exception when read error happened.
      */
     @Test
+    @SuppressWarnings("checkstyle:methodname")
     public void testEBDump_dump() throws Exception {
         String bookPath = new File(this.getClass().getResource("/data/epwing").getFile())
                 .getAbsolutePath();
@@ -46,10 +48,10 @@ public class EBDumpTest {
             fail(ebe.getMessage());
         }
         String expected =
-                "00001:000  00 03 20 00 00 00 00 00  00 00 00 00 00 00 00 00  ................\n" +
-                "00001:010  00 00 00 00 00 02 00 00  00 01 01 00 00 00 00 00  ................\n" +
-                "00001:020  05 00 00 00 00 03 00 00  00 01 01 00 00 00 00 00  ................\n" +
-                "00001:030  91 00 00 00 00 04 00 00  00 02 02 41 55 40 00 00  ............\u5ABD..\n";
+                "00001:000  00 03 20 00 00 00 00 00  00 00 00 00 00 00 00 00  ................\n"
+                + "00001:010  00 00 00 00 00 02 00 00  00 01 01 00 00 00 00 00  ................\n"
+                + "00001:020  05 00 00 00 00 03 00 00  00 01 01 00 00 00 00 00  ................\n"
+                + "00001:030  91 00 00 00 00 04 00 00  00 02 02 41 55 40 00 00  ............\u5ABD..\n";
         assertEquals(outContent.toString("UTF-8"), expected);
     }
 
