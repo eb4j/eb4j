@@ -23,8 +23,8 @@ public final class CompareUtil {
      * @param pattern pattern
      * @param presearch true when trying prefix match
      * @return 0 if key and pattern are same, or key has a same prefix as pattern,
-     *         >0 if key is larger than pattern,
-     *         <0 if key is smaller than pattern.
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToByte(final byte[] key, final byte[] pattern,
                                     final boolean presearch) {
@@ -58,8 +58,8 @@ public final class CompareUtil {
      * @param pattern pattern (JIS X 0208)
      * @param presearch true when trying prefix match.
      * @return 0 if key and pattern are same, or key has same prefix with pattern,
-     *         >0 if key is larger than pattern,
-     *         <0 if key is smaller than pattern.
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToJISX0208(final byte[] key, final byte[] pattern,
                                         final boolean presearch) {
@@ -103,8 +103,8 @@ public final class CompareUtil {
      * @param pattern pattern (ISO 8859-1)
      * @param presearch true when trying prefix match.
      * @return 0 if key and pattern are same, or key has same prefix with pattern,
-     *         >0 if key is larger than pattern,
-     *         <0 if key is smaller than pattern.
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToLatin(final byte[] key, final byte[] pattern,
                                      final boolean presearch) {
@@ -148,8 +148,8 @@ public final class CompareUtil {
      * @param pattern pattern (JIS X 0208)
      * @param exact true if trying exact match.
      * @return 0 if key and pattern are same,
-     *         >0 if key is larger than pattern,
-     *         <0 if key is smaller than pattern.
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToKanaGroup(final byte[] key, final byte[] pattern,
                                          final boolean exact) {
@@ -198,8 +198,8 @@ public final class CompareUtil {
      * @param pattern pattern (JIS X 0208)
      * @param exact true if trying exact match.
      * @return 0 if key and pattern are same,
-     *         >0 if key is larger than pattern,
-     *         <0 if key is smaller than pattern.
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToKanaSingle(final byte[] key, final byte[] pattern,
                                           final boolean exact) {
