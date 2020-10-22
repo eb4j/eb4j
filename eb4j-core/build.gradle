@@ -1,0 +1,78 @@
+
+// Here is only place where plugins {} can be located.
+plugins {
+    // bintray
+    id "com.jfrog.bintray" version "1.6"
+    //
+    id "com.github.spotbugs" version "4.5.1"
+    //
+    id 'java'
+    id 'jacoco'
+    id 'maven'
+    id 'distribution'
+    id 'checkstyle'
+}
+
+ext {
+    javaVersion = '1.8'
+}
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'org.testng:testng:6.9.10'
+}
+test.useTestNG()
+
+artifacts {
+    archives jar
+}
+
+spotbugs {
+    ignoreFailures = true
+}
+
+checkstyle {
+    config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
+    toolVersion = '6.16.1'
+}
+
+
+version = projectVersion
+group = projectGroup
+bintray {
+    user = System.getenv('bintrayUser')
+    key = System.getenv('bintrayApiKey')
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'eb4j-core'
+        licenses = ['LGPL-2.1']
+        vcsUrl = projectUrl
+        labels = ['java', 'EPWING', 'ebook']
+        publicDownloadNumbers = true
+    }
+}
+
+dependencies {
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compileOnly 'org.slf4j:slf4j-nop:1.7.25'
+    testImplementation 'org.slf4j:slf4j-nop:1.7.25'
+    testImplementation 'org.testng:testng:6.9.10'
+}
+test.useTestNG()
+
+distributions {
+    main {
+        distributionBaseName = 'eb4j-core'
+        contents {
+            from 'README.md'
+        }
+    }
+}
