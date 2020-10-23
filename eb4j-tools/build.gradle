@@ -1,0 +1,84 @@
+// eb4j gradle build script.
+//
+// Copyright (c) 2016,2020 Hiroshi Miura
+//
+
+plugins {
+    // bintray
+    id "com.jfrog.bintray" version "1.6"
+    //
+    id "com.github.spotbugs" version "4.5.1"
+    //
+    id 'java'
+    id 'jacoco'
+    id 'maven'
+    id 'distribution'
+    id 'checkstyle'
+    id 'application'
+}
+
+repositories {
+    jcenter()
+}
+
+mainClassName = 'io.github.eb4j.tool.EBZip'
+applicationName = 'ebzip'
+
+def scripts = ['ebdump': 'io.github.eb4j.tool.EBDump',
+               'ebinfo': 'io.github.eb4j.tool.EBInfo'
+]
+scripts.each() { scriptName, className ->
+    def t = tasks.create(name: scriptName + 'StartScript', type: CreateStartScripts) {
+        mainClassName = className
+        applicationName = scriptName
+        outputDir = new File(project.buildDir, 'scripts')
+        classpath = jar.outputs.files + project.configurations.runtime
+    }
+    applicationDistribution.into("bin") {
+        from(t)
+        fileMode = 0755
+    }
+}
+
+dependencies {
+    compile project(':eb4j-core')
+    compile 'commons-cli:commons-cli:1.2'
+    compile 'org.slf4j:slf4j-simple:1.7.25'
+    testCompile 'tokyo.northside:northside-io:0.2.0'
+    testImplementation 'org.testng:testng:6.9.10'
+}
+test.useTestNG()
+
+version = projectVersion
+group = projectGroup
+bintray {
+    user = System.getenv('bintrayUser')
+    key = System.getenv('bintrayApiKey')
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'eb4j-tools'
+        licenses = ['LGPL-2.1']
+        vcsUrl = projectUrl
+        labels = ['java', 'EPWING', 'ebook']
+        publicDownloadNumbers = true
+    }
+}
+
+distTar {
+    compression = Compression.GZIP
+}
+
+distributions {
+    main {
+        distributionBaseName = 'eb4j-tools'
+        contents {
+            from '../README.md'
+        }
+    }
+}
+
+checkstyle {
+    config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
+    toolVersion = '6.16.1'
+}

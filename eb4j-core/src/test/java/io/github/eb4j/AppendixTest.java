@@ -2,35 +2,33 @@ package io.github.eb4j;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
 
 /**
  * Created by miurahr on 16/06/05.
  */
 public class AppendixTest {
     @Test
-    public void testGetPath() throws Exception {
+    void testGetPath() {
 
     }
 
     @Test
-    public void testGetAppendixType() throws Exception {
+    void testGetAppendixType() {
 
     }
 
     @Test
-    public void testGetSubAppendixCount() throws Exception {
+    void testGetSubAppendixCount() {
 
     }
 
     @Test
-    public void testGetSubAppendixes() throws Exception {
+    void testGetSubAppendixes() {
 
     }
 
     @Test
-    public void testGetSubAppendix() throws Exception {
+    void testGetSubAppendix() {
 
     }
-
 }

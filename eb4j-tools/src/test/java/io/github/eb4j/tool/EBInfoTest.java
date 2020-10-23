@@ -9,7 +9,8 @@ import java.io.File;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 /**
  * Created by miurahr on 16/06/22.
@@ -37,24 +38,24 @@ public class EBInfoTest {
     public void testEBinfo() throws Exception {
         String bookPath = new File(this.getClass().getResource("/data/epwing").getFile())
                 .getAbsolutePath();
-        String expected = "disc type: EPWING V1\n" +
-                "character code: JIS X 0208\n" +
-                "the number of subbooks: 2\n" +
-                "\n" +
-                "subbook 1:\n" +
-                "  title: ＴＥＳＴ\n" +
-                "  directory: test\n" +
-                "  search methods: word exactword\n" +
-                "  font sizes:\n" +
-                "  narrow font characters:\n" +
-                "  wide font characters:\n" +
-                "subbook 2:\n" +
-                "  title: \u5730\u540d\n" +
-                "  directory: chimei\n" +
-                "  search methods: word exactword\n" +
-                "  font sizes:\n" +
-                "  narrow font characters:\n" +
-                "  wide font characters:\n";
+        String expected = "disc type: EPWING V1\n"
+                + "character code: JIS X 0208\n"
+                + "the number of subbooks: 2\n"
+                + "\n"
+                + "subbook 1:\n"
+                + "  title: ＴＥＳＴ\n"
+                + "  directory: test\n"
+                + "  search methods: word exactword\n"
+                + "  font sizes:\n"
+                + "  narrow font characters:\n"
+                + "  wide font characters:\n"
+                + "subbook 2:\n"
+                + "  title: \u5730\u540d\n"
+                + "  directory: chimei\n"
+                + "  search methods: word exactword\n"
+                + "  font sizes:\n"
+                + "  narrow font characters:\n"
+                + "  wide font characters:\n";
         String[] args = {"-m", bookPath};
         EBInfo.main(args);
         assertEquals(outContent.toString("UTF-8"), expected);

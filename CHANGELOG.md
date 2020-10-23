@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+- Refactoring gradle build structures
+- Fix tests(checkstyle).
+- Bump to gradle@6.1.1
+- Target java version to 8.
+- Add github actions workflows
+
+
 ## 1.99.1.dev - 2016-10-15
 ### Add
 - Add unit tests.
