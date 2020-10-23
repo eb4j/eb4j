@@ -2,7 +2,7 @@ name: Run Gradle on PRs
 
 on:
   pull_request:
-    paths-ignore:
+    paths:
       - 'docs/**'
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
           java-version: 8
       - uses: eskatos/gradle-command-action@v1
         with:
-          arguments: build
+          arguments: asciidoctor
         id: gradle
       - name: "Comment build scan url"
         uses: actions/github-script@v3
