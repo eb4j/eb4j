@@ -4,7 +4,7 @@ import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.hook.Hook;
 
 /**
- * 検索結果クラス。
+ * Search result class.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -19,13 +19,13 @@ public class Result {
 
 
     /**
-     * コンストラクタ。
+     * Build result object from data position.
      *
-     * @param sub 副本
-     * @param headPage 見出し位置のページ番号
-     * @param headOff 見出し位置のページ内オフセット
-     * @param textPage 本文位置のページ番号
-     * @param textOff 本文位置のページ内オフセット
+     * @param sub subbook.
+     * @param headPage page number of a heading.
+     * @param headOff page offset of a heading.
+     * @param textPage page number of an article text.
+     * @param textOff page offset of an article text.
      */
     protected Result(final SubBook sub, final long headPage, final int headOff,
                      final long textPage, final int textOff) {
@@ -35,12 +35,12 @@ public class Result {
     }
 
     /**
-     * コンストラクタ。
+     * Build result object from data position.
      *
-     * @param sub 副本
-     * @param heading 見出し位置
-     * @param textPage 本文位置のページ番号
-     * @param textOff 本文位置のページ内オフセット
+     * @param sub subbook.
+     * @param heading page position of a heading.
+     * @param textPage page number of an article text.
+     * @param textOff page offset of an article text.
      */
     protected Result(final SubBook sub, final long heading,
                      final long textPage, final int textOff) {
@@ -48,23 +48,23 @@ public class Result {
     }
 
     /**
-     * コンストラクタ。
+     * Build result object from data index position.
      *
-     * @param sub 副本
-     * @param headPage 見出し位置のページ番号
-     * @param headOff 見出し位置のページ内オフセット
-     * @param text 本文位置
+     * @param sub subbook.
+     * @param headPage page number of heading.
+     * @param headOff page offset of heading.
+     * @param text page position of an article text.
      */
     protected Result(final SubBook sub, final long headPage, final int headOff, final long text) {
         this(sub, BookInputStream.getPosition(headPage, headOff), text);
     }
 
     /**
-     * コンストラクタ。
+     * Build result object from data positions.
      *
-     * @param sub 副本
-     * @param heading 見出し位置
-     * @param text 本文位置
+     * @param sub subbook.
+     * @param heading Position of heading.
+     * @param text Position of an article text.
      */
     protected Result(final SubBook sub, final long heading, final long text) {
         super();
@@ -75,37 +75,37 @@ public class Result {
 
 
     /**
-     * 検索結果の見出し位置を返します。
+     * Returns a heading position.
      *
-     * @return 副本内の見出しデータ位置
+     * @return data position in a subbook.
      */
     public long getHeadingPosition() {
         return _heading;
     }
 
     /**
-     * 検索結果の本文位置を返します。
+     * Returns a description position of a search result.
      *
-     * @return 副本内の本文データ位置
+     * @return Data position of a an article text in subbook.
      */
     public long getTextPosition() {
         return _text;
     }
 
     /**
-     * 指定位置の見出しを返します。
+     * Returns a heading term.
      *
-     * @param hook フック (nullの場合はデフォルトのフック)
+     * @param hook Hook callback object.(default hook if null passed)
      * @param <T> type to be return from hook.
-     * @return フックによって加工されたオブジェクト
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @return Object that is processed with hook.
+     * @exception EBException if file read error is happened.
      */
     public <T> T getHeading(final Hook<T> hook) throws EBException {
         return _sub.getHeading(_heading, hook);
     }
 
     /**
-     * 指定位置の本文を返します。
+     * Returns an article text.
      *
      * @param hook フック (nullの場合はデフォルトのフック)
      * @param <T> type to be return from hook.

@@ -44,7 +44,7 @@ public class EPWINGInputStream extends BookInputStream {
 
         // ヘッダの読み込み
         int len = 32;
-        if (info.getFormat() == EBFile.FORMAT_EPWING6) {
+        if (info.getFormat() == EBFormat.FORMAT_EPWING6) {
             len += 16;
         }
         readRawFully(b, 0, len);
@@ -74,19 +74,20 @@ public class EPWINGInputStream extends BookInputStream {
             }
         }
 
-        int leaf32 = 0;
-        int leaf16 = 0;
-        if (info.getFormat() == EBFile.FORMAT_EPWING) {
+        int leaf32;
+        int leaf16;
+        if (info.getFormat() == EBFormat.FORMAT_EPWING) {
             leaf16 = (int)((info.getEpwingFrequencySize() - (256 * 2)) / 4);
+            leaf32 = 0;
         } else {
             leaf16 = 0x400;
             leaf32 = (int)((info.getEpwingFrequencySize() - (leaf16 * 4L) - (256L * 2L)) / 6L);
         }
 
-        ArrayList<HuffmanNode> list = null;
+        ArrayList<HuffmanNode> list;
         // 32bitデータのハフマンノード作成
-        if (info.getFormat() == EBFile.FORMAT_EPWING6) {
-            list = new ArrayList<HuffmanNode>(leaf32 + leaf16 + 256 + 1);
+        if (info.getFormat() == EBFormat.FORMAT_EPWING6) {
+            list = new ArrayList<>(leaf32 + leaf16 + 256 + 1);
             len = b.length - (b.length % 6);
             try {
                 stream.seek(info.getEpwingFrequencyPosition());
@@ -104,7 +105,7 @@ public class EPWINGInputStream extends BookInputStream {
                 list.add(new HuffmanNode(value, freq, HuffmanNode.LEAF_32));
             }
         } else {
-            list = new ArrayList<HuffmanNode>(leaf16 + 256 + 1);
+            list = new ArrayList<>(leaf16 + 256 + 1);
         }
 
         // 16bitデータのハフマンノード作成
@@ -226,7 +227,7 @@ public class EPWINGInputStream extends BookInputStream {
         int outLen = 0;
         int bitIndex = 7;
 
-        if (info.getFormat() == EBFile.FORMAT_EPWING6) {
+        if (info.getFormat() == EBFormat.FORMAT_EPWING6) {
             // 圧縮形式の取得
             readRawFully(b, 0, 1);
             if ((b[0] & 0xff) != 0) {

@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
- * バイト操作ユーティリティクラス。
+ * Utility class for byte operations.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -144,7 +144,7 @@ public final class ByteUtil {
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
      */
     private ByteUtil() {
@@ -153,22 +153,22 @@ public final class ByteUtil {
 
 
     /**
-     * 指定された配列から2バイトをint型に変換します。
+     * Convert to int value from 2-bytes in a  byte array.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static int getInt2(final byte[] b, final int offset) {
         return ((b[offset] & 0xff) << 8) | (b[offset+1] & 0xff);
     }
 
     /**
-     * 指定された配列から3バイトをint型に変換します。
+     * Convert to int value from 3-bytes of a byte array.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static int getInt3(final byte[] b, final int offset) {
         return ((b[offset] & 0xff) << 16)
@@ -176,22 +176,22 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から2バイトをリトルエンディアンでint型に変換します。
+     * Convert to int value from 2-bytes of a byte-array as little endian.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static int getIntLE2(final byte[] b, final int offset) {
         return ((b[offset+1] & 0xff) << 8) | (b[offset] & 0xff);
     }
 
     /**
-     * 指定された配列から2バイトをBCDとみなしint型に変換します。
+     * Convert to int value from 2-byte of a byte-array as BCD.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static int getBCD2(final byte[] b, final int offset) {
         int ret = (b[offset+1] & 0x0f);
@@ -202,11 +202,11 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から4バイトをBCDとみなしint型に変換します。
+     * Convert to int value from 4-byte of a byte-array as BCD.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static int getBCD4(final byte[] b, final int offset) {
         int ret = (b[offset+3] & 0x0f);
@@ -221,11 +221,11 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から4バイトをlong型に変換します。
+     * Convert to long value from 4-bytes of a byte-array.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static long getLong4(final byte[] b, final int offset) {
         long ret = (b[offset] & 0xffL) << 24;
@@ -236,11 +236,11 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から5バイトをlong型に変換します。
+     * Convert to long value from 5-bytes of a byte-array.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static long getLong5(final byte[] b, final int offset) {
         long ret = (b[offset] & 0xffL) << 32;
@@ -252,11 +252,11 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から4バイトをリトルエンディアンでlong型に変換します。
+     * Convert to long value from 4-bytes of a byte-array as little endian.
      *
-     * @param b バイト配列
-     * @param offset 変換開始位置
-     * @return 変換した数値
+     * @param b byte array.
+     * @param offset offset to be converted.
+     * @return converted int value.
      */
     public static long getLongLE4(final byte[] b, final int offset) {
         long ret = (b[offset+3] & 0xffL) << 24;
@@ -267,10 +267,10 @@ public final class ByteUtil {
     }
 
     /**
-     * 文字列中の半角文字を全角文字に変換します。
+     * Convert to full-width characters from half-width characters in a string.
      *
-     * @param str 半角文字を含む文字列
-     * @return 全角文字に変換された文字列
+     * @param str string that has half-width characters.
+     * @return string converted to full-width characters.
      */
     public static String narrowToWide(final String str) {
         int len = str.length();
@@ -304,10 +304,10 @@ public final class ByteUtil {
     }
 
     /**
-     * 文字列中の全角文字を半角文字に変換します。
+     * Convert to half-width characters from full-width characters in a string.
      *
-     * @param str 全角文字を含む文字列
-     * @return 半角文字に変換された文字列
+     * @param str string that has full-width characters.
+     * @return string converted to half-width characters.
      */
     public static String wideToNarrow(final String str) {
         int len = str.length();
@@ -348,11 +348,11 @@ public final class ByteUtil {
     }
 
     /**
-     * ASCIIコードをJIS X 0208コードに変換します。
+     * Convert to JIS X 0208 code from ASCII.
      *
-     * @param code ASCIIコード (0x20〜0x7E)
-     * @return JIS X 0208コード
-     * @exception AssertionError ASCIIコードが0x20〜0x7Eの範囲外の場合
+     * @param code ASCII code (0x20〜0x7E).
+     * @return JIS X 0208 code.
+     * @exception AssertionError if given code is outside from 0x20 to 0x7E.
      */
     public static int asciiToJISX0208(final int code) {
         if (!(0x20 <= code && code <= 0x7e)) {
@@ -362,11 +362,11 @@ public final class ByteUtil {
     }
 
     /**
-     * JIS X 0201コードをJIS X 0208コードに変換します。
+     * Convert JIS X 0201 chars into JIS X 0208 chars.
      *
-     * @param code JIS X 0201コード (0xA0〜0xDF)
-     * @return JIS X 0208コード
-     * @exception AssertionError JIS X 0201コードが0xA0〜0xDFの範囲外の場合
+     * @param code JIS X 0201 code (0xA0〜0xDF).
+     * @return JIS X 0208 code.
+     * @exception AssertionError if given code is outside from 0xA0 to 0xDF.
      */
     public static int jisx0201ToJISX0208(final int code) {
         if (!(0xA0 <= code && code <= 0xdf)) {
@@ -376,22 +376,22 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列をGB 2312文字コードから文字列に変換します。
+     * Convert a byte array  as GB 2312 character set into String.
      *
-     * @param b GB 2312文字セットのバイト配列
-     * @return 変換した文字列
+     * @param b byte array consist of chars in GB 2312 charset.
+     * @return converted string.
      */
     public static String gb2312ToString(final byte[] b) {
         return gb2312ToString(b, 0, b.length);
     }
 
     /**
-     * 指定された部分配列をGB 2312文字コードから文字列に変換します。
+     * Convert a byte array consist of GB 2312 chars into String.
      *
-     * @param b GB 2312文字セットのバイト配列
-     * @param offset 変換開始位置
-     * @param len 変換を行うバイト数
-     * @return 変換した文字列
+     * @param b byte array consist of chars in GB 2312 charset.
+     * @param offset offset to be converted.
+     * @param len length to be converted.
+     * @return converted string.
      */
     public static String gb2312ToString(final byte[] b, final int offset, final int len) {
         byte[] buf = new byte[len];
@@ -415,17 +415,17 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列をJIS X 0208文字コードから文字列に変換します。
+     * Convert a byte array as JIS X 0208 into java String.
      *
-     * @param b JIS X 0208文字セットのバイト配列
-     * @return 変換した文字列
+     * @param b byte array consist of chars in JIS X 0208 charset.
+     * @return converted string.
      */
     public static String jisx0208ToString(final byte[] b) {
         return jisx0208ToString(b, 0, b.length);
     }
 
     /**
-     * 指定された部分配列をJIS X 0208文字コードから文字列に変換します。
+     * Convert a partial byte array into JIS X 0208 string.
      *
      * @param b JIS X 0208文字セットのバイト配列
      * @param offset 変換開始位置
@@ -452,10 +452,10 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された文字列をJIS X 0208文字コードに変換します。
+     * Convert a string into a byte array in JIS X 0208 .
      *
-     * @param str 符号化する文字列
-     * @return JIS X 0208文字セットのバイト配列
+     * @param str string to be converted.
+     * @return byte array in JIS X 0208 character set.
      */
     public static byte[] stringToJISX0208(final String str) {
         if (str == null || str.length() <= 0) {
@@ -536,9 +536,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の片仮名を平仮名に変換します。
+     * Convert Katakana in byte array into Hiragana.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void katakanaToHiragana(final byte[] b) {
         int len = b.length;
@@ -558,9 +558,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の平仮名を片仮名に変換します。
+     * Convert Hiragana in byte array into Katakana.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void hiraganaToKatakana(final byte[] b) {
         int len = b.length;
@@ -580,9 +580,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の半角大文字を半角小文字に変換します。
+     * Convert half-width capital alphabet into half-width lower case one.
      *
-     * @param b ISO 8859-1文字セットのバイト配列
+     * @param b byte array in ISO 8859-1 character set.
      */
     public static void upperToLowerLatin(final byte[] b) {
         int len = b.length;
@@ -599,9 +599,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の半角小文字を半角大文字に変換します。
+     * Convert half-width lower case alphabet into half-width upper case one.
      *
-     * @param b ISO 8859-1文字セットのバイト配列
+     * @param b byte array in ISO 8859-1 character set.
      */
     public static void lowerToUpperLatin(final byte[] b) {
         int len = b.length;
@@ -618,9 +618,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の全角大文字を全角小文字に変換します。
+     * Convert full-width upper case alphabets into full-width lower case.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void upperToLower(final byte[] b) {
         int len = b.length;
@@ -641,9 +641,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の全角小文字を全角大文字に変換します。
+     * Convert full-width lower case alphabet into full-width upper case.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void lowerToUpper(final byte[] b) {
         int len = b.length;
@@ -663,9 +663,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 長母音記号を母音に変換します。
+     * Convert long vowel into short vowel.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 chracter set.
      */
     public static void convertLongVowel(final byte[] b) {
         int len = b.length;
@@ -693,9 +693,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 長母音記号を削除します。
+     * Delete long vowel from byte array.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 chracter set.
      */
     public static void deleteLongVowel(final byte[] b) {
         int len = b.length;
@@ -726,9 +726,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 促音を清音に変換します。
+     * Convert double consonant into single consonant.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void convertDoubleConsonant(final byte[] b) {
         int len = b.length;
@@ -748,9 +748,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 拗音を清音に変換します。
+     * Convert contracted sound into unvoiced consonant.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void convertContractedSound(final byte[] b) {
         int len = b.length;
@@ -776,9 +776,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 濁音を清音に変換します。
+     * Convert voiced consonant into unvoiced consonant.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void convertVoicedConsonant(final byte[] b) {
         int len = b.length;
@@ -799,9 +799,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 小さい母音を通常の母音に変換します。
+     * Convert small vowel into normal vowel.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void convertSmallVowel(final byte[] b) {
         int len = b.length;
@@ -824,9 +824,9 @@ public final class ByteUtil {
     }
 
     /**
-     * 半濁音を清音に変換します。
+     * Convert P-sound into unvoiced consonant.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void convertPSound(final byte[] b) {
         int len = b.length;
@@ -849,9 +849,12 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から記号(・‐’−)を削除します。
+     * Delete symbols character, such as ・‐’−, from the array.
+     * <p>
+     * After removal, it will pad '\0' in end of array.
+     * A size of the array returned is as same as original.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void deleteMark(final byte[] b) {
         int len = b.length;
@@ -884,9 +887,12 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から空白文字を削除します。
+     * Delete space character from the array.
+     * <p>
+     * After removal, it will pad '\0' in end of array.
+     * A size of the array returned is as same as original.
      *
-     * @param b ISO 8859-1文字セットのバイト配列
+     * @param b byte array in ISO 8859-1 character set.
      */
     public static void deleteSpaceLatin(final byte[] b) {
         int count = 0;
@@ -910,9 +916,11 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列から全角スペースを削除します。
+     * Delete full-width space character from the array.
+     * <p>
+     * After removal, array size will be shorten.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void deleteSpace(final byte[] b) {
         int len = b.length;
@@ -943,9 +951,13 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の文字順序を逆にします。
+     * Returns a array in reverse order of the original array.
+     * <p>
+     * It recognize '\0' as a end of characters.
+     * It may return a array that length is shorter than original,
+     * when array includes '\0' character in middle of the array.
      *
-     * @param b ISO 8859-1文字セットのバイト配列
+     * @param b byte array in ISO 8859-1 character set.
      */
     public static void reverseWordLatin(final byte[] b) {
         int len = 0;
@@ -964,9 +976,13 @@ public final class ByteUtil {
     }
 
     /**
-     * 指定された配列の文字順序を逆にします。
+     * Returns a array in reverse order of the original array.
+     * <p>
+     * It recognize '\0' as a end of characters.
+     * It may return a array that length is shorter than original,
+     * when array includes '\0' character in middle of the array.
      *
-     * @param b JIS X 0208文字セットのバイト配列
+     * @param b byte array in JIS X 0208 character set.
      */
     public static void reverseWord(final byte[] b) {
         int len = 0;

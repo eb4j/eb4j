@@ -1,14 +1,14 @@
 package io.github.eb4j.util;
 
 /**
- * 比較ユーティリティクラス。
+ * Comparison utility class.
  *
  * @author Hisaya FUKUMOTO
  */
 public final class CompareUtil {
 
     /**
-     * コンストラクタ。
+     * Protect from instantiate Utility class.
      *
      */
     private CompareUtil() {
@@ -17,14 +17,14 @@ public final class CompareUtil {
 
 
     /**
-     * キーとパターンをバイト値で比較します。
+     * Compare byte by byte between key and pattern.
      *
-     * @param key キー
-     * @param pattern パターン
-     * @param presearch pre-searchの場合はtrue
-     * @return キーがパターンと同じ場合は0、
-     *         キーがパターンより大きい場合は1以上、
-     *         キーがパターンより小さい場合は-1以下
+     * @param key key
+     * @param pattern pattern
+     * @param presearch true when trying prefix match
+     * @return 0 if key and pattern are same, or key has a same prefix as pattern,
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToByte(final byte[] key, final byte[] pattern,
                                     final boolean presearch) {
@@ -52,14 +52,14 @@ public final class CompareUtil {
     }
 
     /**
-     * キーとパターンをJIS X 0208文字セットで比較します。
+     * Comparison between key and pattern with JIS X 0208 character set.
      *
-     * @param key キー (JIS X 0208)
-     * @param pattern パターン (JIS X 0208)
-     * @param presearch pre-searchの場合はtrue
-     * @return キーがパターンと同じ場合は0、
-     *         キーがパターンより大きい場合は1以上、
-     *         キーがパターンより小さい場合は-1以下
+     * @param key key (JIS X 0208)
+     * @param pattern pattern (JIS X 0208)
+     * @param presearch true when trying prefix match.
+     * @return 0 if key and pattern are same, or key has same prefix with pattern,
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToJISX0208(final byte[] key, final byte[] pattern,
                                         final boolean presearch) {
@@ -97,14 +97,14 @@ public final class CompareUtil {
      }
 
     /**
-     * キーとパターンをISO 8859-1文字セットで比較します。
+     * Comparison between key and pattern with ISO 8859-1 character set.
      *
-     * @param key キー (ISO 8859-1)
-     * @param pattern パターン (ISO 8859-1)
-     * @param presearch pre-searchの場合はtrue
-     * @return キーがパターンと同じ場合は0、
-     *         キーがパターンより大きい場合は1以上、
-     *         キーがパターンより小さい場合は-1以下
+     * @param key key (ISO 8859-1)
+     * @param pattern pattern (ISO 8859-1)
+     * @param presearch true when trying prefix match.
+     * @return 0 if key and pattern are same, or key has same prefix with pattern,
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToLatin(final byte[] key, final byte[] pattern,
                                      final boolean presearch) {
@@ -142,14 +142,14 @@ public final class CompareUtil {
     }
 
     /**
-     * キーとパターンをJIS X 0208文字セットで比較します。
+     * Comparison between key and pattern with JIS X 0208 character set.
      *
-     * @param key キー (JIS X 0208)
-     * @param pattern パターン (JIS X 0208)
-     * @param exact 完全一致の場合はtrue
-     * @return キーがパターンと同じ場合は0、
-     *         キーがパターンより大きい場合は1以上、
-     *         キーがパターンより小さい場合は-1以下
+     * @param key key (JIS X 0208)
+     * @param pattern pattern (JIS X 0208)
+     * @param exact true if trying exact match.
+     * @return 0 if key and pattern are same,
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToKanaGroup(final byte[] key, final byte[] pattern,
                                          final boolean exact) {
@@ -192,14 +192,14 @@ public final class CompareUtil {
      }
 
     /**
-     * キーとパターンをJIS X 0208文字セットで比較します。
+      * Comparison between key and pattern with JIS X 0208 character set.
      *
-     * @param key キー (JIS X 0208)
-     * @param pattern パターン (JIS X 0208)
-     * @param exact 完全一致の場合はtrue
-     * @return キーがパターンと同じ場合は0、
-     *         キーがパターンより大きい場合は1以上、
-     *         キーがパターンより小さい場合は-1以下
+     * @param key key (JIS X 0208)
+     * @param pattern pattern (JIS X 0208)
+     * @param exact true if trying exact match.
+     * @return 0 if key and pattern are same,
+     *         &gt;0 if key is larger than pattern,
+     *         &lt;0 if key is smaller than pattern.
      */
     public static int compareToKanaSingle(final byte[] key, final byte[] pattern,
                                           final boolean exact) {

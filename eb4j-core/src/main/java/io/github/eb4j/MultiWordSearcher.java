@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.apache.commons.lang.ArrayUtils;
 
 /**
- * 複数検索語検索クラス。
+ * Searcher class for multiple search words.
  *
  * @author Hisaya FUKUMOTO
  */
@@ -24,7 +24,7 @@ public class MultiWordSearcher implements Searcher {
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
      * @param sub 副本
      * @param style インデックススタイル
@@ -38,7 +38,7 @@ public class MultiWordSearcher implements Searcher {
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
      * @param sub 副本
      * @param multi 複合検索用インデックススタイル
@@ -55,14 +55,14 @@ public class MultiWordSearcher implements Searcher {
 
 
     /**
-     * 検索を行います。
+     * Action for search.
      *
      * @param word 検索語
      * @exception EBException 前処理中にエラーが発生した場合
      */
     protected void search(final byte[][] word) throws EBException {
         int len = word.length;
-        ArrayList<SingleWordSearcher> list = new ArrayList<SingleWordSearcher>(len);
+        ArrayList<SingleWordSearcher> list = new ArrayList<>(len);
         SingleWordSearcher search;
         for (int i=0; i<len; i++) {
             if (!ArrayUtils.isEmpty(word[i])) {
@@ -79,10 +79,10 @@ public class MultiWordSearcher implements Searcher {
     }
 
     /**
-     * 次の検索結果を返します。
+     * Returns a next result.
      *
-     * @return 検索結果 (次の検索結果がない場合null)
-     * @exception EBException 検索中にエラーが発生した場合
+     * @return result or null if no next result.
+     * @exception EBException if error is happened when searching.
      */
     @Override
     public Result getNextResult() throws EBException {

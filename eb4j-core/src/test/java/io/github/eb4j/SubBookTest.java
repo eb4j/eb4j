@@ -7,17 +7,21 @@ import io.github.eb4j.hook.DefaultHook;
 
 import java.io.File;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by miurahr on 16/06/05.
  */
 public class SubBookTest {
-    Book book;
-    SubBook[] subbooks;
+
+    private Book book;
+    private SubBook[] subbooks;
 
     @Test(groups = "init")
-    public void testSubBookConstructor() throws Exception {
+    void testSubBookConstructor() throws Exception {
         File bookPath = new File(this.getClass().getResource("/data/epwing").getFile());
         File appendixPath = null;
         book = new Book(bookPath, appendixPath);
@@ -27,129 +31,129 @@ public class SubBookTest {
 
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetBook() throws Exception {
+    void testGetBook() {
         assertEquals(subbooks[0].getBook(), book, "getBook() returns parent book.");
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testSetAppendix() throws Exception {
+    void testSetAppendix() {
         // TODO: need test data
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetSubAppendix() throws Exception {
+    void testGetSubAppendix() {
         // TODO: need test data
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetTitle() throws Exception {
+    void testGetTitle() {
         assertEquals(subbooks[0].getTitle(), "\uFF34\uFF25\uFF33\uFF34"); // TEST in zenkaku
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetName() throws Exception {
+    void testGetName() {
         assertEquals(subbooks[0].getName(), "test");
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetFont() throws Exception {
+    void testGetFont() {
         // TODO: need test data
         // this method returns GAIJI font.
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetFont1() throws Exception {
+    void testGetFont1() {
         // TODO: need test data
         // this method returns GAIJI font.
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testSetFont() throws Exception {
+    void testSetFont() {
         subbooks[0] .setFont(ExtFont.FONT_48);
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetGraphicData() throws Exception {
+    void testGetGraphicData() {
 
     }
 
     @Test
-    public void testGetSoundData() throws Exception {
+    void testGetSoundData() {
 
     }
 
     @Test
-    public void testGetTextFile() throws Exception {
+    void testGetTextFile() {
 
     }
 
     @Test
-    public void testGetGraphicFile() throws Exception {
+    void testGetGraphicFile() {
 
     }
 
     @Test
-    public void testGetSoundFile() throws Exception {
+    void testGetSoundFile() {
 
     }
 
     @Test
-    public void testGetMovieFileList() throws Exception {
+    void testGetMovieFileList() {
 
     }
 
     @Test
-    public void testGetMovieFile() throws Exception {
+    void testGetMovieFile() {
 
     }
 
     @Test
-    public void testGetHeading() throws Exception {
+    void testGetHeading() {
 
     }
 
     @Test
-    public void testGetNextHeadingPosition() throws Exception {
+    void testGetNextHeadingPosition() {
 
     }
 
     @Test
-    public void testGetText() throws Exception {
+    void testGetText() {
 
     }
 
     @Test
-    public void testGetMenu() throws Exception {
+    void testGetMenu() {
 
     }
 
     @Test
-    public void testGetImageMenu() throws Exception {
+    void testGetImageMenu() {
 
     }
 
     @Test
-    public void testGetCopyright() throws Exception {
+    void testGetCopyright() {
 
     }
 
     @Test
-    public void testGetWordIndexStyle() throws Exception {
+    void testGetWordIndexStyle() {
 
     }
 
     @Test
-    public void testGetEndwordIndexStyle() throws Exception {
+    void testGetEndwordIndexStyle() {
         // TODO need test data.
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testSearchExactword() throws Exception {
+    void testSearchExactword() {
         // TODO need test data.
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testSearchWord() throws Exception {
+    void testSearchWord() throws Exception {
         assertTrue(subbooks[1].hasWordSearch());
         Hook<String> hook = new DefaultHook(subbooks[1]);
         Searcher sh = subbooks[1].searchWord("Tokyo");
@@ -165,102 +169,102 @@ public class SubBookTest {
     }
 
     @Test
-    public void testSearchEndword() throws Exception {
+    void testSearchEndword() {
         // TODO need test data.
     }
 
     @Test
-    public void testSearchKeyword() throws Exception {
+    void testSearchKeyword() {
         // TODO need test data.
     }
 
     @Test
-    public void testSearchCross() throws Exception {
+    void testSearchCross() {
         // TODO need test data.
     }
 
     @Test
-    public void testSearchMulti() throws Exception {
+    void testSearchMulti() {
         // TODO need test data.
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasMenu() throws Exception {
+    void testHasMenu() {
         assertFalse(subbooks[0].hasMenu());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasImageMenu() throws Exception {
+    void testHasImageMenu() {
         assertFalse(subbooks[0].hasImageMenu());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasCopyright() throws Exception {
+    void testHasCopyright() {
         assertFalse(subbooks[0].hasCopyright());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasExactwordSearch() throws Exception {
+    void testHasExactwordSearch() throws Exception {
         assertTrue(subbooks[0].hasExactwordSearch());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasWordSearch() throws Exception {
+    void testHasWordSearch() throws Exception {
         assertTrue(subbooks[0].hasWordSearch());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasEndwordSearch() throws Exception {
+    void testHasEndwordSearch() throws Exception {
         assertFalse(subbooks[0].hasEndwordSearch());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasKeywordSearch() throws Exception {
+    void testHasKeywordSearch() throws Exception {
         assertFalse(subbooks[0].hasKeywordSearch());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasCrossSearch() throws Exception {
+    void testHasCrossSearch() {
         assertFalse(subbooks[0].hasCrossSearch());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testHasMultiSearch() throws Exception {
+    void testHasMultiSearch() {
         assertFalse(subbooks[0].hasMultiSearch());
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetMultiCount() throws Exception {
+    void testGetMultiCount() {
 
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetMultiTitle() throws Exception {
+    void testGetMultiTitle() {
 
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetMultiEntryCount() throws Exception {
+    void testGetMultiEntryCount() {
 
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetMultiEntryLabel() throws Exception {
+    void testGetMultiEntryLabel() {
 
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testGetCandidate() throws Exception {
+    void testGetCandidate() {
 
     }
 
     @Test
-    public void testHasMultiEntryCandidate() throws Exception {
+    void testHasMultiEntryCandidate() {
 
     }
 
     @Test(dependsOnGroups = {"init"})
-    public void testToString() throws Exception {
+    void testToString() {
         assertEquals(subbooks[0].toString(), subbooks[0].getTitle());
     }
 

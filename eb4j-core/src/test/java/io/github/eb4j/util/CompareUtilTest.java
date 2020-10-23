@@ -2,24 +2,24 @@ package io.github.eb4j.util;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Created by miurahr on 16/06/08.
  */
 public class CompareUtilTest {
     @Test
-    public void testCompareToByte() throws Exception {
+    void testCompareToByte() {
 
     }
 
     @Test
-    public void testCompareToJISX0208() throws Exception {
+    void testCompareToJISX0208() {
 
     }
 
     @Test
-    public void testCompareToLatin() throws Exception {
+    void testCompareToLatin() {
         byte[] key = {0x21, 0x23, '\0'};
         byte[] pattern = {0x21, 0x23, '\0'};
         boolean presearch = false;
@@ -27,7 +27,7 @@ public class CompareUtilTest {
     }
 
     @Test
-    public void testCompareToLatin_presearch() throws Exception {
+    void testCompareToLatinPresearch() {
         byte[] key = {0x21, 0x23, 0x41, '\0'};
         byte[] pattern = {0x21, 0x23};
         boolean presearch = true;
@@ -35,7 +35,7 @@ public class CompareUtilTest {
     }
 
     @Test
-    public void testCompareToLatin_false() throws Exception {
+    void testCompareToLatinFalse() {
         byte[] key = {0x21, 0x23, 0x44, '\0'};
         byte[] pattern = {0x21, 0x23};
         boolean presearch = false;
@@ -43,7 +43,8 @@ public class CompareUtilTest {
     }
 
     @Test
-    public void testCompareToLatin_presearch_false() throws Exception {
+    @SuppressWarnings("checkstyle:methodname")
+    void testCompareToLatin_presearch_false() {
         byte[] key = {0x21, 0x23, 0x44, '\0'};
         byte[] pattern = {0x21, 0x23, 0x45};
         boolean presearch = true;
@@ -51,7 +52,7 @@ public class CompareUtilTest {
     }
 
     @Test
-    public void testCompareToKanaGroup() throws Exception {
+    void testCompareToKanaGroup() {
         byte[] key = {0x21, 0x23, '\0'};
         byte[] pattern = {0x21, 0x23, '\0'};
         boolean exact = true;
@@ -63,7 +64,7 @@ public class CompareUtilTest {
     }
 
     @Test
-    public void testCompareToKanaSingle() throws Exception {
+    void testCompareToKanaSingle() {
         byte[] key = {0x21, 0x23, '\0'};
         byte[] pattern = {0x21, 0x23, '\0'};
         boolean exact = true;
@@ -72,7 +73,5 @@ public class CompareUtilTest {
         assertEquals(CompareUtil.compareToKanaSingle(key, pattern2, exact), -1);
         byte[] pattern3 = {0x21, 0x22, '\0'};
         assertEquals(CompareUtil.compareToKanaSingle(key, pattern3, exact), 1);
-
     }
-
 }

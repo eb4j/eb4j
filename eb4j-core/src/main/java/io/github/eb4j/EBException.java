@@ -1,29 +1,29 @@
 package io.github.eb4j;
 
 /**
- * 書籍例外クラス。
+ * EBook exception class.
  *
  * @author Hisaya FUKUMOTO
  */
 public class EBException extends Exception {
 
-    /** エラーコード (ディレクトリが見つからない) */
+    /** Error code: Directory not found. */
     public static final int DIR_NOT_FOUND = 0;
-    /** エラーコード (ディレクトリが読めない) */
+    /** Error code: Cannot read directory. */
     public static final int CANT_READ_DIR = 1;
 
-    /** エラーコード (ファイルが見つからない) */
+    /** Error code: File not found. */
     public static final int FILE_NOT_FOUND = 2;
-    /** エラーコード (ファイルが読めない) */
+    /** Error code: cannot read file. */
     public static final int CANT_READ_FILE = 3;
-    /** エラーコード (ファイル読み込みエラー) */
+    /** Error code: failed to read file. */
     public static final int FAILED_READ_FILE = 4;
-    /** エラーコード (ファイルフォーマットエラー) */
+    /** Error code: unexceptional file format. */
     public static final int UNEXP_FILE = 5;
-    /** エラーコード (ファイルシークエラー) */
+    /** Error code: failed to seek file. */
     public static final int FAILED_SEEK_FILE = 6;
 
-    /** エラーメッセージ */
+    /** Error messages */
     private static final String[] ERR_MSG = {
         "directory not found",
         "can't read directory",
@@ -35,36 +35,33 @@ public class EBException extends Exception {
         "failed to seek a file"
     };
 
-    /** エラーコード */
+    /** Error code */
     private int _code = -1;
 
 
     /**
-     * 指定されたメッセージを持つEBExceptionを構築します。<BR>
-     * メッセージ: "msg"
+     * Build EBException from specified message.
      *
-     * @param msg 詳細メッセージ
+     * @param msg message
      */
    private EBException(final String msg) {
         super(msg);
     }
 
     /**
-     * 指定されたメッセージを持つEBExceptionを構築します。<BR>
-     * メッセージ: "msg"
+     * Build EBException from specified message.
      *
-     * @param msg 詳細メッセージ
-     * @param cause 原因
+     * @param msg message
+     * @param cause cause
      */
    private EBException(final String msg, final Throwable cause) {
         super(msg, cause);
     }
 
     /**
-     * 指定されたエラーコードを持つEBExceptionを構築します。<BR>
-     * メッセージ: "ERR_MSG"
+     * Build EBException from specified error code.
      *
-     * @param code エラーコード
+     * @param code error code
      */
     public EBException(final int code) {
         this(ERR_MSG[code]);
@@ -72,11 +69,10 @@ public class EBException extends Exception {
     }
 
     /**
-     * 指定されたエラーコード、原因を持つEBExceptionを構築します。<BR>
-     * メッセージ: "ERR_MSG (cause)"
+     * Build EBException from specified error code.
      *
-     * @param code エラーコード
-     * @param cause 原因
+     * @param code error code
+     * @param cause cause
      */
     public EBException(final int code, final Throwable cause) {
         this(ERR_MSG[code] + " (" + cause.getMessage() + ")", cause);
@@ -84,11 +80,10 @@ public class EBException extends Exception {
     }
 
     /**
-     * 指定されたエラーコード、追加メッセージを持つEBExceptionを構築します。<BR>
-     * メッセージ: "ERR_MSG (msg)"
+     * Build EBException from specified error code.
      *
-     * @param code エラーコード
-     * @param msg 追加メッセージ
+     * @param code error code
+     * @param msg additional message
      */
     public EBException(final int code, final String msg) {
         this(ERR_MSG[code] + " (" + msg + ")");
@@ -96,12 +91,11 @@ public class EBException extends Exception {
     }
 
     /**
-     * 指定されたエラーコード、追加メッセージ、原因を持つEBExceptionを構築します。<BR>
-     * メッセージ: "ERR_MSG (msg: cause)"
+     * Build EBException with specified error code, additional message, and cause.
      *
-     * @param code エラーコード
-     * @param msg 追加メッセージ
-     * @param cause 原因
+     * @param code error code
+     * @param msg additional message
+     * @param cause cause
      */
     public EBException(final int code, final String msg, final Throwable cause) {
         this(ERR_MSG[code] + " (" + msg + ": " + cause.getMessage() + ")", cause);
@@ -109,12 +103,11 @@ public class EBException extends Exception {
     }
 
     /**
-     * 指定されたエラーコード、追加メッセージを持つEBExceptionを構築します。<BR>
-     * メッセージ: "ERR_MSG (msg1: msg2)"
+     * Build EBException with specified error code and additional message.
      *
-     * @param code エラーコード
-     * @param msg1 追加メッセージ1
-     * @param msg2 追加メッセージ2
+     * @param code error code
+     * @param msg1 additional message 1
+     * @param msg2 additional message 2
      */
     public EBException(final int code, final String msg1, final String msg2) {
         this(ERR_MSG[code] + " (" + msg1 + ": " + msg2 + ")");
@@ -123,9 +116,9 @@ public class EBException extends Exception {
 
 
     /**
-     * エラーコードを返します。
+     * Return error code.
      *
-     * @return エラーコード
+     * @return error code.
      */
     public int getErrorCode() {
         return _code;

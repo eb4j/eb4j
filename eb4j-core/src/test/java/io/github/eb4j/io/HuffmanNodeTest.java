@@ -4,17 +4,20 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by miurahr on 16/06/11.
  */
 public class HuffmanNodeTest {
-    HuffmanNode root;
-    HuffmanNode nodeB;
+    private HuffmanNode root;
+    private HuffmanNode nodeB;
 
     @Test(groups={"node"})
-    public void testMakeNode() throws Exception {
+    void testMakeNode() {
         long value = 1;
         int freq = 2;
         int type = HuffmanNode.LEAF_32;
@@ -23,7 +26,7 @@ public class HuffmanNodeTest {
     }
 
     @Test(groups={"node"})
-    public void testGetType() throws Exception {
+    void testGetType() {
         long value = 1;
         int freq = 2;
         int type = HuffmanNode.LEAF_32;
@@ -32,7 +35,7 @@ public class HuffmanNodeTest {
     }
 
     @Test(groups={"node"})
-    public void testGetValue() throws Exception {
+    void testGetValue() {
         long value = 1;
         int freq = 2;
         int type = HuffmanNode.LEAF_32;
@@ -41,7 +44,7 @@ public class HuffmanNodeTest {
     }
 
     @Test(groups={"node"})
-    public void testIsLeaf() throws Exception {
+    void testIsLeaf() {
          long value = 1;
         int freq = 2;
         int type = HuffmanNode.LEAF_32;
@@ -50,7 +53,7 @@ public class HuffmanNodeTest {
     }
 
     @Test(groups={"tree"})
-    public void testMakeTree() throws Exception {
+    void testMakeTree() {
         ArrayList<HuffmanNode> list = new ArrayList<>(10);
         list.add(new HuffmanNode('A', 2, HuffmanNode.LEAF_32));
         nodeB = new HuffmanNode('B', 5, HuffmanNode.LEAF_32);
@@ -64,7 +67,7 @@ public class HuffmanNodeTest {
    }
 
     @Test(groups={"tree"}, dependsOnMethods={"testMakeTree"})
-    public void testLeft() throws Exception {
+    void testLeft() {
         HuffmanNode left = root.getLeft();
         assertTrue(left.isLeaf());
         assertEquals(left.getValue(), 'B');
@@ -73,7 +76,7 @@ public class HuffmanNodeTest {
     }
 
     @Test(groups={"tree"}, dependsOnMethods={"testMakeTree"})
-    public void testRight() throws Exception {
+    void testRight() {
         HuffmanNode right = root.getRight();
         assertEquals(right.getFrequency(), 8);
         assertFalse(right.isLeaf());
