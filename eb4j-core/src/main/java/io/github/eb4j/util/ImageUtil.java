@@ -297,6 +297,7 @@ public final class ImageUtil {
                 dib = _expandRLE4(b, off, width, height);
             } else if (compress == 3 && (bitCount == 16 || bitCount == 32)) {
                 // ビットフィールド
+                dib = b;
             } else {
                 LOGGER.warn("unknown compression type:"
                              + " compress=" + compress
