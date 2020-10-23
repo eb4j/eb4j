@@ -1,6 +1,7 @@
 package io.github.eb4j.util;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 import java.util.zip.Deflater;
@@ -180,279 +181,23 @@ public final class ImageUtil {
      * @return PNGデータ
      */
     public static byte[] dibToPNG(final byte[] b, final int level) {
-        if ((b[0] & 0xff) != 'B' || (b[1] & 0xff) != 'M') {
-            LOGGER.warn("file type 'BM' is not found in file header");
+        Bitmap bitmap;
+        byte[] image;
+
+        try {
+            bitmap = new Bitmap(b);
+        } catch (IOException e) {
+            LOGGER.info(e.getMessage());
             return new byte[0];
         }
-
-        int off = (int)ByteUtil.getLongLE4(b, 10);
-        int hsize = (int)ByteUtil.getLongLE4(b, 14);
-        int width = 0;
-        int height = 0;
-        int bitCount = 0;
-        int compress = 0;
-        int paletteOff = 14 + hsize;
-        int paletteSize = 0;
-        int paletteCnt = 0;
-        int[] bitField = new int[4];
-        Arrays.fill(bitField, 0);
-        if (hsize < 40) {
-            // OS/2 Bitmap
-            width = ByteUtil.getIntLE2(b, 18);
-            height = ByteUtil.getIntLE2(b, 20);
-            bitCount = ByteUtil.getIntLE2(b, 24);
-            paletteSize = 3;
-        } else {
-            // Windows Bitmap
-            width = (int)ByteUtil.getLongLE4(b, 18);
-            height = (int)ByteUtil.getLongLE4(b, 22);
-            bitCount = ByteUtil.getIntLE2(b, 28);
-            compress = (int)ByteUtil.getLongLE4(b, 30);
-            paletteCnt = (int)ByteUtil.getLongLE4(b, 46);
-            paletteSize = 4;
-            if (hsize < 52) {
-                if (compress == 0) {
-                    if (bitCount == 16) {
-                        bitField[0] = 0x00007c00;
-                        bitField[1] = 0x000003e0;
-                        bitField[2] = 0x0000001f;
-                    } else if (bitCount == 32) {
-                        bitField[0] = 0x00ff0000;
-                        bitField[1] = 0x0000ff00;
-                        bitField[2] = 0x000000ff;
-                    }
-                } else if (compress == 3) {
-                    if (bitCount == 16 || bitCount == 32) {
-                        bitField[0] = (int)ByteUtil.getLongLE4(b, 54);
-                        bitField[1] = (int)ByteUtil.getLongLE4(b, 58);
-                        bitField[2] = (int)ByteUtil.getLongLE4(b, 62);
-                        // カラーパレットはビットフィールドの後
-                        paletteOff += 12;
-                    }
-                }
-            } else {
-                bitField[0] = (int)ByteUtil.getLongLE4(b, 54);
-                bitField[1] = (int)ByteUtil.getLongLE4(b, 58);
-                bitField[2] = (int)ByteUtil.getLongLE4(b, 62);
-                bitField[3] = (int)ByteUtil.getLongLE4(b, 66);
-            }
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        try {
+            image = bitmap.getImageData();
+        } catch (IOException e) {
+            LOGGER.info(e.getMessage());
+            return new byte[0];
         }
-
-        int n = bitField.length;
-        int[] bitNum = new int[n];
-        Arrays.fill(bitNum, 0);
-        int[] bitShift = new int[n];
-        Arrays.fill(bitShift, 0);
-        for (int i=0; i<n; i++) {
-            int mask = bitField[i];
-            if (mask != 0) {
-                // ビットシフト数
-                while ((mask&0x01) == 0) {
-                    mask = mask >>> 1;
-                    bitShift[i]++;
-                }
-                // ビット数
-                int cnt = bitShift[i];
-                while ((mask&0x01) != 0) {
-                    mask = mask >>> 1;
-                    bitNum[i]++;
-                    cnt++;
-                    if (cnt >= bitCount) {
-                        break;
-                    }
-                }
-                // ビット数からビット数で表される最大値に変換
-                cnt = 0x01;
-                for (int j=0; j<bitNum[i]; j++) {
-                    cnt = cnt << 1;
-                }
-                bitNum[i] = cnt - 1;
-            }
-        }
-
-        if (off == 0) {
-            off = 14 + hsize;
-            if (paletteCnt != 0) {
-                off += paletteSize * paletteCnt;
-            } else {
-                if (bitCount == 1 || bitCount == 4 || bitCount == 8) {
-                    off += paletteSize * (0x01 << bitCount);
-                }
-            }
-            if (hsize == 40) {
-                if (compress == 3 && (bitCount == 16 || bitCount == 32)) {
-                    off += 12;
-                }
-            }
-        }
-
-        // RLEの伸張
-        byte[] dib = b;
-        if (compress > 0) {
-            if (compress == 1 && bitCount == 8) {
-                // 8bitランレングス圧縮
-                dib = _expandRLE8(b, off, width, height);
-            } else if (compress == 2 && bitCount == 4) {
-                // 4bitランレングス圧縮
-                dib = _expandRLE4(b, off, width, height);
-            } else if (compress == 3 && (bitCount == 16 || bitCount == 32)) {
-                // ビットフィールド
-                dib = b;
-            } else {
-                LOGGER.warn("unknown compression type:"
-                             + " compress=" + compress
-                             + " bitCount=" + bitCount);
-                return new byte[0];
-            }
-        }
-
-        // 1行のバイト数の算出 (4byte境界に揃える)
-        int lineBytes = (width * bitCount + 31) / 32 * 4;
-        byte[] line = new byte[lineBytes];
-
-        // イメージデータの作成
-        byte[] image = new byte[(width*4+1)*height];
-        Arrays.fill(image, (byte)0x00);
-        int idx = 0;
-        switch (bitCount) {
-            case 1: {
-                for (int y=height-1; y>=0; y--) {
-                    image[idx++] = 0x00; // filter type
-                    System.arraycopy(dib, off+lineBytes*y, line, 0, lineBytes);
-                    for (int x=0; x<width; x+=8) {
-                        int cnt = 8;
-                        if (x+8 > width) {
-                            cnt = width - x;
-                        }
-                        int mask = 0x80;
-                        for (int i=0; i<cnt; i++) {
-                            int palette = paletteOff;
-                            if ((line[x/8] & mask) > 0) {
-                                palette += paletteSize;
-                            }
-                            image[idx++] = dib[palette+2]; // R
-                            image[idx++] = dib[palette+1]; // G
-                            image[idx++] = dib[palette];   // B
-                            image[idx++] = (byte)0xff;     // alpha
-                            mask = mask >>> 1;
-                        }
-                    }
-                }
-                break;
-            }
-            case 4: {
-                for (int y=height-1; y>=0; y--) {
-                    image[idx++] = 0x00; // filter type
-                    System.arraycopy(dib, off+lineBytes*y, line, 0, lineBytes);
-                    for (int x=0; x<width; x+=2) {
-                        int palette = paletteOff + ((line[x/2] >>> 4) & 0x0f) * paletteSize;
-                        image[idx++] = dib[palette+2]; // R
-                        image[idx++] = dib[palette+1]; // G
-                        image[idx++] = dib[palette];   // B
-                        image[idx++] = (byte)0xff;     // alpha
-                        if (width - x > 1) {
-                            palette = paletteOff + (line[x/2] & 0x0f) * paletteSize;
-                            image[idx++] = dib[palette+2]; // R
-                            image[idx++] = dib[palette+1]; // G
-                            image[idx++] = dib[palette];   // B
-                            image[idx++] = (byte)0xff;     // alpha
-                        }
-                    }
-                }
-                break;
-            }
-            case 8: {
-                for (int y=height-1; y>=0; y--) {
-                    image[idx++] = 0x00; // filter type
-                    System.arraycopy(dib, off+lineBytes*y, line, 0, lineBytes);
-                    for (int x=0; x<width; x++) {
-                        int palette = paletteOff + (line[x] & 0xff) * paletteSize;
-                        image[idx++] = dib[palette+2]; // R
-                        image[idx++] = dib[palette+1]; // G
-                        image[idx++] = dib[palette];   // B
-                        image[idx++] = (byte)0xff;     // alpha
-                    }
-                }
-                break;
-            }
-            case 16: {
-                for (int y=height-1; y>=0; y--) {
-                    image[idx++] = 0x00; // filter type
-                    System.arraycopy(dib, off+lineBytes*y, line, 0, lineBytes);
-                    int w = width * 4;
-                    for (int x=0; x<w; x+=2) {
-                        int val = ByteUtil.getIntLE2(line, x);
-                        // RGB
-                        for (int i=0; i<3; i++) {
-                            int pxl = (val & bitField[i]) >>> bitShift[i];
-                            if (bitNum[i] != 255) {
-                                pxl = Math.round(pxl*255.0f/bitNum[i]);
-                            }
-                            image[idx++] = (byte)pxl;
-                        }
-                        // alpha
-                        if (bitField[3] == 0) {
-                            image[idx++] = (byte)0xff;
-                        } else {
-                            int pxl = (val & bitField[3]) >>> bitShift[3];
-                            if (bitNum[3] != 255) {
-                                pxl = Math.round(pxl*255.0f/bitNum[3]);
-                            }
-                            image[idx++] = (byte)pxl;
-                        }
-                    }
-                }
-                break;
-            }
-            case 24: {
-                for (int y=height-1; y>=0; y--) {
-                    image[idx++] = 0x00; // filter type
-                    System.arraycopy(dib, off+lineBytes*y, line, 0, lineBytes);
-                    int w = width * 3;
-                    for (int x=0; x<w; x+=3) {
-                        image[idx++] = line[x+2];  // R
-                        image[idx++] = line[x+1];  // G
-                        image[idx++] = line[x];    // B
-                        image[idx++] = (byte)0xff; // alpha
-                    }
-                }
-                break;
-            }
-            case 32: {
-                for (int y=height-1; y>=0; y--) {
-                    image[idx++] = 0x00; // filter type
-                    System.arraycopy(dib, off+lineBytes*y, line, 0, lineBytes);
-                    int w = width * 4;
-                    for (int x=0; x<w; x+=4) {
-                        int val = (int)ByteUtil.getLongLE4(line, x);
-                        // RGB
-                        for (int i=0; i<3; i++) {
-                            int pxl = (val & bitField[i]) >>> bitShift[i];
-                            if (bitNum[i] != 255) {
-                                pxl = Math.round(pxl*255.0f/bitNum[i]);
-                            }
-                            image[idx++] = (byte)pxl;
-                        }
-                        // alpha
-                        if (bitField[3] == 0) {
-                            image[idx++] = (byte)0xff;
-                        } else {
-                            val = ~val;
-                            int pxl = (val & bitField[3]) >>> bitShift[3];
-                            if (bitNum[3] != 255) {
-                                pxl = Math.round(pxl*255.0f/bitNum[3]);
-                            }
-                            image[idx++] = (byte)pxl;
-                        }
-                    }
-                }
-                break;
-            }
-            default:
-                LOGGER.warn("unknown bit count: " + bitCount);
-                return new byte[0];
-        }
-
         return _encodePNG(width, height, image, level);
     }
 
@@ -562,7 +307,7 @@ public final class ImageUtil {
                             break;
                         case 0x01: // end of block
                             return dib;
-                        case 0x02: { // skip
+                        case 0x02: // skip
                             code1 = rle[sidx++] & 0xff;
                             code2 = rle[sidx++] & 0xff;
                             x += code1;
@@ -575,7 +320,6 @@ public final class ImageUtil {
                                 }
                             }
                             break;
-                        }
                         default: // absolute mode
                             x += code2;
                             int cnt = (code2 + 1) / 2;
