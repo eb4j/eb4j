@@ -9,7 +9,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'maven'
-    id 'distribution'
+    id 'java-library-distribution'
     id 'checkstyle'
 }
 
@@ -28,10 +28,6 @@ dependencies {
     testImplementation 'org.testng:testng:6.9.10'
 }
 test.useTestNG()
-
-artifacts {
-    archives jar
-}
 
 spotbugs {
     ignoreFailures = true
@@ -68,11 +64,19 @@ dependencies {
 }
 test.useTestNG()
 
+artifacts {
+    archives jar
+}
+
+distTar {
+    compression = Compression.GZIP
+}
+
 distributions {
     main {
         distributionBaseName = 'eb4j-core'
         contents {
-            from 'README.md'
+            from '../README.md'
         }
     }
 }

@@ -43,6 +43,7 @@ scripts.each() { scriptName, className ->
 dependencies {
     compile project(':eb4j-core')
     compile 'commons-cli:commons-cli:1.2'
+    compile 'org.slf4j:slf4j-simple:1.7.25'
     testCompile 'tokyo.northside:northside-io:0.2.0'
     testImplementation 'org.testng:testng:6.9.10'
 }
@@ -71,6 +72,9 @@ distTar {
 distributions {
     main {
         distributionBaseName = 'eb4j-tools'
+        contents {
+            from '../README.md'
+        }
     }
 }
 
