@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - 'docs/**'
+      - '.github/workflows/publish-gh-pages.yml'
 
 jobs:
   publish-docs:
@@ -16,25 +17,33 @@ jobs:
         with:
           java-version: 8
       - uses: eskatos/gradle-command-action@v1
+        name: generate asciidoc
         with:
           arguments: asciidoctor
         id: asciidoc
       - uses: eskatos/gradle-command-action@v1
+        name: generate javadoc
         with:
           arguments: javadoc
         id: javadoc
       - uses: eskatos/gradle-command-action@v1
+        name: generate spotbug report
         with:
           arguments: spotbugsMain
         id: spotbugs
-      - name: gather document artifacts
+      - uses: eskatos/gradle-command-action@v1
+        name: generate checkstyle report
+        with:
+          arguments: checkstyleMain
+        id: checkstyle
+      - name: gather document artifacts to ./public/
         run: |
           mkdir -p public
           cp -r docs/build/docs/* public/
           cp -r eb4j-core/build/docs/javadoc public/
           cp -r eb4j-core/build/reports/spotbugs public/
           cp -r eb4j-core/build/reports/checkstyle public/
-      - name: Deploy
+      - name: Deploy documents to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
