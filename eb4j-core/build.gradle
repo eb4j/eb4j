@@ -11,7 +11,6 @@ plugins {
     id 'maven'
     id 'java-library-distribution'
     id 'checkstyle'
-    id 'maven-publish'
 }
 
 ext {
@@ -91,13 +90,22 @@ distributions {
     }
 }
 
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            from components.java
-            groupId 'io.github.eb4j'
-            artifactId 'eb4j-core'
-            version projectVersion
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'eb4j-core'
+                groupId 'io.github.eb4j'
+                artifactId = 'eb4j-core'
+                name 'eb4j'
+                description = 'eb4j'
+                url projectUrl
+                licenses {
+                    license {
+                        name 'LGPL2.1+'
+                    }
+                }
+            }
         }
     }
 }
