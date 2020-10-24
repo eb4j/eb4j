@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## 1.99.2.dev - 2020-10-24
+## 1.99.3.dev - 2020-10-24
 ### Changed
 - Refactoring gradle build structures
 - Fix tests(checkstyle).
