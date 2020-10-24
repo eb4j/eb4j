@@ -18,9 +18,24 @@ jobs:
       - uses: eskatos/gradle-command-action@v1
         with:
           arguments: asciidoctor
-        id: gradle
+        id: asciidoc
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: javadoc
+        id: javadoc
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: spotbugsMain
+        id: spotbugs
+      - name: gather document artifacts
+        run: |
+          mkdir -p public
+          cp -r docs/build/docs/* public/
+          cp -r eb4j-core/build/docs/javadoc public/
+          cp -r eb4j-core/build/reports/spotbugs public/
+          cp -r eb4j-core/build/reports/checkstyle public/
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/build/docs/
+          publish_dir: public/

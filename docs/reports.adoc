@@ -1,8 +1,8 @@
 == Code references
-:version: 1.99.0-SNAPSHOT
+:version: 1.99.2-SNAPSHOT
 :project-name: eb4j
 
-=== link:http://eb4j.github.io/eb4j/findbugs/main.html[Findbugs report]
+=== link:http://eb4j.github.io/eb4j/spotbugs/main.html[Spotbugs report]
 
 === link:http://eb4j.github.io/eb4j/checkstyle/main.html[Checkstyle report]
 

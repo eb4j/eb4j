@@ -33,6 +33,15 @@ spotbugs {
     ignoreFailures = true
 }
 
+spotbugsMain {
+    reports {
+        html {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/main.html")
+        }
+    }
+}
+
 checkstyle {
     config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
     toolVersion = '6.16.1'

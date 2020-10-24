@@ -1,6 +1,6 @@
 == About eb4j
 
-eb4j is a 100% pure Java library to access electric dictionary and eBooks based on
+eb4j is a 100% pure Java library to access electric dictionaries and eBooks based on
 link:http://www.sra.co.jp/people/m-kasahr/eb/index.html[EB library].
 
 eb4j library bundles utility commands
