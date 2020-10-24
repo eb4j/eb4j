@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## 1.99.2.dev - 2020-10-24
 ### Changed
 - Refactoring gradle build structures
 - Fix tests(checkstyle).
@@ -10,14 +11,13 @@ All notable changes to this project will be documented in this file.
 - Target java version to 8.
 - Add github actions workflows
 
-
 ## 1.99.1.dev - 2016-10-15
 ### Add
 - Add unit tests.
 
 ### Changed
 - Introduce EBFormat enum class.
-  Now EBFile.FORMAT_* integer constants are deprecated. Please use EBFormat enum instead of constants.
+  Now deprecated EBFile.FORMAT_* integer constants. Please use EBFormat enum instead of constants.
 - [#3] Build with Gradle build system.
 - [#4] Change package location to io.github.eb4j from original fuku.eb4j.
 - [#30] Refactoring to reduce method size smaller.
