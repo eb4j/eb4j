@@ -1,3 +1,4 @@
+name: Upload release to bintray
 
 on:
   push:
