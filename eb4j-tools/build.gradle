@@ -4,8 +4,6 @@
 //
 
 plugins {
-    // bintray
-    id "com.jfrog.bintray" version "1.6"
     //
     id "com.github.spotbugs" version "4.5.1"
     //
@@ -51,19 +49,6 @@ test.useTestNG()
 
 version = projectVersion
 group = projectGroup
-bintray {
-    user = System.getenv('bintrayUser')
-    key = System.getenv('bintrayApiKey')
-    configurations = ['archives']
-    pkg {
-        repo = 'maven'
-        name = 'eb4j-tools'
-        licenses = ['LGPL-2.1']
-        vcsUrl = projectUrl
-        labels = ['java', 'EPWING', 'ebook']
-        publicDownloadNumbers = true
-    }
-}
 
 distTar {
     compression = Compression.GZIP

@@ -6,19 +6,19 @@ plugins {
     //
     id "com.github.spotbugs" version "4.5.1"
     //
+    id 'idea'
     id 'java'
     id 'jacoco'
     id 'maven'
+    id 'maven-publish'
     id 'java-library-distribution'
     id 'checkstyle'
 }
 
-ext {
-    javaVersion = '1.8'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
-
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
 
 repositories {
     jcenter()
@@ -47,13 +47,77 @@ checkstyle {
     toolVersion = '6.16.1'
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
 
 version = projectVersion
 group = projectGroup
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The GNU Lesser General Public License, Version 2.1"
+            url "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "miurahr"
+            name "Hiroshi Miura"
+            email "miurahr@linux.com"
+        }
+    }
+
+    scm {
+        connection "scm:git:git://github.com/eb4j/eb4j.git"
+        developerConnection "scm:git:git://github.com/eb4j/eb4j.git"
+        url "https://github.com/eb4j/eb4j"
+    }
+}
+
+publishing {
+    publications {
+        EB4JPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier "sources"
+            }
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+
+            groupId projectGroup
+            artifactId projectName
+            version projectVersion
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', 'Emerald API')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
 bintray {
     user = System.getenv('bintrayUser')
     key = System.getenv('bintrayApiKey')
     configurations = ['archives']
+    publications = ['EB4JPublication']
+    dryRun=false
+    publish=true
+    override=true
+
     pkg {
         repo = 'maven'
         name = 'eb4j-core'
@@ -61,6 +125,13 @@ bintray {
         vcsUrl = projectUrl
         labels = ['java', 'EPWING', 'ebook']
         publicDownloadNumbers = true
+        userOrg = 'eb4j'
+        version {
+            name = projectVersion
+            description = 'EB4J'
+            released  = new Date()
+            vcsTag = 'v' + projectVersion
+        }
     }
 }
 
@@ -72,10 +143,6 @@ dependencies {
     testImplementation 'org.testng:testng:6.9.10'
 }
 test.useTestNG()
-
-artifacts {
-    archives jar
-}
 
 distTar {
     compression = Compression.GZIP
