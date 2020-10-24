@@ -1,8 +1,8 @@
 
 on:
-  release:
-    branches:
-    - master
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
