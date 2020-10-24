@@ -2,7 +2,7 @@
 // Here is only place where plugins {} can be located.
 plugins {
     // bintray
-    id "com.jfrog.bintray" version "1.6"
+    id "com.jfrog.bintray" version "1.8.5"
     //
     id "com.github.spotbugs" version "4.5.1"
     //
@@ -86,6 +86,17 @@ distributions {
         distributionBaseName = 'eb4j-core'
         contents {
             from '../README.md'
+        }
+    }
+}
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId 'io.github.eb4j'
+            artifactId 'eb4j-core'
+            version projectVersion
         }
     }
 }
