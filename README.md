@@ -15,7 +15,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    implementation 'io.github.eb4j:eb4j:1.99.3'
+    implementation 'io.github.eb4j:eb4j:1.99.4'
 }
 ```
 
@@ -29,7 +29,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    implementation('io.github.eb4j:eb4j:1.99.3')
+    implementation('io.github.eb4j:eb4j:1.99.4')
 }
 ```
 
@@ -50,7 +50,7 @@ dependencies {
     <dependency>
       <groupId>io.github.eb4j</groupId>
       <artifactId>eb4j</artifactId>
-      <version>1.99.3</version>
+      <version>1.99.4</version>
       <type>jar</type>
     </dependency>
     ...
@@ -60,7 +60,7 @@ dependencies {
 ### ivy
 
 ```
-<dependency org="io.github.eb4j" name="eb4j" revision="1.99.3"/>
+<dependency org="io.github.eb4j" name="eb4j" revision="1.99.4"/>
 ```
 
 ## Build
