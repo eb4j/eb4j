@@ -3,15 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## 1.99.3.dev - 2020-10-24
+## [2.0.0] - 2020-10-25
 ### Changed
+- Released the library at bintray
+- Release automation
 - Refactoring gradle build structures
 - Fix tests(checkstyle).
 - Bump to gradle@6.1.1
 - Target java version to 8.
 - Add github actions workflows
 
-## 1.99.1.dev - 2016-10-15
+## [1.99.1.dev] - 2016-10-15
 ### Add
 - Add unit tests.
 
@@ -33,4 +35,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/miurahr/dictzip-java/compare/v1.99.0.dev...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/eb4j/eb4j/compare/v1.99.1...v2.0.0
+[1.99.1.dev]: https://github.com/eb4j/eb4j/compare/v1.99.0...v1.99.1
