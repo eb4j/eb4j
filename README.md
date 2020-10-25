@@ -1,5 +1,67 @@
 # EB4j
+
 EPWING/Ebook access library and utilities.
+
+
+## Use eb4j-core library for your project
+
+### Gradle
+
+```
+repositories {
+    maven {
+        url "https://dl.bintray.com/eb4j/maven/"
+    }
+    jcenter()
+}
+dependencies {
+    implementation 'io.github.eb4j:eb4j:1.99.3'
+}
+```
+
+### Gradle(kts)
+
+```
+repositories {
+    maven {
+        url=url("https://dl.bintray.com/eb4j/maven/")
+    }
+    jcenter()
+}
+dependencies {
+    implementation('io.github.eb4j:eb4j:1.99.3')
+}
+```
+
+### Maven
+
+```
+<repositories>
+    <repository>
+      <id>jcenter</id>
+      <url>https://jcenter.bintray.com/</url>
+    </repository>
+    <repository>
+      <id>eb4j</id>
+      <url>https://dl.bintray.com/eb4j/maven/</url>
+    </repository>
+</repositories>
+ <dependencies>
+    <dependency>
+      <groupId>io.github.eb4j</groupId>
+      <artifactId>eb4j</artifactId>
+      <version>1.99.3</version>
+      <type>jar</type>
+    </dependency>
+    ...
+  </dependencies>
+```
+
+### ivy
+
+```
+<dependency org="io.github.eb4j" name="eb4j" revision="1.99.3"/>
+```
 
 ## Build
 
@@ -52,11 +114,10 @@ You should have received a copy of the GNU Lesser General Public License along
 with this library; if not, write to the Free Software Foundation, Inc.,
 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-## Why forked
+## Why forked and welcome contribution
 
-This project was forked from an original http://eb4j.osdn.jp.
-The original project seems stopping development over 5 years
-and there seems not to maintain issue tracking tickets.
+Here is a fork project from http://eb4j.osdn.jp which has discontinued
+its development in 2010.
 
 Here is a new place for eb4j project in order to maintain it by community
 basis, to accept patches and comments, and to improve library.
