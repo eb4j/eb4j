@@ -153,6 +153,7 @@ distributions {
         distributionBaseName = 'eb4j-core'
         contents {
             from '../README.md'
+            from '../LICENSE.txt'
         }
     }
 }

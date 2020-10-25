@@ -59,6 +59,7 @@ distributions {
         distributionBaseName = 'eb4j-tools'
         contents {
             from '../README.md'
+            from '../LICENSE.txt'
         }
     }
 }
