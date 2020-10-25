@@ -15,9 +15,10 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
+      id: gradle-build-library
       run: ./gradlew build
-  
     - name: Upload to bintray
+      id: upload-artifact-bintray
       run: ./gradlew bintrayUpload
       env:
         bintrayUser: ${{ secrets.bintrayUsername }}
