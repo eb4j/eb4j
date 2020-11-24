@@ -3,7 +3,7 @@ package io.github.eb4j.io;
 import java.io.File;
 
 /**
- * File informations.
+ * File information.
  *
  * @author Hisaya FUKUMOTO
  * @author Hiroshi Miura

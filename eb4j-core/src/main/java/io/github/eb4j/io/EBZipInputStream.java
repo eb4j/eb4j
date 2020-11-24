@@ -43,7 +43,7 @@ public class EBZipInputStream extends BookInputStream {
             throw new EBException(EBException.FAILED_READ_FILE, info.getPath(), e);
         }
 
-        // ヘッダの読み込み
+        // read EBZip header
         byte[] b = new byte[EBZipConstants.EBZIP_HEADER_SIZE];
         readRawFully(b, 0, b.length);
 
@@ -78,7 +78,7 @@ public class EBZipInputStream extends BookInputStream {
     /**
      * Returns compression level of the file.
      *
-     * @return 圧縮レベル
+     * @return compression level
      */
     public int getLevel() {
         return info.getZipLevel();
@@ -98,7 +98,7 @@ public class EBZipInputStream extends BookInputStream {
      *
      * @param b byte array for data.
      * @param off start offset of data.
-     * @param len 読み込まれる最大バイト数
+     * @param len maxmum bytes to read.
      * @return バッファに読み込まれたバイトの合計数
      *         (ストリームの終わりに達してデータがない場合は-1)
      * @exception EBException 入出力エラーが発生した場合
@@ -117,7 +117,7 @@ public class EBZipInputStream extends BookInputStream {
                     return rlen;
                 }
             }
-            // キャッシュの作成
+            // generate cache
             if (cachePos < 0
                 || filePos < cachePos
                 || cachePos + info.getSliceSize() <= filePos) {

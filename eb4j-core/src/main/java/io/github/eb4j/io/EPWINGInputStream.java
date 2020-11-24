@@ -15,7 +15,7 @@ import io.github.eb4j.util.ByteUtil;
 public class EPWINGInputStream extends BookInputStream {
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
      * @param info ファイル情報
      * @exception EBException 入出力エラーが発生した場合
