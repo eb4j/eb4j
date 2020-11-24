@@ -22,6 +22,8 @@ public class EBException extends Exception {
     public static final int UNEXP_FILE = 5;
     /** Error code: failed to seek file. */
     public static final int FAILED_SEEK_FILE = 6;
+    /** Error code: cannot find unicode map. */
+    public static final int CANT_FIND_UNICODEMAP = 7;
 
     /** Error messages */
     private static final String[] ERR_MSG = {
@@ -32,7 +34,8 @@ public class EBException extends Exception {
         "can't read a file",
         "failed to read a file",
         "unexpected format in a file",
-        "failed to seek a file"
+        "failed to seek a file",
+        "can not find unicode map"
     };
 
     /** Error code */

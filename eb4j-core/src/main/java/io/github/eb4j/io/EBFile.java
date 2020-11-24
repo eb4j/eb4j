@@ -28,7 +28,7 @@ public class EBFile {
     @Deprecated
     public static final int FORMAT_SEBXA = 4;
     /** ファイル情報 */
-    private FileInfo _info = null;
+    private FileInfo _info;
     /** オリジナルファイル名 */
     private String _name = null;
 
