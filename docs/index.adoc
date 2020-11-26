@@ -9,6 +9,10 @@ IMPORTANT: link:https://github.com/eb4j/eb4j[View on GitHub]
 
 include::about.adoc[]
 
+include::usage.adoc[]
+
+include::copyright.adoc[]
+
 include::links.adoc[]
 
 include::reports.adoc[]

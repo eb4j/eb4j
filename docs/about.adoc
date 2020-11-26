@@ -6,35 +6,80 @@ link:http://www.sra.co.jp/people/m-kasahr/eb/index.html[EB library].
 eb4j library bundles utility commands
 (ebinfo, ebzip, ebdump).
 
-== Copyright
+Original author is Hisaya FUKUMOTO and original eb4j is distributed on eb4j.sourceforge.jp
+The original development and versions had stopped in 2010.
 
-EB4J - EPWING/Ebook access library and utilities.
+Here is a fork and active development version.
 
-Copyright(C) 2020 Hiroshi Miura
+== How to install the library
 
-Copyright(C) 2016 Hiroshi Miura, Aaron Madlon-Kay
+You can install the library from bintray maven repository.
 
-Copyright(C) 2003-2010 Hisaya FUKUMOTO
+https://bintray.com/beta/#/eb4j/maven/eb4j-core?tab=overview
+
+You need to add a above repository to your project.
+
+Here is an example for configurations;
+
+For Gradle;
+
+```
+repositories {
+    maven {
+        url "https://dl.bintray.com/eb4j/maven/"
+    }
+}
+```
+then
+```
+implementation 'io.github.eb4j:eb4j:2.0.0'
+
+```
 
 
-This library is free software; you can redistribute it and/or modify it under
-the terms of the GNU Lesser General Public License as published by the Free
-Software Foundation; either version 2.1 of the License, or (at your option) any
-later version.
+For adding repository with Maven;
 
-This library is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+```
+<settings xmlns='http://maven.apache.org/SETTINGS/1.0.0' xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+  <profiles> <profile>
+      <repositories> <repository>
+          <snapshots> <enabled> false </enabled> </snapshots>
+          <id> bintray-eb4j-maven </id>
+          <name> bintray </name>
+          <url> https://dl.bintray.com/eb4j/maven </url>
+      </repository> </repositories>
+      <pluginRepositories> <pluginRepository>
+          <snapshots> <enabled> false </enabled> </snapshots>
+          <id> bintray-eb4j-maven </id>
+          <name> bintray-plugins </name>
+          <url> https://dl.bintray.com/eb4j/maven </url>
+      </pluginRepository> </pluginRepositories>
+      <id> bintray </id>
+  </profile> </profiles>
+  <activeProfiles> <activeProfile> bintray </activeProfile> </activeProfiles>
+</settings>
+```
 
-You should have received a copy of the GNU Lesser General Public License along
-with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+To use with Maven:
 
+```
+<dependency>
+	<groupId>io.github.eb4j</groupId>
+	<artifactId>eb4j</artifactId>
+	<version>2.0.0</version>
+	<type>pom</type>
+</dependency>
+```
 
-
-== No warranty
-
-eb4j is distributed without any warranty.
 
 == Contacts
+
+You are welcome to make questions, join developments and add documents on wiki!
+You can reach us at;
+
+- Project home: https://github.com/eb4j/eb4j
+
+- Issues: https://github.com/eb4j/eb4j/issues
+
+- Wiki: https://github.com/eb4j/eb4j/wiki
 

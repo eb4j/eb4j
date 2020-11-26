@@ -1,5 +1,5 @@
 == Code references
-:version: 1.99.4-SNAPSHOT
+:version: 2.1.0-SNAPSHOT
 :project-name: eb4j
 
 === link:http://eb4j.github.io/eb4j/spotbugs/main.html[Spotbugs report]

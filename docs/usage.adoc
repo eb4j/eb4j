@@ -1,0 +1,92 @@
+== Usage
+
+=== Utility commands
+
+==== EBDUMP
+
+*EBDump* - dump dictionary data
+
+*SYNOPSIS*  java -jar EBDump.jar [OPTION] [BOOK directory]
+
+*DESCRIPTION*
+
+Extract book data to console.
+If a BOOK directory is not specified, EBDump use current directory as
+a book directory(A CATALOG file exist.)
+
+-s --subbook  subbook index number
+
+-p --page  page number(HEX)
+
+-o --offset offset number(HEX)
+
+-p --position position(HEX)
+
+-d --dump  dump size(HEX)
+
+-h --help  display help message
+
+-v --version display version
+
+==== EBINFO
+
+*EBInfo* - display book information
+
+*SYNOPSIS* java -jar EBInfo.jar [OPTION] [BOOK directory]
+
+Display book information to console.
+If a BOOK directory is omitted, EBInfo use current directory as a book.
+
+-m --multi-search  display multi-search information
+
+-h --help display help message
+
+-v --version display version
+
+==== EBZIP
+
+*EBZip* - Compress dictionary
+
+*SYNOPSIS* java -jar EBZip.jar [OPTION] [BOOK directory]
+
+Compress/decompress dictionary file with EBZip (.ebz)
+
+-f --force-overwerite force overwrite output file
+
+-n --no-overwrite  prohibit overwrite of output file
+
+-i --information  list information of compressed file
+
+-k --keep  keep (don't delete) original file
+
+-l --level  compression level
+
+-o --output-directory  output file to a specified directory
+
+-q --quiet   suppress all warnings
+
+-s --skip-content  [font [, sound [, [grahpic [, movie]]]   skip specified content
+
+-S --subbook  target subbook
+
+-z --compress  compress files
+
+-u --uncompress  uncompress files
+
+-t --test   only check input files
+
+-h --help  display help message
+
+-v --version  display version
+
+
+
+=== Library API
+
+see javadoc
+
+
+=== Projects who use EB4J 2.0.0 and later
+
+
+* OmegaT-plugin-epwing  https://github.com/miurahr/omegat-plugin-epwing
