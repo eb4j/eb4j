@@ -32,6 +32,11 @@
 </file>
 <file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SubBookBuilder.java">
 </file>
+<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/ext/UnicodeMap.java">
+<error line="38" column="17" severity="warning" message="&apos;File&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck"/>
+<error line="63" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="73" column="59" severity="warning" message="&apos;;&apos; is preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceBeforeCheck"/>
+</file>
 <file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/hook/DefaultHook.java">
 </file>
 <file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/hook/Hook.java">
