@@ -13,9 +13,9 @@ import java.nio.charset.Charset;
 public class SoundData {
 
     /** バイナリデータファイル */
-    private EBFile _file = null;
+    private EBFile _file;
     /** インデックススタイル */
-    private IndexStyle _style = null;
+    private IndexStyle _style;
 
 
     /**
