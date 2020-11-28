@@ -448,23 +448,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#contacts">Contacts</a></li>
 <li><a href="#usage">Usage</a>
 <ul class="sectlevel2">
-<li><a href="#utility-commands">Utility commands</a></li>
 <li><a href="#library-api">Library API</a></li>
-<li><a href="#projects-who-use-eb4j-2-0-0-and-later">Projects who use EB4J 2.0.0 and later</a></li>
+<li><a href="#library-extensions-against-standard">Library: extensions against standard</a></li>
 </ul>
 </li>
+<li><a href="#projects-who-use-eb4j-2-0-0-and-later">Projects who use EB4J 2.0.0 and later</a>
+<ul class="sectlevel2">
+<li><a href="#utility-commands">Utility commands</a></li>
 <li><a href="#copyright">Copyright</a></li>
 <li><a href="#technical-references-技術資料">Technical references 技術資料</a></li>
-<li><a href="#reference-software-参考ソフトウェア">Reference Software 参考ソフトウェア</a>
-<ul class="sectlevel2">
-<li><a href="#standard-organization-標準化団体">Standard organization 標準化団体</a></li>
-</ul>
-</li>
+<li><a href="#reference-software-参考ソフトウェア">Reference Software 参考ソフトウェア</a></li>
 <li><a href="#code-references">Code references</a>
 <ul class="sectlevel2">
 <li><a href="#spotbugs-report">Spotbugs report</a></li>
 <li><a href="#checkstyle-report">Checkstyle report</a></li>
 <li><a href="#javadoc">JavaDoc</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -608,6 +608,123 @@ You can reach us at;</p>
 <div class="sect1">
 <h2 id="usage">Usage</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Here is a some usage information for EB4J library.</p>
+</div>
+<div class="sect2">
+<h3 id="library-api">Library API</h3>
+<div class="paragraph">
+<p>See javadoc <a href="https://eb4j.github.io/eb4j/javadoc/index.html" class="bare">https://eb4j.github.io/eb4j/javadoc/index.html</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="library-extensions-against-standard">Library: extensions against standard</h3>
+<div class="sect3">
+<h4 id="appendix">appendix</h4>
+<div class="paragraph">
+<p>The <code>appendix</code> is an amendment data for CD-ROM book, which is specific for eb library.
+EB4J can understand <code>appendix</code> that eb library utility generated.
+It provide following items.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Seperator character code.</p>
+</li>
+<li>
+<p>Alternative string for external fonts</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It provides alternative strings for external fonts defined in EPWING data.
+It also provides hint information for seperator of article, that is ordinally detect automatically
+but not implicitly defined in EPWING data. Otherwise, the hint provides hint what character is a seperator.
+Following is same description in Japanese.</p>
+</div>
+<div class="paragraph">
+<p>appendix (付録) とは CD-ROM 書籍の補助データの ことです。
+appendix は CD-ROM 書籍の出版社から提供されているものではなく、 EB ライブラリに固有のものです。
+EB4Jは、このデータを解釈利用することができます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>本文の区切りコード</p>
+</li>
+<li>
+<p>外字の代替文字列</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>appendix のレイアウトは CD-ROM 書籍のものとよく似ています。
+トップディレクトリには catalog もしくは catalogs ファイルが存在し、各副本のデータは対応する サブディレクトリに配置されています。</p>
+</div>
+<div class="paragraph">
+<p>EB4J can handle the appendix contents and provide an API
+to get alternative string for external font griff codepoint.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/Appendix.html">JavadDoc for Appendix class</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="unicode-map-file">Unicode map file</h4>
+<div class="paragraph">
+<p>Unicode map file is an amendment data for CD-ROM book, which is produced by EBStudio2 authoring tool.
+EBStudio2 generates external fonts codepoints for unicode characters, and also generate <code>.map</code> file
+which describe mapping between external fonts codepoints to unicode characters.</p>
+</div>
+<div class="paragraph">
+<p>The <code>.map</code> file should be a TSV: tab-separated value text file, and WBWin4 EBook reader bundles <code>.map</code> files with applicaiton.</p>
+</div>
+<div class="paragraph">
+<p>EB4J use <code>.map</code> file and provides API to get Unicode charecter code from external font codepoint.
+User can put <code>.map</code> file on a same directory with dictionary CATALOG file.</p>
+</div>
+<div class="paragraph">
+<p>Following is same description in Japanese.</p>
+</div>
+<div class="paragraph">
+<p>Unicode mapファイルは、CDROM電子書籍のデータに追加するデータです。
+EPWING形式の書籍をオーサリングするツールである、EBStudio2は、EPWINGでストレートに表現できないUnicodeの 文字を、
+自動的に外字定義として変換する機能を有しています。そのとき同時に、外字とUnicode文字コードポイントの対応関係を
+<code>.map</code> という拡張子のファイルに生成します。</p>
+</div>
+<div class="paragraph">
+<p>`.map`ファイルは、TSV: タブ区切り値テキスト ファイルである必要があります。
+通常、EBStudio2の作者が配布している 電子書籍リーダーであるEBWin4に同梱されており、インストールされた
+アプリケーションのフォルダーにいくつかの著名な辞書のためのファイルが格納されています。</p>
+</div>
+<div class="paragraph">
+<p>ユーザが、電子辞書のCATALOGファイルとおなじフォルダに、対応する`.map`ファイルを格納することで、
+EB4Jは、自動的にそのファイルをよみこんで、処理します。
+EB4Jには、この値を取得するための拡張されたAPIがあります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/ext/UnicodeMap.html">JavaDoc for UnicodeMap class</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h1 id="projects-who-use-eb4j-2-0-0-and-later" class="sect0">Projects who use EB4J 2.0.0 and later</h1>
+<div class="ulist">
+<ul>
+<li>
+<p>OmegaT-plugin-epwing  <a href="https://github.com/miurahr/omegat-plugin-epwing" class="bare">https://github.com/miurahr/omegat-plugin-epwing</a></p>
+</li>
+</ul>
+</div>
 <div class="sect2">
 <h3 id="utility-commands">Utility commands</h3>
 <div class="sect3">
@@ -725,24 +842,6 @@ If a BOOK directory is omitted, EBInfo use current directory as a book.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="library-api">Library API</h3>
-<div class="paragraph">
-<p>see javadoc</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="projects-who-use-eb4j-2-0-0-and-later">Projects who use EB4J 2.0.0 and later</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>OmegaT-plugin-epwing  <a href="https://github.com/miurahr/omegat-plugin-epwing" class="bare">https://github.com/miurahr/omegat-plugin-epwing</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="copyright">Copyright</h2>
 <div class="sectionbody">
@@ -785,16 +884,7 @@ with this library; if not, write to the Free Software Foundation, Inc.,
 <p><a href="http://www.nerimadors.or.jp/~jiro/cdrom2/doc/spec">12cmＣＤ(EPWING)と、電子ブック(EB)のデータ構造について</a></p>
 </li>
 <li>
-<p><a href="http://www.sra.co.jp/people/m-kasahr/dict-compress/epwing-compress.html">EPWINGの圧縮形式について</a></p>
-</li>
-<li>
-<p><a href="http://www.sra.co.jp/people/m-kasahr/dict-compress/sebxa-compress.html">S-EBXAの圧縮形式について</a></p>
-</li>
-<li>
-<p><a href="http://www31.ocn.ne.jp/~h_ishida/tech/EPWING_MMDATA.txt">EPWINGのマルチメディアデータについて</a></p>
-</li>
-<li>
-<p><a href="http://www31.ocn.ne.jp/~h_ishida/EBStudio/Tech.html">EBStudioにおけるJIS X4081の実装について</a></p>
+<p><a href="https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&amp;jisStdNo=X4081">JIS X 4081</a></p>
 </li>
 </ul>
 </div>
@@ -806,22 +896,15 @@ with this library; if not, write to the Free Software Foundation, Inc.,
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://www.sra.co.jp/people/m-kasahr/eb/index.html">EBライブラリ</a></p>
+<p><a href="https://github.com/mistydemeo/eb">EBライブラリ</a></p>
 </li>
 <li>
-<p><a href="http://www.sra.co.jp/people/m-kasahr/freepwing/index.html">FreePWING</a></p>
+<p><a href="http://openlab.ring.gr.jp/edict/fpw/">FreePWING</a></p>
 </li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="standard-organization-標準化団体">Standard organization 標準化団体</h3>
-<div class="ulist">
-<ul>
 <li>
-<p><a href="http://www.jisc.go.jp/">日本工業標準調査会</a></p>
+<p><a href="https://ebstudio.hatenablog.com/entry/20171018/p1">EBstudio Unicodeマッピング</a></p>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
@@ -845,7 +928,7 @@ with this library; if not, write to the Free Software Foundation, Inc.,
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-26 01:39:44 UTC
+Last updated 2020-11-28 06:13:50 UTC
 </div>
 </div>
 <style>
