@@ -67,10 +67,6 @@ EB4Jには、この値を取得するための拡張されたAPIがあります�
 * link:https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/ext/UnicodeMap.html[JavaDoc for UnicodeMap class]
 
 
-= Projects who use EB4J 2.0.0 and later
-
-* OmegaT-plugin-epwing  https://github.com/miurahr/omegat-plugin-epwing
-
 === Utility commands
 
 ==== EBDUMP

@@ -13,3 +13,6 @@
 
 * link:https://ebstudio.hatenablog.com/entry/20171018/p1[EBstudio Unicodeマッピング]
 
+== Projects who use EB4J 2.0.0 and later
+
+* link:https://github.com/miurahr/omegat-plugin-epwing[OmegaT CAT tool plugin for EPWING dictionary]
