@@ -1,5 +1,76 @@
 == Usage
 
+Here is a some usage information for EB4J library.
+
+=== Library API
+
+See javadoc https://eb4j.github.io/eb4j/javadoc/index.html
+
+=== Library: extensions against standard
+
+==== appendix
+
+The `appendix` is an amendment data for CD-ROM book, which is specific for eb library.
+EB4J can understand `appendix` that eb library utility generated.
+It provide following items.
+
+- Seperator character code.
+- Alternative string for external fonts
+
+It provides alternative strings for external fonts defined in EPWING data.
+It also provides hint information for seperator of article, that is ordinally detect automatically
+but not implicitly defined in EPWING data. Otherwise, the hint provides hint what character is a seperator.
+Following is same description in Japanese.
+
+appendix (付録) とは CD-ROM 書籍の補助データの ことです。
+appendix は CD-ROM 書籍の出版社から提供されているものではなく、 EB ライブラリに固有のものです。
+EB4Jは、このデータを解釈利用することができます。
+
+- 本文の区切りコード
+- 外字の代替文字列
+
+appendix のレイアウトは CD-ROM 書籍のものとよく似ています。
+トップディレクトリには catalog もしくは catalogs ファイルが存在し、各副本のデータは対応する サブディレクトリに配置されています。
+
+EB4J can handle the appendix contents and provide an API
+to get alternative string for external font griff codepoint.
+
+* link:https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/Appendix.html[JavadDoc for Appendix class]
+
+
+==== Unicode map file
+
+Unicode map file is an amendment data for CD-ROM book, which is produced by EBStudio2 authoring tool.
+EBStudio2 generates external fonts codepoints for unicode characters, and also generate `.map` file
+which describe mapping between external fonts codepoints to unicode characters.
+
+The `.map` file should be a TSV: tab-separated value text file, and WBWin4 EBook reader bundles `.map` files with applicaiton.
+
+EB4J use `.map` file and provides API to get Unicode charecter code from external font codepoint.
+User can put `.map` file on a same directory with dictionary CATALOG file.
+
+Following is same description in Japanese.
+
+Unicode mapファイルは、CDROM電子書籍のデータに追加するデータです。
+EPWING形式の書籍をオーサリングするツールである、EBStudio2は、EPWINGでストレートに表現できないUnicodeの 文字を、
+自動的に外字定義として変換する機能を有しています。そのとき同時に、外字とUnicode文字コードポイントの対応関係を
+`.map` という拡張子のファイルに生成します。
+
+`.map`ファイルは、TSV: タブ区切り値テキスト ファイルである必要があります。
+通常、EBStudio2の作者が配布している 電子書籍リーダーであるEBWin4に同梱されており、インストールされた
+アプリケーションのフォルダーにいくつかの著名な辞書のためのファイルが格納されています。
+
+ユーザが、電子辞書のCATALOGファイルとおなじフォルダに、対応する`.map`ファイルを格納することで、
+EB4Jは、自動的にそのファイルをよみこんで、処理します。
+EB4Jには、この値を取得するための拡張されたAPIがあります。
+
+* link:https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/ext/UnicodeMap.html[JavaDoc for UnicodeMap class]
+
+
+= Projects who use EB4J 2.0.0 and later
+
+* OmegaT-plugin-epwing  https://github.com/miurahr/omegat-plugin-epwing
+
 === Utility commands
 
 ==== EBDUMP
@@ -78,15 +149,3 @@ Compress/decompress dictionary file with EBZip (.ebz)
 -h --help  display help message
 
 -v --version  display version
-
-
-
-=== Library API
-
-see javadoc
-
-
-=== Projects who use EB4J 2.0.0 and later
-
-
-* OmegaT-plugin-epwing  https://github.com/miurahr/omegat-plugin-epwing
