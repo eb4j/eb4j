@@ -1,48 +1,56 @@
 // eb4j gradle build script.
 //
-// Copyright (c) 2016,2020 Hiroshi Miura
+// Copyright (c) 2016,2020-2021 Hiroshi Miura
 //
 
 plugins {
-    //
-    id "com.github.spotbugs" version "4.5.1"
-    //
     id 'java'
     id 'jacoco'
     id 'maven'
     id 'distribution'
     id 'checkstyle'
     id 'application'
-}
-
-repositories {
-    jcenter()
+    id "com.github.spotbugs" version "4.5.1"
 }
 
 mainClassName = 'io.github.eb4j.tool.EBZip'
 applicationName = 'ebzip'
 
-def scripts = ['ebdump': 'io.github.eb4j.tool.EBDump',
-               'ebinfo': 'io.github.eb4j.tool.EBInfo'
-]
-scripts.each() { scriptName, className ->
-    def t = tasks.create(name: scriptName + 'StartScript', type: CreateStartScripts) {
-        mainClassName = className
-        applicationName = scriptName
-        outputDir = new File(project.buildDir, 'scripts')
-        classpath = jar.outputs.files + project.configurations.runtime
-    }
-    applicationDistribution.into("bin") {
-        from(t)
-        fileMode = 0755
+repositories {
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/eb4j/eb4j")
     }
 }
 
+task ebdumpStartScript(type: CreateStartScripts) {
+    mainClassName = 'io.github.eb4j.tool.EBDump'
+    applicationName = 'ebdump'
+    classpath = startScripts.classpath
+    outputDir = startScripts.outputDir
+}
+
+task ebinfoStartScript(type: CreateStartScripts) {
+    mainClassName = 'io.github.eb4j.tool.EBInfo'
+    applicationName = 'ebinfo'
+    classpath = startScripts.classpath
+    outputDir = startScripts.outputDir
+}
+
+applicationDistribution.into("bin") {
+    duplicatesStrategy= DuplicatesStrategy.EXCLUDE
+    from(ebdumpStartScript)
+    from(ebinfoStartScript)
+    fileMode = 0755
+}
+
 dependencies {
-    compile project(':eb4j-core')
-    compile 'commons-cli:commons-cli:1.2'
-    compile 'org.slf4j:slf4j-simple:1.7.25'
-    testCompile 'tokyo.northside:northside-io:0.2.0'
+    implementation project(':eb4j-core')
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    testImplementation 'commons-io:commons-io:2.7'
     testImplementation 'org.testng:testng:6.9.10'
 }
 test.useTestNG()
