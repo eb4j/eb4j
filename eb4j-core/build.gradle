@@ -1,13 +1,6 @@
-
-// Here is only place where plugins {} can be located.
 plugins {
-    // bintray
-    id "com.jfrog.bintray" version "1.8.5"
-    //
-    id "com.github.spotbugs" version "4.5.1"
-    //
     id 'idea'
-    id 'java'
+    id 'java-library'
     id 'jacoco'
     id 'maven'
     id 'maven-publish'
@@ -15,32 +8,25 @@ plugins {
     id 'checkstyle'
 }
 
+repositories {
+    mavenCentral()
+    maven {
+         name = "GitHubPackages"
+         url = uri("https://maven.pkg.github.com/eb4j/eb4j")
+    }
+    jcenter()
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-repositories {
-    jcenter()
-}
-
 dependencies {
+    implementation 'commons-lang:commons-lang:2.6'
     testImplementation 'org.testng:testng:6.9.10'
 }
 test.useTestNG()
-
-spotbugs {
-    ignoreFailures = true
-}
-
-spotbugsMain {
-    reports {
-        html {
-            enabled = true
-            destination = file("$buildDir/reports/spotbugs/main.html")
-        }
-    }
-}
 
 checkstyle {
     config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
@@ -87,57 +73,21 @@ def pomConfig = {
 }
 
 publishing {
-    publications {
-        EB4JPublication(MavenPublication) {
-            from components.java
-            artifact sourcesJar {
-                classifier "sources"
-            }
-            artifact javadocJar {
-                classifier "javadoc"
-            }
-
-            groupId projectGroup
-            artifactId projectName
-            version projectVersion
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('name', 'Emerald API')
-                root.children().last() + pomConfig
-            }
+    repositories {
+        maven {
+          name = "GitHubPackages"
+          url = "https://maven.pkg.github.com/eb4j/eb4j"
+          credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+          }
         }
-    }
-}
-
-bintray {
-    user = System.getenv('bintrayUser')
-    key = System.getenv('bintrayApiKey')
-    configurations = ['archives']
-    publications = ['EB4JPublication']
-    dryRun=false
-    publish=true
-    override=true
-
-    pkg {
-        repo = 'maven'
-        name = 'eb4j-core'
-        licenses = ['LGPL-2.1']
-        vcsUrl = projectUrl
-        labels = ['java', 'EPWING', 'ebook']
-        publicDownloadNumbers = true
-        userOrg = 'eb4j'
-        version {
-            name = projectVersion
-            description = 'EB4J'
-            released  = new Date()
-            vcsTag = 'v' + projectVersion
-        }
-    }
+   }
 }
 
 dependencies {
-    compile 'commons-lang:commons-lang:2.6'
-    compile 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'commons-lang:commons-lang:2.6'
+    api 'org.slf4j:slf4j-api:1.7.25'
     compileOnly 'org.slf4j:slf4j-nop:1.7.25'
     testImplementation 'org.slf4j:slf4j-nop:1.7.25'
     testImplementation 'org.testng:testng:6.9.10'
