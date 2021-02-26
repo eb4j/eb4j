@@ -10,7 +10,6 @@ plugins {
     id 'distribution'
     id 'checkstyle'
     id 'application'
-    id "com.github.spotbugs" version "4.5.1"
 }
 
 mainClassName = 'io.github.eb4j.tool.EBZip'
