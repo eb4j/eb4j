@@ -9,7 +9,21 @@ import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * Book class.
+ * ifeval::["{lang}" == "en"]
+ * = Book class.
+ *
+ * Book container class to represent e-book.
+ * The class has a type of e-book format specification and
+ * character codeset configuration.
+ *
+ * endif::[]
+ * ifeval::["{lang}" == "ja"]
+ * = ブッククラス。
+ *
+ * ブックを格納するクラスで、電子書籍全体を表現しています。
+ * このクラスは、電子書籍のフォーマト仕様タイプや文字セットの設定をもっています。
+ *
+ * endif::[]
  *
  * @author Hisaya FUKUMOTO
  */

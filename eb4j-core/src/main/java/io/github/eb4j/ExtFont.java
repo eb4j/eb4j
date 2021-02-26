@@ -5,8 +5,14 @@ import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * 外字フォントクラス。
+ * ifeval::["{lang}" == "en"]
+ * = GAIJI font class.
  *
+ * endif::[]
+ * ifeval::["{lang}" == "ja"]
+ * = 外字フォントクラス。
+ *
+ * endif::[]
  * @author Hisaya FUKUMOTO
 */
 public class ExtFont {

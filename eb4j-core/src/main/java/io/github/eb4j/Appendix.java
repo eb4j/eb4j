@@ -9,8 +9,14 @@ import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * Appendix packages.
+ * ifeval::["{lang}" == "en"]
+ * = Appendix packages.
  *
+ * endif::[]
+ * ifeval::["{lang}" == "ja"]
+ * = 付録パッケージクラス。
+ *
+ * endif::[]
  * @author Hisaya FUKUMOTO
  * @author Hiroshi Miura
  */
@@ -27,10 +33,19 @@ public class Appendix {
 
 
     /**
-     * Initialize new appendix object indicated by String path.
+     * ifeval::["{lang}" == "en"]
+     * = Initialize new appendix object indicated by String path.
      *
      * @param path Path of appendix package in String.
      * @exception EBException when error on initialization.
+     *
+     * endif::[]
+     * ifeval::["{lang}" == "ja"]
+     * = コンストラクタ。
+     * @param path 付録パッケージのパス
+     * @exception EBException 初期化中にエラーが発生した場合
+     *
+     * endif::[]
      */
     public Appendix(final String path) throws EBException {
         this(new File(path));

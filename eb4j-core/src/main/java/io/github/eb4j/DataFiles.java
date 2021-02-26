@@ -3,7 +3,10 @@ package io.github.eb4j;
 import io.github.eb4j.io.EBFormat;
 
 /**
+ * ifeval::["{lang}" == "en"]
  * EBook main data files.
+ *
+ * endif::[]
  * Created by Hiroshi Miura on 16/07/01.
  * @author Hiroshi Miura
  */
