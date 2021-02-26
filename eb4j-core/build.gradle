@@ -14,7 +14,6 @@ repositories {
          name = "GitHubPackages"
          url = uri("https://maven.pkg.github.com/eb4j/eb4j")
     }
-    jcenter()
 }
 
 java {
@@ -22,8 +21,16 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+configurations {
+    doclet
+}
+
 dependencies {
+    doclet 'org.asciidoctor:asciidoclet:1.+'
     implementation 'commons-lang:commons-lang:2.6'
+    api 'org.slf4j:slf4j-api:1.7.25'
+    compileOnly 'org.slf4j:slf4j-nop:1.7.25'
+    testImplementation 'org.slf4j:slf4j-nop:1.7.25'
     testImplementation 'org.testng:testng:6.9.10'
 }
 test.useTestNG()
@@ -44,6 +51,17 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+
+javadoc {
+    options.docletpath = configurations.doclet.files.asType(List)
+    options.doclet = 'org.asciidoctor.Asciidoclet'
+    options.setLocale("en")
+    options.addStringOption "-base-dir", "${projectDir}"
+    options.addStringOption "-attribute",
+            "name=${project.name}," + "lang=ja," +
+            "version=${project.version}," +
+            "title-link=https://eb4j.github.io/eb4j[${project.name} ${project.version}]"
 }
 
 version = projectVersion
@@ -84,15 +102,6 @@ publishing {
         }
    }
 }
-
-dependencies {
-    implementation 'commons-lang:commons-lang:2.6'
-    api 'org.slf4j:slf4j-api:1.7.25'
-    compileOnly 'org.slf4j:slf4j-nop:1.7.25'
-    testImplementation 'org.slf4j:slf4j-nop:1.7.25'
-    testImplementation 'org.testng:testng:6.9.10'
-}
-test.useTestNG()
 
 distTar {
     compression = Compression.GZIP

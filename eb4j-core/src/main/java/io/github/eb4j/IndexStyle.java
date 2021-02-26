@@ -3,8 +3,14 @@ package io.github.eb4j;
 import io.github.eb4j.util.ByteUtil;
 
 /**
- * インデックススタイル情報クラス。
+ * ifeval::["{lang}" == "en"]
+ * = Index style information class.
  *
+ * endif::[]
+ * ifeval::["{lang}" == "ja"]
+ * = インデックススタイル情報クラス。
+ *
+ * endif::[]
  * @author Hisaya FUKUMOTO
  */
 public class IndexStyle {

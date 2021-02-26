@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.apache.commons.lang.ArrayUtils;
 
 /**
- * Searcher class for multiple search words.
+ * ifeval::["{lang}" == "en"]
+ * = Searcher class for multiple search words.
  *
+ * endif::[]
  * @author Hisaya FUKUMOTO
  */
 public class MultiWordSearcher implements Searcher {

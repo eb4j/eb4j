@@ -7,10 +7,14 @@ import io.github.eb4j.util.ByteUtil;
 import java.nio.charset.Charset;
 
 /**
- * Image data class.
+ * ifeval::["{lang}" == "en"]
+ * = Image data class.
  *
- * 画像データクラス。
+ * endif::[]
+ * ifeval::["{lang}" == "ja"]
+ * = 画像データクラス。
  *
+ * endif::[]
  * @author Hisaya FUKUMOTO
  */
 public class GraphicData {

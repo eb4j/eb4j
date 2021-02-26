@@ -1,8 +1,14 @@
 package io.github.eb4j;
 
 /**
- * EBook exception class.
+ * ifeval::["{lang}" == "en"]
+ * = EBook exception class.
  *
+ * endif::[]
+ * ifeval::["{lang}" == "ja"]
+ * = 書籍例外クラス。
+ *
+ * endif::[]
  * @author Hisaya FUKUMOTO
  */
 public class EBException extends Exception {
