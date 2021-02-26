@@ -7,38 +7,45 @@ import io.github.eb4j.util.ByteUtil;
 import java.nio.charset.Charset;
 
 /**
+ * Image data class.
+ *
  * 画像データクラス。
  *
  * @author Hisaya FUKUMOTO
  */
 public class GraphicData {
 
-    /** カラー画像のヘッダサイズ */
+    /** Header size for color images */
     private static final int COLOR_GRAPHIC_HEADER = 8;
 
-    /** バイナリデータファイル */
-    private EBFile _file = null;
+    /** binary data file */
+    private EBFile _text;
+    private EBFile _graphic;
 
 
     /**
      * Constructor.
      *
-     * @param file image data file.
+     * @param text monochrome image data file.
+     * @param graphic color image data file.
      */
-    protected GraphicData(final EBFile file) {
+    protected GraphicData(final EBFile text, EBFile graphic) {
         super();
-        _file = file;
+        _text = text;
+        _graphic = graphic;
     }
 
 
     /**
+     * Return monochrome image data at specified position.
+     *
      * 指定位置のモノクロ画像データを返します。
      *
-     * @param pos データ位置
-     * @param width 幅
-     * @param height 高さ
-     * @return モノクロ画像データ(bitmap)のバイト配列
-     * @exception EBException ファイル読み込み中にエラーが発生した場合
+     * @param pos position
+     * @param width width of image
+     * @param height height of image
+     * @return byte array of monochrome image bitmap
+     * @exception EBException when error on loading file
      */
     public byte[] getMonoGraphic(final long pos, final int width, final int height)
             throws EBException {
@@ -47,7 +54,7 @@ public class GraphicData {
         int graphicWidth;
         int graphicHeight;
 
-        BookInputStream bis = _file.getInputStream();
+        BookInputStream bis = _text.getInputStream();
         try {
             // 幅、高さが0の場合、幅、高さ、位置を読み出す
             if (width == 0 && height == 0) {
@@ -56,7 +63,7 @@ public class GraphicData {
                 bis.readFully(b, 0, b.length);
                 if (ByteUtil.getInt2(b, 0) != 0x1f45
                     || ByteUtil.getInt2(b, 4) != 0x1f31) {
-                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                    throw new EBException(EBException.UNEXP_FILE, _text.getPath());
                 }
                 graphicWidth = ByteUtil.getBCD2(b, 8);
                 graphicHeight = ByteUtil.getBCD2(b, 10);
@@ -67,7 +74,7 @@ public class GraphicData {
                     graphicPos = BookInputStream.getPosition(ByteUtil.getBCD4(b, 16),
                                                       ByteUtil.getBCD2(b, 20));
                 } else {
-                    throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                    throw new EBException(EBException.UNEXP_FILE, _text.getPath());
                 }
             } else {
                 graphicWidth = width;
@@ -90,15 +97,17 @@ public class GraphicData {
     }
 
     /**
+     * Return color image data at specified position.
+     *
      * 指定位置のカラー画像データを返します。
      *
-     * @param pos データ位置
+     * @param pos position of data
      * @return カラー画像データ(JPEG/DIB)のバイト配列
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
     public byte[] getColorGraphic(final long pos) throws EBException {
         byte[] img = null;
-        BookInputStream bis = _file.getInputStream();
+        BookInputStream bis = _graphic.getInputStream();
         try {
             bis.seek(pos);
             byte[] b = new byte[COLOR_GRAPHIC_HEADER];
