@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Extension: Support unicode maps definition file that bundled by EBView application.
+- Extension: Support Appendix feature that EB library extend.
+
+### Fixed
+- Able to handle monochrome image at HONMON instead of HONMONG
+
+### Changed
+- Use Asciidoc for javadoc comment for Jaapanese and English.
+
+
 ## [2.0.0] - 2020-10-25
 ### Changed
 - Released the library at bintray
@@ -14,7 +25,7 @@ All notable changes to this project will be documented in this file.
 - Add github actions workflows
 
 ## [1.99.1.dev] - 2016-10-15
-### Add
+### Added
 - Add unit tests.
 
 ### Changed
