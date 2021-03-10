@@ -1,4 +1,1 @@
 rootProject.name = 'eb4j'
-include 'eb4j-core'
-include 'eb4j-tools'
-include 'docs'
