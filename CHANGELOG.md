@@ -3,16 +3,24 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.0] - 2021-03-10
+
 ### Added
 - Extension: Support unicode maps definition file that bundled by EBView application.
 - Extension: Support Appendix feature that EB library extend.
+- Publish to jitpack.io.
+- Publish to github packages repository.
 
 ### Fixed
 - Able to handle monochrome image at HONMON instead of HONMONG
 
 ### Changed
-- Use Asciidoc for javadoc comment for Jaapanese and English.
+- Automation of release versioning based on git tag.
+- Change version scheme to <major>.<minor>.<patchlevel>.<build>
+- Use Asciidoc for javadoc comment for Japanese and English.
 
+### Deprecated
+- Drop bintray repository to publish.
 
 ## [2.0.0] - 2020-10-25
 ### Changed
@@ -46,6 +54,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/eb4j/eb4j/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/eb4j/eb4j/compare/v1.99.1...v2.0.0
 [1.99.1.dev]: https://github.com/eb4j/eb4j/compare/v1.99.0...v1.99.1
