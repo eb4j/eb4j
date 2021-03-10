@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Gradle: Drop version automation.
 - Change project group to com.github.eb4j
+- Add repository to docs subproject
 
 ## [2.1.0] - 2021-03-10
 
