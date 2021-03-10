@@ -6,6 +6,7 @@ plugins {
     id 'maven-publish'
     id 'java-library-distribution'
     id 'checkstyle'
+    id 'org.asciidoctor.jvm.convert' version '3.1.0'
 }
 
 group = projectGroup
@@ -13,10 +14,6 @@ version = projectVersion
 
 repositories {
     mavenCentral()
-    maven {
-         name = "GitHubPackages"
-         url = uri("https://maven.pkg.github.com/eb4j/eb4j")
-    }
 }
 
 java {
@@ -109,10 +106,10 @@ distTar {
 
 distributions {
     main {
-        distributionBaseName = 'eb4j-core'
+        distributionBaseName = 'eb4j'
         contents {
-            from '../README.md'
-            from '../LICENSE.txt'
+            from 'README.md'
+            from 'LICENSE.txt'
         }
     }
 }
@@ -121,9 +118,9 @@ install {
     repositories.mavenInstaller {
         pom {
             project {
-                packaging 'eb4j-core'
-                groupId 'io.github.eb4j'
-                artifactId = 'eb4j-core'
+                packaging 'eb4j'
+                groupId 'com.github.eb4j'
+                artifactId = 'eb4j'
                 name 'eb4j'
                 description = 'eb4j'
                 url projectUrl
@@ -135,4 +132,22 @@ install {
             }
         }
     }
+}
+
+asciidoctor {
+    sourceDir  file('docs')
+    sources {
+        include 'index.adoc', 'about.adoc', 'links.adoc', 'reports.adoc'
+    }
+    outputDir  file('build/docs')
+    attributes 'build-gradle': file('build.gradle'),
+            'endpoint-url': 'http://eb4j.github.io/eb4j/',
+            'source-highlighter': 'coderay',
+            'imagesdir': 'images',
+            'toc': 'left',
+            'icons': 'font',
+            'setanchors': 'true',
+            'idprefix': '',
+            'idseparator': '-',
+            'docinfo1': 'true'
 }
