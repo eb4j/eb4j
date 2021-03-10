@@ -3,10 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.1] - 2021-03-11
+
 ### Changed
+- Re-organize source tree.
+  * Split eb4j-tools out to another project and remove.
+  * Move to single tree project
 - Gradle: Drop version automation.
-- Change project group to com.github.eb4j
-- Add repository to docs subproject
+
 
 ## [2.1.0] - 2021-03-10
 
@@ -17,7 +21,7 @@ All notable changes to this project will be documented in this file.
 - Publish to github packages repository.
 
 ### Fixed
-- Able to handle monochrome image at HONMON instead of HONMONG
+- Able to handle a monochrome image at HONMON instead of HONMONG
 
 ### Changed
 - Automation of release versioning based on git tag.
@@ -59,7 +63,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/eb4j/eb4j/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/eb4j/eb4j/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/eb4j/eb4j/compare/v1.99.1...v2.0.0
 [1.99.1.dev]: https://github.com/eb4j/eb4j/compare/v1.99.0...v1.99.1
