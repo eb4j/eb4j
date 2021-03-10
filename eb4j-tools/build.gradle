@@ -10,16 +10,27 @@ plugins {
     id 'distribution'
     id 'checkstyle'
     id 'application'
+    id "com.sarhanm.versioner" version "4.0.2"
 }
 
+versioner{
+    snapshot = false
+    omitBranchMetadata = true
+    disableHotfixVersioning = true
+}
+
+group = projectGroup
 mainClassName = 'io.github.eb4j.tool.EBZip'
 applicationName = 'ebzip'
 
 repositories {
     mavenCentral()
     maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/eb4j/eb4j")
+        url = uri("https://jitpack.io")
+    }
+    maven {
+         name = "GitHubPackages"
+         url = uri("https://maven.pkg.github.com/eb4j/eb4j")
     }
 }
 
@@ -53,9 +64,6 @@ dependencies {
     testImplementation 'org.testng:testng:6.9.10'
 }
 test.useTestNG()
-
-version = projectVersion
-group = projectGroup
 
 distTar {
     compression = Compression.GZIP
