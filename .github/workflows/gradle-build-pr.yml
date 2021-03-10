@@ -15,5 +15,5 @@ jobs:
           java-version: 8
       - uses: eskatos/gradle-command-action@v1
         with:
-          arguments: eb4j-tools:build eb4j-core:build
+          arguments: build
         id: gradle
