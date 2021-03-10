@@ -1,5 +1,7 @@
 # EB4j
 
+[![](https://jitpack.io/v/eb4j/eb4j.svg)](https://jitpack.io/#eb4j/eb4j)
+
 EPWING/Ebook access library and utilities.
 
 
@@ -10,9 +12,8 @@ EPWING/Ebook access library and utilities.
 ```
 repositories {
     maven {
-        url "https://dl.bintray.com/eb4j/maven/"
+        url "https://jitpack.io"
     }
-    jcenter()
 }
 dependencies {
     implementation 'io.github.eb4j:eb4j:2.0.0'
@@ -24,9 +25,8 @@ dependencies {
 ```
 repositories {
     maven {
-        url=url("https://dl.bintray.com/eb4j/maven/")
+        url = uri("https://jitpack.io")
     }
-    jcenter()
 }
 dependencies {
     implementation('io.github.eb4j:eb4j:2.0.0')
@@ -38,12 +38,8 @@ dependencies {
 ```
 <repositories>
     <repository>
-      <id>jcenter</id>
-      <url>https://jcenter.bintray.com/</url>
-    </repository>
-    <repository>
-      <id>eb4j</id>
-      <url>https://dl.bintray.com/eb4j/maven/</url>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io/</url>
     </repository>
 </repositories>
  <dependencies>
@@ -57,11 +53,6 @@ dependencies {
   </dependencies>
 ```
 
-### ivy
-
-```
-<dependency org="io.github.eb4j" name="eb4j" revision="2.0.0"/>
-```
 
 ## Build
 
@@ -100,6 +91,8 @@ EB4j, an access library for EPWING/Ebook.
 Copyright(C) 2003-2010 Hisaya FUKUMOTO
 
 Copyright(C) 2016 Hiroshi Miura, Aaron Madlon-Kay
+
+Copyright(C) 2020-2021 Hiroshi Miura
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free
