@@ -23,17 +23,9 @@ jobs:
     - uses: burrunan/gradle-cache-action@v1
       with:
         gradle-version: 6.7.1
-        arguments: eb4j-tools:distTar eb4j-tools:distZip
+        arguments: build
         properties: |
           version=${{ steps.get_version.outputs.VERSION }}
-          group=com.github.eb4j
-    - uses: burrunan/gradle-cache-action@v1
-      with:
-        gradle-version: 6.7.1
-        arguments: eb4j-core:build
-        properties: |
-          version=${{ steps.get_version.outputs.VERSION }}
-          group=com.github.eb4j
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -44,43 +36,23 @@ jobs:
         release_name: Release v${{ steps.get_version.outputs.VERSION }}
         draft: false
         prerelease: false
-    - name: Upload Release Asset(tools,zip)
-      id: upload-release-tools-zip
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-tools/build/distributions/eb4j-tools-${{ steps.get_version.outputs.VERSION }}.zip
-        asset_name: eb4j-tools-${{ steps.get_version.outputs.VERSION }}.zip
-        asset_content_type: application/zip
-    - name: Upload Release Asset(tools,tgz)
-      id: upload-release-tools-tgz
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-tools/build/distributions/eb4j-tools-${{ steps.get_version.outputs.VERSION }}.tgz
-        asset_name: eb4j-tools-${{ steps.get_version.outputs.VERSION }}.tgz
-        asset_content_type: application/gzip
-    - name: Upload Release Asset(lib,zip)
+    - name: Upload Release Asset(zip)
       id: upload-release-lib-zip
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-core/build/distributions/eb4j-core-${{ steps.get_version.outputs.VERSION }}.zip
-        asset_name: eb4j-core-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_path: build/distributions/eb4j-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}.zip
         asset_content_type: application/zip
-    - name: Upload Release Asset(lib,tgz)
+    - name: Upload Release Asset(tgz)
       id: upload-release-lib-tgz
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-core/build/distributions/eb4j-core-${{ steps.get_version.outputs.VERSION }}.tgz
-        asset_name: eb4j-core-${{ steps.get_version.outputs.VERSION }}.tgz
+        asset_path: build/distributions/eb4j-${{ steps.get_version.outputs.VERSION }}.tgz
+        asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}.tgz
         asset_content_type: application/gzip
