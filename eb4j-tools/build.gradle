@@ -10,16 +10,11 @@ plugins {
     id 'distribution'
     id 'checkstyle'
     id 'application'
-    id "com.sarhanm.versioner" version "4.0.2"
-}
-
-versioner{
-    snapshot = false
-    omitBranchMetadata = true
-    disableHotfixVersioning = true
 }
 
 group = projectGroup
+version = projectVersion
+
 mainClassName = 'io.github.eb4j.tool.EBZip'
 applicationName = 'ebzip'
 
