@@ -17,10 +17,13 @@ jobs:
         java-version: 1.8
     - uses: eskatos/gradle-command-action@v1
       with:
-        arguments: build
+        arguments: eb4j-core:build eb4j-tools:build
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+      run: |
+        REV_COUNT=`git rev-list --count HEAD`
+        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+        echo ::set-output name=FULL_VERION::${GITHUB_REF/refs\/tags\/v/}.${REV_COUNT}
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -38,8 +41,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-tools/build/distributions/eb4j-tools-${{ steps.get_version.outputs.VERSION }}.zip
-        asset_name: eb4j-tools-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_path: eb4j-tools/build/distributions/eb4j-tools-${{ steps.get_version.outputs.FULL_VERSION }}.zip
+        asset_name: eb4j-tools-${{ steps.get_version.outputs.FULL_VERSION }}.zip
         asset_content_type: application/zip
     - name: Upload Release Asset(tools,tgz)
       id: upload-release-tools-tgz
@@ -48,8 +51,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-tools/build/distributions/eb4j-tools-${{ steps.get_version.outputs.VERSION }}.tgz
-        asset_name: eb4j-tools-${{ steps.get_version.outputs.VERSION }}.tgz
+        asset_path: eb4j-tools/build/distributions/eb4j-tools-${{ steps.get_version.outputs.FULL_VERSION }}.tgz
+        asset_name: eb4j-tools-${{ steps.get_version.outputs.FULL_VERSION }}.tgz
         asset_content_type: application/gzip
     - name: Upload Release Asset(lib,zip)
       id: upload-release-lib-zip
@@ -58,8 +61,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-core/build/distributions/eb4j-core-${{ steps.get_version.outputs.VERSION }}.zip
-        asset_name: eb4j-core-${{ steps.get_version.outputs.VERSION }}.zip
+        asset_path: eb4j-core/build/distributions/eb4j-core-${{ steps.get_version.outputs.FULL_VERSION }}.zip
+        asset_name: eb4j-core-${{ steps.get_version.outputs.FULL_VERSION }}.zip
         asset_content_type: application/zip
     - name: Upload Release Asset(lib,tgz)
       id: upload-release-lib-tgz
@@ -68,6 +71,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: eb4j-core/build/distributions/eb4j-core-${{ steps.get_version.outputs.VERSION }}.tgz
-        asset_name: eb4j-core-${{ steps.get_version.outputs.VERSION }}.tgz
+        asset_path: eb4j-core/build/distributions/eb4j-core-${{ steps.get_version.outputs.FULL_VERSION }}.tgz
+        asset_name: eb4j-core-${{ steps.get_version.outputs.FULL_VERSION }}.tgz
         asset_content_type: application/gzip
