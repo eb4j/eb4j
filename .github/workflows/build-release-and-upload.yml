@@ -19,7 +19,7 @@ jobs:
         java-version: 1.8
     - uses: eskatos/gradle-command-action@v1
       with:
-        arguments: eb4j-core:build eb4j-tools:build
+        arguments: eb4j-tools:build eb4j-core:build
     - name: Get the version
       id: get_version
       run: |
