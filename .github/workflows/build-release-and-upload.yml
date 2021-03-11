@@ -1,4 +1,4 @@
-name: Upload Assets to github release
+name: Upload Assets to github release and packages
 
 on:
   push:
@@ -36,6 +36,10 @@ jobs:
         release_name: Release v${{ steps.get_version.outputs.VERSION }}
         draft: false
         prerelease: false
+    - name: Publish package
+        run: gradle publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Release Asset(zip)
       id: upload-release-lib-zip
       uses: actions/upload-release-asset@v1
