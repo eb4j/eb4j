@@ -37,9 +37,9 @@ jobs:
         draft: false
         prerelease: false
     - name: Publish package
-        run: gradle publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gradle publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Release Asset(zip)
       id: upload-release-lib-zip
       uses: actions/upload-release-asset@v1
