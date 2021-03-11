@@ -64,40 +64,46 @@ javadoc {
             "title-link=https://eb4j.github.io/eb4j[${project.name} ${project.version}]"
 }
 
-def pomConfig = {
-    licenses {
-        license {
-            name "The GNU Lesser General Public License, Version 2.1"
-            url "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"
-            distribution "repo"
-        }
-    }
-    developers {
-        developer {
-            id "miurahr"
-            name "Hiroshi Miura"
-            email "miurahr@linux.com"
-        }
-    }
-
-    scm {
-        connection "scm:git:git://github.com/eb4j/eb4j.git"
-        developerConnection "scm:git:git://github.com/eb4j/eb4j.git"
-        url "https://github.com/eb4j/eb4j"
-    }
-}
-
 publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            pom {
+                name = "EB4J"
+                description = "EPWING/Ebook access library"
+                url = "https://github.com/eb4j/eb4j"
+                licenses {
+                    license {
+                        name = "The GNU Lesser General Public License, Version 2.1"
+                        url = "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"
+                        distribution = "repo"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "miurahr"
+                        name = "Hiroshi Miura"
+                        email = "miurahr@linux.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/eb4j/eb4j.git"
+                    developerConnection = "scm:git:git://github.com/eb4j/eb4j.git"
+                    url = "https://github.com/eb4j/eb4j"
+                }
+            }
+        }
+    }
     repositories {
         maven {
-          name = "GitHubPackages"
-          url = "https://maven.pkg.github.com/eb4j/eb4j"
-          credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
-          }
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/eb4j/eb4j"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
         }
-   }
+    }
 }
 
 distTar {

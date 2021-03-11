@@ -1,22 +1,23 @@
 # EB4j
 
-[![](https://jitpack.io/v/eb4j/eb4j.svg)](https://jitpack.io/#eb4j/eb4j)
+EPWING/Ebook access library.
 
-EPWING/Ebook access library and utilities.
-
-
-## Use eb4j-core library for your project
+## Use eb4j library for your project
 
 ### Gradle
 
 ```
 repositories {
     maven {
-        url "https://jitpack.io"
+        url "https://maven.pkg.github.com/eb4j/eb4j"
+        credentials {
+            username = 'github username'
+            password = 'personal access token'
+        }
     }
 }
 dependencies {
-    implementation 'io.github.eb4j:eb4j:2.0.0'
+    implementation 'io.github.eb4j:eb4j:2.1.4'
 }
 ```
 
@@ -25,28 +26,41 @@ dependencies {
 ```
 repositories {
     maven {
-        url = uri("https://jitpack.io")
+        url = uri("https://maven.pkg.github.com/eb4j/eb4j")
+        credentials {
+            username = 'github username'
+            password = 'personal access token'
+        }
     }
 }
 dependencies {
-    implementation('io.github.eb4j:eb4j:2.0.0')
+    implementation('io.github.eb4j:eb4j:2.1.4')
 }
 ```
 
 ### Maven
 
 ```
+A Maven `settings.xml` file:
+<servers>
+  <server>
+    <id>github</id>
+    <username>github user</username>
+    <password>TOKEN</password>
+  </server>
+</servers>
+
 <repositories>
     <repository>
       <id>jitpack.io</id>
-      <url>https://jitpack.io/</url>
+      <url>https://maven.pkg.github.com/eb4j/eb4j</url>
     </repository>
 </repositories>
  <dependencies>
     <dependency>
       <groupId>io.github.eb4j</groupId>
       <artifactId>eb4j</artifactId>
-      <version>2.0.0</version>
+      <version>2.1.4</version>
       <type>jar</type>
     </dependency>
     ...
