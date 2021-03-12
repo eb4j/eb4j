@@ -22,10 +22,8 @@ jobs:
         echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
     - uses: burrunan/gradle-cache-action@v1
       with:
-        gradle-version: 6.7.1
+        gradle-version: 6.8.3
         arguments: build
-        properties: |
-          version=${{ steps.get_version.outputs.VERSION }}
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -37,7 +35,10 @@ jobs:
         draft: false
         prerelease: false
     - name: Publish package
-      run: gradle publish
+      uses: burrunan/gradle-cache-action@v1
+      with:
+        gradle-version: 6.8.3
+        arguments: publishMavenJavaPublicationToGitHubPackagesRepository
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Release Asset(zip)
@@ -60,3 +61,33 @@ jobs:
         asset_path: build/distributions/eb4j-${{ steps.get_version.outputs.VERSION }}.tgz
         asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}.tgz
         asset_content_type: application/gzip
+    - name: Upload Release Asset(lib.jar)
+      id: upload-release-asset-lib
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/libs/eb4j-${{ steps.get_version.outputs.VERSION }}.jar
+        asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}.jar
+        asset_content_type: application/java-archive
+    - name: Upload Release Asset(lib.sources.jar)
+      id: upload-release-asset-lib
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/libs/eb4j-${{ steps.get_version.outputs.VERSION }}-sources.jar
+        asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}-sources.jar
+        asset_content_type: application/java-archive
+    - name: Upload Release Asset(lib.javadoc.jar)
+      id: upload-release-asset-lib
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/libs/eb4j-${{ steps.get_version.outputs.VERSION }}-javadoc.jar
+        asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}-javadoc.jar
+        asset_content_type: application/java-archive
