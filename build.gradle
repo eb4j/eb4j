@@ -7,10 +7,12 @@ plugins {
     id 'java-library-distribution'
     id 'checkstyle'
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
+    id 'com.palantir.git-version' version "0.12.3"
 }
 
-group = projectGroup
-version = projectVersion
+// Drop prefix 'v' from latest tag version.
+version = {it -> it.substring(1, it.length())}(gitVersion())
+group = 'com.github.eb4j'
 
 repositories {
     mavenCentral()
@@ -129,7 +131,7 @@ install {
                 artifactId = 'eb4j'
                 name 'eb4j'
                 description = 'eb4j'
-                url projectUrl
+                url 'https://github.com/eb4j/eb4j'
                 licenses {
                     license {
                         name 'LGPL2.1+'

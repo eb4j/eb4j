@@ -52,7 +52,7 @@ A Maven `settings.xml` file:
 
 <repositories>
     <repository>
-      <id>jitpack.io</id>
+      <id>github</id>
       <url>https://maven.pkg.github.com/eb4j/eb4j</url>
     </repository>
 </repositories>
