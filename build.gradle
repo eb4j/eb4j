@@ -42,15 +42,13 @@ checkstyle {
     toolVersion = '6.16.1'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
 artifacts {
+    archives jar
     archives sourcesJar
     archives javadocJar
 }
@@ -68,7 +66,7 @@ javadoc {
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
             pom {
                 name = "EB4J"
@@ -105,6 +103,17 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+        maven {
+            name = "GitLabPackages"
+            url = "https://gitlab.com/api/v4/groups/dictzip/-/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                name = 'Job-Token'
+                value = System.getenv("CI_JOB_TOKEN")
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
     }
 }
 
@@ -122,25 +131,6 @@ distributions {
     }
 }
 
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'eb4j'
-                groupId 'com.github.eb4j'
-                artifactId = 'eb4j'
-                name 'eb4j'
-                description = 'eb4j'
-                url 'https://github.com/eb4j/eb4j'
-                licenses {
-                    license {
-                        name 'LGPL2.1+'
-                    }
-                }
-            }
-        }
-    }
-}
 
 asciidoctor {
     sourceDir  file('docs')
