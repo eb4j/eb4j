@@ -106,7 +106,7 @@ publishing {
         maven {
             name = "GitLabPackages"
             url = "https://gitlab.com/api/v4/groups/dictzip/-/packages/maven"
-            credentials(HttpHeaderCredentials) {
+            credentials(PasswordCredentials) {
                 name = 'Job-Token'
                 value = System.getenv("CI_JOB_TOKEN")
             }
