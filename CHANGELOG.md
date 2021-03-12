@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.5] - 2021-03-12
+
+### Changed
+
+- Publish to gitlab packages and repositories
+
 ## [2.1.4] - 2021-03-11
 
 ### Changed
@@ -69,7 +75,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.4...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.5...HEAD
+[2.1.5]: https://github.com/eb4j/eb4j/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/eb4j/eb4j/compare/v2.1.1...v2.1.4
 [2.1.1]: https://github.com/eb4j/eb4j/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/eb4j/eb4j/compare/v2.0.0...v2.1.0
