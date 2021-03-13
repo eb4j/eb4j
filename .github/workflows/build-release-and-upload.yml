@@ -34,13 +34,21 @@ jobs:
         release_name: Release v${{ steps.get_version.outputs.VERSION }}
         draft: false
         prerelease: false
-    - name: Publish package
+    - name: Publish package to Github packages
       uses: burrunan/gradle-cache-action@v1
       with:
         gradle-version: 6.8.3
         arguments: publishMavenJavaPublicationToGitHubPackagesRepository
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish package to Azure Artifactry
+      uses: burrunan/gradle-cache-action@v1
+      with:
+        gradle-version: 6.8.3
+        arguments: publishMavenJavaPublicationToAzurePackagesRepository
+      env:
+        AZURE_USER: ${{ secrets.AZURE_USER }}
+        AZURE_TOKEN: ${{ secrets.AZURE_TOKEN }}
     - name: Upload Release Asset(zip)
       id: upload-release-lib-zip
       uses: actions/upload-release-asset@v1
