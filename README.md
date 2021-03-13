@@ -5,6 +5,45 @@ You can obtain EB4J library from Github Packages.
 
 ## Use eb4j library for your project
 
+You can use a package in the maven repository of Azure Artifactory.
+
+### Gradle configuration
+
+```
+repositories {
+    maven {
+        url "https://pkgs.dev.azure.com/miurahr/github/_packaging/maven/maven/v1"
+        credentials {
+            username = 'azure devops username'
+            password = 'personal access token'
+        }
+    }
+}
+dependencies {
+    implementation 'io.github.eb4j:eb4j:2.1.5'
+}
+```
+
+### Gradle(kts)
+
+```
+repositories {
+    maven {
+        url = uri("https://pkgs.dev.azure.com/miurahr/github/_packaging/maven/maven/v1")
+        credentials {
+            username = 'github username'
+            password = 'personal access token'
+        }
+    }
+}
+dependencies {
+    implementation('io.github.eb4j:eb4j:2.1.5')
+}
+```
+
+
+## Use eb4j library for your project on GitHub
+
 ### Gradle
 
 ```

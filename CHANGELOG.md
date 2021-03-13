@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Publish to Azure artifactory
+
 ## [2.1.5] - 2021-03-12
 
 ### Changed
