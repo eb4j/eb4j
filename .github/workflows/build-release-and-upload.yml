@@ -80,7 +80,7 @@ jobs:
         asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}.jar
         asset_content_type: application/java-archive
     - name: Upload Release Asset(lib.sources.jar)
-      id: upload-release-asset-lib
+      id: upload-release-asset-source
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -90,7 +90,7 @@ jobs:
         asset_name: eb4j-${{ steps.get_version.outputs.VERSION }}-sources.jar
         asset_content_type: application/java-archive
     - name: Upload Release Asset(lib.javadoc.jar)
-      id: upload-release-asset-lib
+      id: upload-release-asset-javadoc
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
