@@ -104,14 +104,22 @@ publishing {
             }
         }
         maven {
+            // FIXME: not working: error with 415 unsupported media type
             name = "GitLabPackages"
             url = "https://gitlab.com/api/v4/groups/dictzip/-/packages/maven"
-            credentials(PasswordCredentials) {
-                username = 'Job-Token'
-                password = System.getenv("CI_JOB_TOKEN")
+            credentials(HttpHeaderCredentials) {
+                def jobToken = System.getenv("CI_JOB_TOKEN")
+                if (jobToken != null) {
+                    // GitLab CI
+                    name = "Job-Token"
+                    value = System.getenv("CI_JOB_TOKEN")
+                } else {
+                    name = "Private-Token"
+                    value = System.getenv("GITLAB_TOKEN")
+                }
             }
             authentication {
-                basic(BasicAuthentication)
+                header(HttpHeaderAuthentication)
             }
         }
     }

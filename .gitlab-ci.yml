@@ -1,7 +1,0 @@
-deploy-job:
-  image: gradle:6.8.3-jdk8
-  stage: deploy
-  script:
-    - 'gradle publishMavenJavaPublicationToGitLabPackagesRepository'
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

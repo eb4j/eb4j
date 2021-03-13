@@ -1,11 +1,9 @@
 # EB4j
 
 EPWING/Ebook access library.
+You can obtain EB4J library from Github Packages.
 
-You can obtain EB4J library from either Github Packages or Gitlab packages.
-
-## Use eb4j library for your project with github
-
+## Use eb4j library for your project
 
 ### Gradle
 
@@ -69,58 +67,6 @@ A Maven `settings.xml` file:
     ...
   </dependencies>
 ```
-
-## Use eb4j library for your project with gitlab
-
-You can access gitlab packages with your private access token.
-
-### Gradle
-
-Create `~/.gradle/gradle.properties` file and put authentication credential
-```
-gitLabPrivateToken=REPLACE_WITH_YOUR_PERSONAL_ACCESS_TOKEN
-```
-
-and then
-
-```
-repositories {
-    maven {
-        url "https://gitlab.com/api/v4/groups/dictzip/-/packages/maven"
-        credentials(HttpHeaderCredentials) {
-            name = 'Private-Token'
-            value = gitLabPrivateToken
-        }
-        authentication {
-            header(HttpHeaderAuthentication)
-        }
-    }
-}
-dependencies {
-    implementation 'io.github.eb4j:eb4j:2.1.5'
-}
-```
-
-### Gradle(kts)
-
-```
-repositories {
-    maven {
-        url = uri("https://gitlab.com/api/v4/groups/dictzip/-/packages/maven")
-        credentials(HttpHeaderCredentials) {
-            name = 'Private-Token'
-            value = gitLabPrivateToken
-        }
-        authentication {
-            header(HttpHeaderAuthentication)
-        }
-    }
-}
-dependencies {
-    implementation('io.github.eb4j:eb4j:2.1.5')
-}
-```
-
 
 ## Build
 
