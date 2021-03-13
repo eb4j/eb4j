@@ -12,7 +12,7 @@ plugins {
 
 // Drop prefix 'v' from latest tag version.
 version = {it -> it.substring(1, it.length())}(gitVersion())
-group = 'com.github.eb4j'
+group = 'io.github.eb4j'
 
 repositories {
     mavenCentral()
@@ -120,6 +120,17 @@ publishing {
             }
             authentication {
                 header(HttpHeaderAuthentication)
+            }
+        }
+        maven {
+            name 'AzurePackages'
+            url 'https://pkgs.dev.azure.com/miurahr/github/_packaging/maven/maven/v1'
+            credentials(PasswordCredentials) {
+                username = System.getenv("AZURE_USER")
+                password = System.getenv("AZURE_TOKEN")
+            }
+            authentication {
+                basic(BasicAuthentication)
             }
         }
     }
