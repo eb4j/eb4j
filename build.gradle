@@ -4,6 +4,7 @@ plugins {
     id 'jacoco'
     id 'maven'
     id 'maven-publish'
+    id 'signing'
     id 'java-library-distribution'
     id 'checkstyle'
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
@@ -12,6 +13,7 @@ plugins {
 
 // Drop prefix 'v' from latest tag version.
 version = {it -> it.substring(1, it.length())}(gitVersion())
+ext.isReleaseVersion = (versionDetails().commitDistance == 0)
 group = 'io.github.eb4j'
 
 repositories {
@@ -96,6 +98,16 @@ publishing {
     }
     repositories {
         maven {
+            name = "Sonatype"
+            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = isReleaseVersion ? releaseRepo : snapshotRepo
+            credentials {
+                username = ossrhUsername
+                password = ossrhPassword
+            }
+        }
+        maven {
             name = "GitHubPackages"
             url = "https://maven.pkg.github.com/eb4j/eb4j"
             credentials {
@@ -134,6 +146,14 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications.mavenJava
+}
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
 }
 
 distTar {
