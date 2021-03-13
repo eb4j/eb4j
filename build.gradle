@@ -11,9 +11,12 @@ plugins {
     id 'com.palantir.git-version' version "0.12.3"
 }
 
-// Drop prefix 'v' from latest tag version.
-version = {it -> it.substring(1, it.length())}(gitVersion())
-ext.isReleaseVersion = (versionDetails().commitDistance == 0)
+if (versionDetails().isCleanTag) {
+    version = gitVersion().substring(1)
+} else {
+    version = versionDetails().lastTag + '-' + versionDetails().commitDistance + '-' + versionDetails().gitHash + '-SNAPSHOT'
+}
+
 group = 'io.github.eb4j'
 
 repositories {
@@ -101,7 +104,7 @@ publishing {
             name = "Sonatype"
             def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = isReleaseVersion ? releaseRepo : snapshotRepo
+            url = versionDetails().isCleanTag ? releaseRepo : snapshotRepo
             credentials {
                 username = ossrhUsername
                 password = ossrhPassword
@@ -153,7 +156,7 @@ signing {
     sign publishing.publications.mavenJava
 }
 tasks.withType(Sign) {
-    onlyIf { isReleaseVersion }
+    onlyIf { versionDetails().isCleanTag }
 }
 
 distTar {
