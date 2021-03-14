@@ -23,7 +23,7 @@ jobs:
     - uses: burrunan/gradle-cache-action@v1
       with:
         gradle-version: 6.8.3
-        arguments: build publishToMavenLocal
+        arguments: build
       env:
         ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SECRET_KEY }}
         ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_KEY_PASSPHARASE }}
@@ -37,6 +37,16 @@ jobs:
         release_name: Release v${{ steps.get_version.outputs.VERSION }}
         draft: false
         prerelease: false
+    - name: Publish package to OSSRH
+      uses: burrunan/gradle-cache-action@v1
+      with:
+        gradle-version: 6.8.3
+        arguments: publishToSonatype
+      env:
+        ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SECRET_KEY }}
+        ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_KEY_PASSPHARASE }}
+        SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
+        SONATYPE_PASS: ${{ secrets.SONATYPE_PASS }}
     - name: Publish package to Github packages
       uses: burrunan/gradle-cache-action@v1
       with:
