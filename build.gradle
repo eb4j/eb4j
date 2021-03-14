@@ -15,7 +15,7 @@ plugins {
 if (versionDetails().isCleanTag) {
     version = gitVersion().substring(1)
 } else {
-    version = versionDetails().lastTag + '-' + versionDetails().commitDistance + '-' + versionDetails().gitHash + '-SNAPSHOT'
+    version = versionDetails().lastTag.substring(1) + '-' + versionDetails().commitDistance + '-' + versionDetails().gitHash + '-SNAPSHOT'
 }
 
 group = 'io.github.eb4j'
