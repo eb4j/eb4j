@@ -1,10 +1,9 @@
 plugins {
-    id 'idea'
     id 'java-library'
     id 'jacoco'
-    id 'maven'
     id 'maven-publish'
     id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
+    id "io.freefair.maven-central.validate-poms" version "5.3.0"
     id 'signing'
     id 'java-library-distribution'
     id 'checkstyle'
@@ -29,6 +28,8 @@ repositories {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    withSourcesJar()
+    withJavadocJar()
 }
 
 // use asciidoc for javadoc
@@ -49,11 +50,6 @@ test.useTestNG()
 checkstyle {
     config = resources.text.fromFile("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
     toolVersion = '6.16.1'
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
 }
 
 javadoc {
@@ -144,7 +140,6 @@ nexusPublishing {
         sonatype {
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            stagingProfileId = "a1d1cd5a9c0ab"
             username = project.hasProperty('sonatypeUsername') ? project.property('sonatypeUsername') : System.getenv('SONATYPE_USER')
             password = project.hasProperty('sonatypePassword') ? project.property('sonatypePassword') : System.getenv('SONATYPE_PASS')
         }
@@ -155,7 +150,7 @@ signing {
     def signingKey = findProperty("signingKey")
     def signingPassword = findProperty("signingPassword")
     if (signingKey) {
-        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+        useInMemoryPgpKeys(signingKey, signingPassword)
     } else {
         useGpgCmd()
     }
