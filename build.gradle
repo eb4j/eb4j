@@ -4,14 +4,22 @@ plugins {
     id 'jacoco'
     id 'maven'
     id 'maven-publish'
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
+    id 'signing'
     id 'java-library-distribution'
     id 'checkstyle'
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
     id 'com.palantir.git-version' version "0.12.3"
 }
 
-// Drop prefix 'v' from latest tag version.
-version = {it -> it.substring(1, it.length())}(gitVersion())
+// calculate version string from git tag, hash and commit distance
+if (versionDetails().isCleanTag) {
+    // drop first 'v' from version tag
+    version = gitVersion().substring(1)
+} else {
+    version = versionDetails().lastTag.substring(1) + '-' + versionDetails().commitDistance + '-' + versionDetails().gitHash + '-SNAPSHOT'
+}
+
 group = 'io.github.eb4j'
 
 repositories {
@@ -23,6 +31,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+// use asciidoc for javadoc
 configurations {
     doclet
 }
@@ -47,12 +56,6 @@ java {
     withJavadocJar()
 }
 
-artifacts {
-    archives jar
-    archives sourcesJar
-    archives javadocJar
-}
-
 javadoc {
     options.docletpath = configurations.doclet.files.asType(List)
     options.doclet = 'org.asciidoctor.Asciidoclet'
@@ -67,7 +70,7 @@ javadoc {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            from components.java
+            from(components.java)
             pom {
                 name = "EB4J"
                 description = "EPWING/Ebook access library"
@@ -136,6 +139,33 @@ publishing {
     }
 }
 
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            stagingProfileId = "a1d1cd5a9c0ab"
+            username = project.hasProperty('sonatypeUsername') ? project.property('sonatypeUsername') : System.getenv('SONATYPE_USER')
+            password = project.hasProperty('sonatypePassword') ? project.property('sonatypePassword') : System.getenv('SONATYPE_PASS')
+        }
+    }
+}
+
+signing {
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    if (signingKey) {
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    } else {
+        useGpgCmd()
+    }
+    sign publishing.publications.mavenJava
+}
+tasks.withType(Sign) {
+    def hasKey = project.hasProperty("signingKey") || project.hasProperty("signing.gnupg.keyName")
+    onlyIf { hasKey && versionDetails().isCleanTag }
+}
+
 distTar {
     compression = Compression.GZIP
 }
@@ -150,7 +180,7 @@ distributions {
     }
 }
 
-
+// docs - github pages generation
 asciidoctor {
     sourceDir  file('docs')
     sources {
