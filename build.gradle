@@ -4,6 +4,7 @@ plugins {
     id 'jacoco'
     id 'maven'
     id 'maven-publish'
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
     id 'signing'
     id 'java-library-distribution'
     id 'checkstyle'
@@ -69,6 +70,18 @@ javadoc {
             "title-link=https://eb4j.github.io/eb4j[${project.name} ${project.version}]"
 }
 
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            stagingProfileId = "a1d1cd5a9c0ab"
+            username = ossrhUsername
+            password = ossrhPassword
+        }
+    }
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -101,7 +114,7 @@ publishing {
     }
     repositories {
         maven {
-            name = "Sonatype"
+            name = "OSSRH"
             def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
             url = versionDetails().isCleanTag ? releaseRepo : snapshotRepo
