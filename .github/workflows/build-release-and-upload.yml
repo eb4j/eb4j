@@ -9,7 +9,6 @@ jobs:
   build:
     name: Upload Release Asset
     runs-on: ubuntu-latest
-    environment: publish_environment
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
