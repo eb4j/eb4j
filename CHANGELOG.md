@@ -3,11 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [2.1.7] - 2021-03-14
+## [2.1.8] - 2021-03-15
 
 ### Changed
 - Publish to Sonatype OSSRH nexus.
-- Github actions: Singing on publishment_environment
 - Gradle: utilize gradle nexus.publish plugin
 
 ## [2.1.6] - 2021-03-13
@@ -83,8 +82,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.7...HEAD
-[2.1.7]: https://github.com/eb4j/eb4j/compare/v2.1.6...v2.1.7
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.8...HEAD
+[2.1.8]: https://github.com/eb4j/eb4j/compare/v2.1.6...v2.1.8
 [2.1.6]: https://github.com/eb4j/eb4j/compare/v2.1.4...v2.1.6
 [2.1.4]: https://github.com/eb4j/eb4j/compare/v2.1.1...v2.1.4
 [2.1.1]: https://github.com/eb4j/eb4j/compare/v2.1.0...v2.1.1
