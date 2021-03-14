@@ -67,22 +67,10 @@ javadoc {
             "title-link=https://eb4j.github.io/eb4j[${project.name} ${project.version}]"
 }
 
-nexusPublishing {
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            stagingProfileId = "a1d1cd5a9c0ab"
-            username = project.hasProperty('sonatypeUsername') ? project.property('sonatypeUsername') : System.getenv('SONATYPE_USER')
-            password = project.hasProperty('sonatypePassword') ? project.property('sonatypePassword') : System.getenv('SONATYPE_PASS')
-        }
-    }
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            from components.java
+            from(components.java)
             pom {
                 name = "EB4J"
                 description = "EPWING/Ebook access library"
@@ -147,6 +135,18 @@ publishing {
             authentication {
                 basic(BasicAuthentication)
             }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            stagingProfileId = "a1d1cd5a9c0ab"
+            username = project.hasProperty('sonatypeUsername') ? project.property('sonatypeUsername') : System.getenv('SONATYPE_USER')
+            password = project.hasProperty('sonatypePassword') ? project.property('sonatypePassword') : System.getenv('SONATYPE_PASS')
         }
     }
 }
