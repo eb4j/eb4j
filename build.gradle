@@ -56,12 +56,6 @@ java {
     withJavadocJar()
 }
 
-artifacts {
-    archives jar
-    archives sourcesJar
-    archives javadocJar
-}
-
 javadoc {
     options.docletpath = configurations.doclet.files.asType(List)
     options.doclet = 'org.asciidoctor.Asciidoclet'
