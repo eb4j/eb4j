@@ -1,12 +1,12 @@
 plugins {
     id 'java-library'
-    id 'jacoco'
-    id 'maven-publish'
-    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
-    id "io.freefair.maven-central.validate-poms" version "5.3.0"
-    id 'signing'
     id 'java-library-distribution'
+    id 'distribution'
+    id 'jacoco'
     id 'checkstyle'
+    id 'maven-publish'
+    id 'signing'
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
     id 'com.palantir.git-version' version "0.12.3"
 }
@@ -41,7 +41,7 @@ dependencies {
     doclet 'org.asciidoctor:asciidoclet:1.+'
     implementation 'commons-lang:commons-lang:2.6'
     api 'org.slf4j:slf4j-api:1.7.25'
-    compileOnly 'org.slf4j:slf4j-nop:1.7.25'
+    implementation 'org.slf4j:slf4j-nop:1.7.25'
     testImplementation 'org.slf4j:slf4j-nop:1.7.25'
     testImplementation 'org.testng:testng:6.9.10'
 }
@@ -167,10 +167,8 @@ distTar {
 
 distributions {
     main {
-        distributionBaseName = 'eb4j'
         contents {
-            from 'README.md'
-            from 'LICENSE.txt'
+            from('README.md', 'LICENSE.txt')
         }
     }
 }
