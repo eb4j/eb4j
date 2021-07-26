@@ -6,7 +6,7 @@ plugins {
     id 'checkstyle'
     id 'maven-publish'
     id 'signing'
-    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
     id 'org.asciidoctor.jvm.convert' version '3.1.0'
     id 'com.palantir.git-version' version "0.12.3"
 }
@@ -90,46 +90,6 @@ publishing {
                     developerConnection = "scm:git:git://github.com/eb4j/eb4j.git"
                     url = "https://github.com/eb4j/eb4j"
                 }
-            }
-        }
-    }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/eb4j/eb4j"
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-        maven {
-            // FIXME: not working: error with 415 unsupported media type
-            name = "GitLabPackages"
-            url = "https://gitlab.com/api/v4/groups/dictzip/-/packages/maven"
-            credentials(HttpHeaderCredentials) {
-                def jobToken = System.getenv("CI_JOB_TOKEN")
-                if (jobToken != null) {
-                    // GitLab CI
-                    name = "Job-Token"
-                    value = System.getenv("CI_JOB_TOKEN")
-                } else {
-                    name = "Private-Token"
-                    value = System.getenv("GITLAB_TOKEN")
-                }
-            }
-            authentication {
-                header(HttpHeaderAuthentication)
-            }
-        }
-        maven {
-            name 'AzurePackages'
-            url 'https://pkgs.dev.azure.com/miurahr/github/_packaging/maven/maven/v1'
-            credentials(PasswordCredentials) {
-                username = System.getenv("AZURE_USER")
-                password = System.getenv("AZURE_TOKEN")
-            }
-            authentication {
-                basic(BasicAuthentication)
             }
         }
     }
