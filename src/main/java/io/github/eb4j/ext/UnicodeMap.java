@@ -37,7 +37,7 @@ public class UnicodeMap {
             if (!dir.canRead()) {
                 throw new EBException(EBException.CANT_READ_DIR, dir.getPath());
             }
-            File [] listFile = dir.listFiles();
+            File[] listFile = dir.listFiles();
             if (listFile != null) {
                 try {
                     for (File file : listFile) {
@@ -62,6 +62,11 @@ public class UnicodeMap {
         }
     }
 
+    /**
+     * Get Unicode character code from map.
+     * @param extCode to query
+     * @return unicode string
+     */
     public String get(final int extCode) {
         return unicodeMap.get(extCode);
     }
@@ -73,7 +78,7 @@ public class UnicodeMap {
                     Charset.forName("SHIFT-JIS")));
             String dataRow = tsvFile.readLine();
             while (dataRow != null) {
-                List<String> dataArray = new ArrayList<>() ;
+                List<String> dataArray = new ArrayList<>();
                 st = new StringTokenizer(dataRow, "\t");
                 while (st.hasMoreElements()) {
                     dataArray.add(st.nextElement().toString());
@@ -89,15 +94,17 @@ public class UnicodeMap {
                                     StringBuilder sb = new StringBuilder();
                                     for (String item : val.split(",")) {
                                         if (item.startsWith("u")) {
-                                            sb.append(Character.toChars(Integer.valueOf(item.substring(1, 5), 16)));
+                                            sb.append(Character.toChars(
+                                                    Integer.valueOf(item.substring(1, 5), 16)));
                                         }
                                     }
                                     unicodeMap.put(keyNum, sb.toString());
                                 } else {
-                                    String uniValue = new String(Character.toChars(Integer.valueOf(val.substring(1, 5), 16)));
+                                    String uniValue = new String(Character.toChars(
+                                            Integer.valueOf(val.substring(1, 5), 16)));
                                     unicodeMap.put(keyNum, uniValue);
                                 }
-                            } else if (val.startsWith("-")) {
+                            } else if (val.startsWith("-") && dataArray.size() == 3) {
                                 String uniValue = dataArray.get(2);
                                 unicodeMap.put(keyNum, uniValue);
                             }
