@@ -97,7 +97,7 @@ public class UnicodeMap {
                                     String uniValue = new String(Character.toChars(Integer.valueOf(val.substring(1, 5), 16)));
                                     unicodeMap.put(keyNum, uniValue);
                                 }
-                            } else if (val.startsWith("-")) {
+                            } else if (val.startsWith("-") && dataArray.size() == 3) {
                                 String uniValue = dataArray.get(2);
                                 unicodeMap.put(keyNum, uniValue);
                             }

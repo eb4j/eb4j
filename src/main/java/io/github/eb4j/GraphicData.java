@@ -33,7 +33,7 @@ public class GraphicData {
      * @param text monochrome image data file.
      * @param graphic color image data file.
      */
-    protected GraphicData(final EBFile text, EBFile graphic) {
+    protected GraphicData(final EBFile text, final EBFile graphic) {
         super();
         _text = text;
         _graphic = graphic;
