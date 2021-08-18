@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.9] - 2021-08-18
+
+### Changed
+- Accept unicode map with compound character and alternate charecters(#53) 
+
+### Deprecated
+- Drop azure artifactory repository to publish(#52)
+
 ## [2.1.8] - 2021-03-15
 
 ### Changed
@@ -82,7 +90,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.8...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.9...HEAD
+[2.1.9]: https://github.com/eb4j/eb4j/compare/v2.1.8...v2.1.9
 [2.1.8]: https://github.com/eb4j/eb4j/compare/v2.1.6...v2.1.8
 [2.1.6]: https://github.com/eb4j/eb4j/compare/v2.1.4...v2.1.6
 [2.1.4]: https://github.com/eb4j/eb4j/compare/v2.1.1...v2.1.4
