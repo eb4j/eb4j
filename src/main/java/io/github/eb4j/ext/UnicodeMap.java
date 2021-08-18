@@ -2,10 +2,8 @@ package io.github.eb4j.ext;
 
 import io.github.eb4j.EBException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +65,8 @@ public class UnicodeMap {
     private void loadMap(final File file) throws EBException {
         StringTokenizer st;
         try {
-            BufferedReader tsvFile = new BufferedReader(new FileReader(file));
+            BufferedReader tsvFile = new BufferedReader(new InputStreamReader(new FileInputStream(file),
+                    Charset.forName("SHIFT-JIS")));
             String dataRow = tsvFile.readLine();
             while (dataRow != null) {
                 List<String> dataArray = new ArrayList<>() ;
@@ -79,10 +78,25 @@ public class UnicodeMap {
                     String key = dataArray.get(0);
                     if (!key.startsWith("#")) {
                         String val = dataArray.get(1);
-                        if ((key.startsWith("h") || key.startsWith("z")) && val.startsWith("u")) {
+                        if ((key.startsWith("h") || key.startsWith("z"))) {
                             Integer keyNum = Integer.parseInt(key.substring(1, 5), 16);
-                            String uniValue = new String(Character.toChars(Integer.valueOf(val.substring(1, 5), 16)));
-                            unicodeMap.put(keyNum, uniValue);
+                            if (val.startsWith("u")) {
+                                if (val.contains(",")) {
+                                    StringBuilder sb = new StringBuilder();
+                                    for (String item : val.split(",")) {
+                                        if (item.startsWith("u")) {
+                                            sb.append(Character.toChars(Integer.valueOf(item.substring(1, 5), 16)));
+                                        }
+                                    }
+                                    unicodeMap.put(keyNum, sb.toString());
+                                } else {
+                                    String uniValue = new String(Character.toChars(Integer.valueOf(val.substring(1, 5), 16)));
+                                    unicodeMap.put(keyNum, uniValue);
+                                }
+                            } else if (val.startsWith("-")) {
+                                String uniValue = dataArray.get(2);
+                                unicodeMap.put(keyNum, uniValue);
+                            }
                         }
                     }
                 }
