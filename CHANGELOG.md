@@ -3,10 +3,22 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.10] - 2021-8-18
+
+### Fixed
+- Fix index out of bound error for unicode map loading(#62, #63)
+
+### Changed
+- Bump versions
+  - testng@7.4.0(#61)
+  - asciidoctor@3.3.2(#60)
+  - actions/github-script@4.0.2(#57)
+  - actions/setup-java@v2(#55)
+
 ## [2.1.9] - 2021-08-18
 
 ### Changed
-- Accept unicode map with compound character and alternate charecters(#53) 
+- Accept unicode map with compound and alternate characters(#53) 
 
 ### Deprecated
 - Drop azure artifactory repository to publish(#52)
@@ -90,7 +102,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.9...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.10...HEAD
+[2.1.10]: https://github.com/eb4j/eb4j/compare/v2.1.9...v2.1.10
 [2.1.9]: https://github.com/eb4j/eb4j/compare/v2.1.8...v2.1.9
 [2.1.8]: https://github.com/eb4j/eb4j/compare/v2.1.6...v2.1.8
 [2.1.6]: https://github.com/eb4j/eb4j/compare/v2.1.4...v2.1.6
