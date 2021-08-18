@@ -18,7 +18,7 @@ jobs:
           arguments: asciidoctor
         id: gradle
       - name: "Comment build scan url"
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4.0.2
         if: github.event_name == 'pull_request' && failure()
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
