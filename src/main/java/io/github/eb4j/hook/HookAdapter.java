@@ -3,7 +3,7 @@ package io.github.eb4j.hook;
 /**
  * エスケープシーケンス加工の抽象アダプタクラス。
  *
- * @author Hisaya FUKUMOTO0000000000000000000000000000000000000000
+ * @author Hisaya FUKUMOTO
  * @param <T> フックから取得されるオブジェクト
  */
 public abstract class HookAdapter<T> implements Hook<T> {
