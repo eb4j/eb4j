@@ -41,7 +41,6 @@ dependencies {
     doclet 'org.asciidoctor:asciidoclet:1.+'
     implementation 'commons-lang:commons-lang:2.6'
     api 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.slf4j:slf4j-nop:1.7.25'
     testImplementation 'org.slf4j:slf4j-nop:1.7.25'
     testImplementation 'org.testng:testng:7.4.0'
 }
