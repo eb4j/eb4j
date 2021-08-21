@@ -4,7 +4,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.EBFormat;

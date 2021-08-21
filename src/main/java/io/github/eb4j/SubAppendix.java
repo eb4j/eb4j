@@ -9,11 +9,13 @@ import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
+import org.apache.commons.text.translate.UnicodeUnescaper;
 
 /**
  * Subbook class for Appendix package.
  *
  * @author Hisaya FUKUMOTO
+ * @author Hiroshi Miura
  */
 public class SubAppendix {
 
@@ -21,25 +23,28 @@ public class SubAppendix {
     private static final int ALTERNATION_TEXT_LENGTH = 31;
 
     /** 付録パッケージ */
-    private Appendix _appendix = null;
+    private final Appendix appendix;
+
     /** 付録データファイル */
-    private EBFile _file = null;
+    private EBFile appendixFile = null;
 
     /** 開始ページ */
-    private long[] _page = new long[2];
+    private final long[] page = new long[2];
     /** 開始文字コード */
-    private int[] _start = new int[2];
+    private final int[] start = new int[2];
     /** 終了文字コード */
-    private int[] _end = new int[2];
+    private final int[] end = new int[2];
 
     /** 文字セットの種類 */
-    private int _charCode = -1;
+    private int charCode = -1;
     /** ストップコード */
-    private int[] _stopCode = new int[2];
+    private final int[] stopCode = new int[2];
 
     /** 代替文字のキャッシュ */
-    private Map<Integer, Map<Integer, String>> _cache =
-        new HashMap<Integer, Map<Integer, String>>(2, 1.0f);
+    private final Map<Integer, Map<Integer, String>> altMapCache =
+            new HashMap<>(2, 1.0f);
+
+    private final UnicodeUnescaper unescaper;
 
 
     /**
@@ -50,15 +55,14 @@ public class SubAppendix {
      * @exception EBException if file read error is happened.
      */
     protected SubAppendix(final Appendix appendix, final String path) throws EBException {
-        super();
-        _appendix = appendix;
-
-        if (_appendix.getAppendixType() == Book.DISC_EB) {
-            _setupEB(path);
+        this.appendix = appendix;
+        if (appendix.getAppendixType() == Book.DISC_EB) {
+            setupEB(path);
         } else {
-            _setupEPWING(path);
+            setupEPWING(path);
         }
-        _load();
+        unescaper = new UnicodeUnescaper();
+        load();
     }
 
     /**
@@ -67,9 +71,9 @@ public class SubAppendix {
      * @param path パス名
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEB(final String path) throws EBException {
-        File dir = EBFile.searchDirectory(_appendix.getPath(), path);
-        _file = new EBFile(dir, "appendix", EBFormat.FORMAT_PLAIN);
+    private void setupEB(final String path) throws EBException {
+        File dir = EBFile.searchDirectory(appendix.getPath(), path);
+        appendixFile = new EBFile(dir, "appendix", EBFormat.FORMAT_PLAIN);
     }
 
     /**
@@ -78,10 +82,10 @@ public class SubAppendix {
      * @param path パス名
      * @exception EBException パスの設定中にエラーが発生した場合
      */
-    private void _setupEPWING(final String path) throws EBException {
-        File dir = EBFile.searchDirectory(_appendix.getPath(), path);
+    private void setupEPWING(final String path) throws EBException {
+        File dir = EBFile.searchDirectory(appendix.getPath(), path);
         File dataDir = EBFile.searchDirectory(dir, "data");
-        _file = new EBFile(dataDir, "furoku", EBFormat.FORMAT_PLAIN);
+        appendixFile = new EBFile(dataDir, "furoku", EBFormat.FORMAT_PLAIN);
     }
 
     /**
@@ -89,53 +93,51 @@ public class SubAppendix {
      *
      * @exception EBException ファイルの読み込み中にエラーが発生した場合
      */
-    private void _load() throws EBException {
+    private void load() throws EBException {
         byte[] b = new byte[16];
-        BookInputStream bis = _file.getInputStream();
-        try {
+        try (BookInputStream bis = appendixFile.getInputStream()) {
             // 文字セットの取得
             bis.seek(0);
             bis.readFully(b, 0, b.length);
-            _charCode = ByteUtil.getInt2(b, 2);
+            charCode = ByteUtil.getInt2(b, 2);
 
             // 半角外字の代替文字情報の取得
-            for (int i=0; i<2; i++) {
+            for (int i = 0; i < 2; i++) {
                 bis.readFully(b, 0, b.length);
                 int charCount = ByteUtil.getInt2(b, 12);
                 if (charCount <= 0) {
-                    _page[i] = -1;
-                    _start[i] = -1;
-                    _end[i] = -1;
-                    _cache.remove(Integer.valueOf(i));
+                    page[i] = -1;
+                    start[i] = -1;
+                    end[i] = -1;
+                    altMapCache.remove(i);
                     continue;
                 }
-                _page[i] = ByteUtil.getLong4(b, 0);
-                _start[i] = ByteUtil.getInt2(b, 10);
-                if (_charCode == Book.CHARCODE_ISO8859_1) {
-                    _end[i] = (_start[i]
-                               + ((charCount / 0xfe) << 8)
-                               + (charCount % 0xfe) - 1);
-                    if ((_end[i] & 0xff) > 0xfe) {
-                        _end[i] += 3;
+                page[i] = ByteUtil.getLong4(b, 0);
+                start[i] = ByteUtil.getInt2(b, 10);
+                if (charCode == Book.CHARCODE_ISO8859_1) {
+                    end[i] = (start[i]
+                            + ((charCount / 0xfe) << 8)
+                            + (charCount % 0xfe) - 1);
+                    if ((end[i] & 0xff) > 0xfe) {
+                        end[i] += 3;
                     }
-                    if ((_start[i] & 0xff) < 0x01 || (_start[i] & 0xff) > 0xfe
-                        || _start[i] < 0x0001 || _start[i] > 0x1efe) {
-                        throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                    if ((start[i] & 0xff) < 0x01 || (start[i] & 0xff) > 0xfe
+                            || start[i] < 0x0001 || start[i] > 0x1efe) {
+                        throw new EBException(EBException.UNEXP_FILE, appendixFile.getPath());
                     }
                 } else {
-                    _end[i] = (_start[i]
-                               + ((charCount / 0x5e) << 8)
-                               + (charCount % 0x5e) - 1);
-                    if ((_end[i] & 0xff) > 0x7e) {
-                        _end[i] += 0xa3;
+                    end[i] = (start[i]
+                            + ((charCount / 0x5e) << 8)
+                            + (charCount % 0x5e) - 1);
+                    if ((end[i] & 0xff) > 0x7e) {
+                        end[i] += 0xa3;
                     }
-                    if ((_start[i] & 0xff) < 0x21 || (_start[i] & 0xff) > 0x7e
-                        || _start[i] < 0xa121 || _end[i] > 0xfe7e) {
-                        throw new EBException(EBException.UNEXP_FILE, _file.getPath());
+                    if ((start[i] & 0xff) < 0x21 || (start[i] & 0xff) > 0x7e
+                            || start[i] < 0xa121 || end[i] > 0xfe7e) {
+                        throw new EBException(EBException.UNEXP_FILE, appendixFile.getPath());
                     }
                 }
-                _cache.put(Integer.valueOf(i),
-                           new HashMap<Integer, String>(charCount, 1.0f));
+                altMapCache.put(i, new HashMap<>(charCount, 1.0f));
             }
 
             // ストップコード情報の取得
@@ -145,15 +147,13 @@ public class SubAppendix {
                 bis.seek(stopCodePage, 0);
                 bis.readFully(b, 0, b.length);
                 if (ByteUtil.getInt2(b, 0) != 0) {
-                    _stopCode[0] = ByteUtil.getInt2(b, 2);
-                    _stopCode[1] = ByteUtil.getInt2(b, 4);
+                    stopCode[0] = ByteUtil.getInt2(b, 2);
+                    stopCode[1] = ByteUtil.getInt2(b, 4);
                 } else {
-                    _stopCode[0] = 0;
-                    _stopCode[1] = 0;
+                    stopCode[0] = 0;
+                    stopCode[1] = 0;
                 }
             }
-        } finally {
-            bis.close();
         }
     }
 
@@ -163,7 +163,7 @@ public class SubAppendix {
      * @return 付録パッケージ
      */
     public Appendix getAppendix() {
-        return _appendix;
+        return appendix;
     }
 
     /**
@@ -172,10 +172,7 @@ public class SubAppendix {
      * @return 半角外字の代替文字が含まれている場合はtrue、そうでない場合はfalse
      */
     public boolean hasNarrowFontAlt() {
-        if (_page[ExtFont.NARROW] <= 0) {
-            return false;
-        }
-        return true;
+        return page[ExtFont.NARROW] > 0;
     }
 
     /**
@@ -184,10 +181,7 @@ public class SubAppendix {
      * @return 全角外字の代替文字が含まれている場合はtrue、そうでない場合はfalse
      */
     public boolean hasWideFontAlt() {
-        if (_page[ExtFont.NARROW] <= 0) {
-            return false;
-        }
-        return true;
+        return page[ExtFont.NARROW] > 0;
     }
 
     /**
@@ -198,7 +192,7 @@ public class SubAppendix {
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
     public String getNarrowFontAlt(final int code) throws EBException {
-        return _getFontAlt(ExtFont.NARROW, code);
+        return getFontAlt(ExtFont.NARROW, code);
     }
 
     /**
@@ -209,7 +203,7 @@ public class SubAppendix {
      * @exception EBException ファイル読み込み中にエラーが発生した場合
      */
     public String getWideFontAlt(final int code) throws EBException {
-        return _getFontAlt(ExtFont.WIDE, code);
+        return getFontAlt(ExtFont.WIDE, code);
     }
 
     /**
@@ -222,52 +216,47 @@ public class SubAppendix {
      * @see ExtFont#WIDE
      * @see ExtFont#NARROW
      */
-    private String _getFontAlt(final int kind, final int code) throws EBException {
-        long page = _page[kind];
-        if (page <= 0) {
+    private String getFontAlt(final int kind, final int code) throws EBException {
+        if (page[kind] <= 0) {
             return null;
         }
 
-        int start = _start[kind];
-        int end = _end[kind];
-        if (start == -1 || code < start || code > end) {
+        if (start[kind] == -1 || code < start[kind] || code > end[kind]) {
             return null;
         }
 
-        Map<Integer, String> map = _cache.get(Integer.valueOf(kind));
-        String ret = map.get(Integer.valueOf(code));
+        Map<Integer, String> map = altMapCache.get(kind);
+        String ret = map.get(code);
         if (ret != null) {
             return ret;
         }
 
-        int index = 0;
-        if (_charCode == Book.CHARCODE_ISO8859_1) {
+        int index;
+        if (charCode == Book.CHARCODE_ISO8859_1) {
             if ((code & 0xff) < 0x01 || (code & 0xff) > 0xfe) {
                 return null;
             }
-            index = ((code >>> 8) - (start >>> 8)) * 0xfe
-                + ((code & 0xff) - (start & 0xff));
+            index = ((code >>> 8) - (start[kind] >>> 8)) * 0xfe
+                + ((code & 0xff) - (start[kind] & 0xff));
         } else {
             if ((code & 0xff) < 0x21 || (code & 0xff) > 0x7e) {
                 return null;
             }
-            index = ((code >>> 8) - (start >>> 8)) * 0x5e
-                + ((code & 0xff) - (start & 0xff));
+            index = ((code >>> 8) - (start[kind] >>> 8)) * 0x5e
+                + ((code & 0xff) - (start[kind] & 0xff));
         }
 
         byte[] b = new byte[ALTERNATION_TEXT_LENGTH];
-        BookInputStream bis = _file.getInputStream();
-        try {
-            bis.seek(page, index * (ALTERNATION_TEXT_LENGTH + 1));
+        try (BookInputStream bis = appendixFile.getInputStream()) {
+            bis.seek(page[kind], index * (ALTERNATION_TEXT_LENGTH + 1));
             bis.readFully(b, 0, b.length);
-        } finally {
-            bis.close();
         }
 
         try {
-            ret = new String(b, "EUC-JP").trim();
-            map.put(Integer.valueOf(code), ret);
-        } catch (UnsupportedEncodingException e) {
+            String tmp = new String(b, "EUC-JP").trim();
+            ret = unescaper.translate(tmp);
+            map.put(code, ret);
+        } catch (UnsupportedEncodingException ignore) {
         }
         return ret;
     }
@@ -278,10 +267,7 @@ public class SubAppendix {
      * @return ストップコードが含まれている場合はtrue、そうでない場合はfalse
      */
     public boolean hasStopCode() {
-        if (_stopCode[0] == 0) {
-            return false;
-        }
-        return true;
+        return stopCode[0] != 0;
     }
 
     /**
@@ -292,10 +278,7 @@ public class SubAppendix {
      * @return ストップコードの場合はtrue、そうでない場合はfalse
      */
     public boolean isStopCode(final int code0, final int code1) {
-        if (_stopCode[0] == code0 && _stopCode[1] == code1) {
-            return true;
-        }
-        return false;
+        return stopCode[0] == code0 && stopCode[1] == code1;
     }
 }
 
