@@ -5,97 +5,25 @@ You can obtain EB4J library from Github Packages.
 
 ## Use eb4j library for your project
 
-You can use a package in the maven repository of Azure Artifactory.
-
 ### Gradle configuration
 
 ```
-repositories {
-    maven {
-        url "https://pkgs.dev.azure.com/miurahr/github/_packaging/maven/maven/v1"
-        credentials {
-            username = 'azure devops username'
-            password = 'personal access token'
-        }
-    }
-}
 dependencies {
-    implementation 'io.github.eb4j:eb4j:2.1.5'
+    implementation 'io.github.eb4j:eb4j:2.1.10'
 }
 ```
 
 ### Gradle(kts)
 
 ```
-repositories {
-    maven {
-        url = uri("https://pkgs.dev.azure.com/miurahr/github/_packaging/maven/maven/v1")
-        credentials {
-            username = 'github username'
-            password = 'personal access token'
-        }
-    }
-}
 dependencies {
-    implementation('io.github.eb4j:eb4j:2.1.5')
+    implementation('io.github.eb4j:eb4j:2.1.10')
 }
 ```
 
-
-## Use eb4j library for your project on GitHub
-
-### Gradle
+## Maven configuration
 
 ```
-repositories {
-    maven {
-        url "https://maven.pkg.github.com/eb4j/eb4j"
-        credentials {
-            username = 'github username'
-            password = 'personal access token'
-        }
-    }
-}
-dependencies {
-    implementation 'io.github.eb4j:eb4j:2.1.5'
-}
-```
-
-### Gradle(kts)
-
-```
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/eb4j/eb4j")
-        credentials {
-            username = 'github username'
-            password = 'personal access token'
-        }
-    }
-}
-dependencies {
-    implementation('io.github.eb4j:eb4j:2.1.5')
-}
-```
-
-### Maven
-
-```
-A Maven `settings.xml` file:
-<servers>
-  <server>
-    <id>github</id>
-    <username>github user</username>
-    <password>TOKEN</password>
-  </server>
-</servers>
-
-<repositories>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/eb4j/eb4j</url>
-    </repository>
-</repositories>
  <dependencies>
     <dependency>
       <groupId>io.github.eb4j</groupId>
@@ -106,6 +34,7 @@ A Maven `settings.xml` file:
     ...
   </dependencies>
 ```
+
 
 ## Build
 
@@ -120,14 +49,6 @@ or (in Windows):
 
 ```
 C:> gradlew.bat build
-```
-
-You will find generated archive files at
-
-```
-eb4j-core/build/libs/eb4j-core-<version>.jar
-eb4j-tools/build/distributions/eb4j-tools-<version>.tgz
-eb4j-tools/build/distributions/eb4j-tools-<version>.zip
 ```
 
 ## Contribution
