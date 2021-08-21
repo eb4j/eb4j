@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Support Unicode escape sequence for alternate gaiji map(#64)
+
+### Fixed
+- Remove slf4j-nop from distribution
+
+### Changed
+- Use Apache commons-lang3 (3.11) and commons-text(#64)
+ 
+
 ## [2.1.10] - 2021-8-18
 
 ### Fixed
