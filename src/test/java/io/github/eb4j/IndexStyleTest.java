@@ -1,8 +1,8 @@
 package io.github.eb4j;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.testng.annotations.Test;
 
+import static java.util.Objects.deepEquals;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -65,7 +65,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setSpaceStyle(IndexStyle.DELETE); // ASIS|DELETE
         style.fixWordLatin(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -77,7 +77,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLowerStyle(IndexStyle.CONVERT); // ASIS|CONVERT
         style.fixWordLatin(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -89,7 +89,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setSpaceStyle(IndexStyle.DELETE); // ASIS|DELETE
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -101,7 +101,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setKatakanaStyle(IndexStyle.CONVERT); // ASIS|REVERSE|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -113,7 +113,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setKatakanaStyle(IndexStyle.REVERSE); // ASIS|REVERSE|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -125,7 +125,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLowerStyle(IndexStyle.CONVERT); // ASIS|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -137,7 +137,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setMarkStyle(IndexStyle.DELETE); // ASIS|DELETE
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -151,7 +151,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLongVowelStyle(IndexStyle.CONVERT); // ASIS|CONVERT|DELETE
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -163,7 +163,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setLongVowelStyle(IndexStyle.DELETE); // ASIS|CONVERT|DELETE
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -175,7 +175,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setDoubleConsonantStyle(IndexStyle.CONVERT); // ASIS|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -187,7 +187,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setContractedSoundStyle(IndexStyle.CONVERT); // ASIS|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -199,7 +199,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setSmallVowelStyle(IndexStyle.CONVERT); // ASIS|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -211,7 +211,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setVoicedConsonantStyle(IndexStyle.CONVERT); // ASIS|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     @Test(groups = {"style"})
@@ -223,7 +223,7 @@ public class IndexStyleTest {
         resetToAsis(style);
         style.setPSoundStyle(IndexStyle.CONVERT); // ASIS|CONVERT
         style.fixWord(b);
-        assertTrue(ArrayUtils.isEquals(b, expected));
+        assertTrue(deepEquals(b, expected));
     }
 
     private void resetToAsis(final IndexStyle style) {

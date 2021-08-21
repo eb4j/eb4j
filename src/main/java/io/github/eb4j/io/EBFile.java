@@ -2,7 +2,7 @@ package io.github.eb4j.io;
 
 import java.io.File;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import io.github.eb4j.EBException;
 
@@ -149,16 +149,17 @@ public class EBFile {
     public static File searchDirectory(final File dir, final String name) throws EBException {
         String[] list = dir.list();
         File d = null;
-        if (!ArrayUtils.isEmpty(list)) {
-            for (String aList : list) {
-                File f = new File(dir, aList);
-                if (!f.isDirectory()) {
-                    continue;
-                }
-                if (aList.equalsIgnoreCase(name)) {
-                    d = f;
-                    break;
-                }
+        if (list == null || ArrayUtils.isEmpty(list)) {
+            throw new EBException(EBException.DIR_NOT_FOUND, dir.getPath(), name);
+        }
+        for (String aList : list) {
+            File f = new File(dir, aList);
+            if (!f.isDirectory()) {
+                continue;
+            }
+            if (aList.equalsIgnoreCase(name)) {
+                d = f;
+                break;
             }
         }
         if (d == null) {

@@ -1,6 +1,6 @@
 package io.github.eb4j.hook;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import io.github.eb4j.SubAppendix;
 import io.github.eb4j.SubBook;
