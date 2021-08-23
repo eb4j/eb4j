@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.11] - 2021-8-23
+
 ### Added
 - Support Unicode escape sequence for alternate gaiji map(#64)
 
@@ -112,7 +114,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.10...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.11...HEAD
+[2.1.11]: https://github.com/eb4j/eb4j/compare/v2.1.10...v2.1.11
 [2.1.10]: https://github.com/eb4j/eb4j/compare/v2.1.9...v2.1.10
 [2.1.9]: https://github.com/eb4j/eb4j/compare/v2.1.8...v2.1.9
 [2.1.8]: https://github.com/eb4j/eb4j/compare/v2.1.6...v2.1.8
