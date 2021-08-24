@@ -10,6 +10,8 @@ import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 import org.apache.commons.text.translate.UnicodeUnescaper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Subbook class for Appendix package.
@@ -18,6 +20,8 @@ import org.apache.commons.text.translate.UnicodeUnescaper;
  * @author Hiroshi Miura
  */
 public class SubAppendix {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubAppendix.class.getName());
 
     /** 最大代替文字長 */
     private static final int ALTERNATION_TEXT_LENGTH = 31;
@@ -96,16 +100,20 @@ public class SubAppendix {
     private void load() throws EBException {
         byte[] b = new byte[16];
         try (BookInputStream bis = appendixFile.getInputStream()) {
-            // 文字セットの取得
+            // Read index header
             bis.seek(0);
             bis.readFully(b, 0, b.length);
+            if (b[0] != '\0' || b[1] != '\3') {
+                throw new EBException(EBException.UNEXP_FILE, appendixFile.getPath());
+            }
+            // 文字セットの取得
             charCode = ByteUtil.getInt2(b, 2);
 
             // 半角外字の代替文字情報の取得
             for (int i = 0; i < 2; i++) {
                 bis.readFully(b, 0, b.length);
                 int charCount = ByteUtil.getInt2(b, 12);
-                if (charCount <= 0) {
+                if (charCount <= 0) { // if count is zero, there is no definition
                     page[i] = -1;
                     start[i] = -1;
                     end[i] = -1;
@@ -181,7 +189,7 @@ public class SubAppendix {
      * @return 全角外字の代替文字が含まれている場合はtrue、そうでない場合はfalse
      */
     public boolean hasWideFontAlt() {
-        return page[ExtFont.NARROW] > 0;
+        return page[ExtFont.WIDE] > 0;
     }
 
     /**
@@ -222,6 +230,8 @@ public class SubAppendix {
         }
 
         if (start[kind] == -1 || code < start[kind] || code > end[kind]) {
+            LOGGER.warn(String.format("Appendix: request code %d to get out of range(%d, %d).",
+                    code, start[kind], end[kind]));
             return null;
         }
 
@@ -234,12 +244,14 @@ public class SubAppendix {
         int index;
         if (charCode == Book.CHARCODE_ISO8859_1) {
             if ((code & 0xff) < 0x01 || (code & 0xff) > 0xfe) {
+                LOGGER.warn("Appendix: request to get wrong code.");
                 return null;
             }
             index = ((code >>> 8) - (start[kind] >>> 8)) * 0xfe
                 + ((code & 0xff) - (start[kind] & 0xff));
         } else {
             if ((code & 0xff) < 0x21 || (code & 0xff) > 0x7e) {
+                LOGGER.warn("Appendix: request to get wrong code.");
                 return null;
             }
             index = ((code >>> 8) - (start[kind] >>> 8)) * 0x5e
@@ -257,6 +269,7 @@ public class SubAppendix {
             ret = unescaper.translate(tmp);
             map.put(code, ret);
         } catch (UnsupportedEncodingException ignore) {
+            LOGGER.warn("Appendix: Unsupported Encoding convversion error.");
         }
         return ret;
     }

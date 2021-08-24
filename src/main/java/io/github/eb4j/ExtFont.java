@@ -18,9 +18,9 @@ import io.github.eb4j.util.ByteUtil;
 public class ExtFont {
 
     /** 全角フォントを示す定数 */
-    static final int WIDE = 0;
+    static final int WIDE = 1;
     /** 半角フォントを示す定数 */
-    static final int NARROW = 1;
+    static final int NARROW = 0;
 
     /** 16ドットのフォントを示す定数 */
     public static final int FONT_16 = 0;
