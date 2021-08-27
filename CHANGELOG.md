@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.12] - 2021-8-27
+
+### Fixed
+- appendix: Fix NPE when select wide alternative(#69)
+- Fix exception when loading EPWING v2 and later(#68)
+
+### Changed
+- Bump actions/github-script@4.1(#66)
+
 ## [2.1.11] - 2021-8-23
 
 ### Added
@@ -114,7 +123,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.11...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.12...HEAD
+[2.1.12]: https://github.com/eb4j/eb4j/compare/v2.1.11...v2.1.12
 [2.1.11]: https://github.com/eb4j/eb4j/compare/v2.1.10...v2.1.11
 [2.1.10]: https://github.com/eb4j/eb4j/compare/v2.1.9...v2.1.10
 [2.1.9]: https://github.com/eb4j/eb4j/compare/v2.1.8...v2.1.9

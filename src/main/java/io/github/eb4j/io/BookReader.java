@@ -201,7 +201,6 @@ public class BookReader<T> {
 
         int init() throws EBException {
             bis.seek(pos);
-            // データの読み込み
             b = new byte[BookInputStream.PAGE_SIZE];
             len = bis.read(b, 0, b.length);
             if (len < 0) {
@@ -390,7 +389,7 @@ public class BookReader<T> {
             printable = true;
             if (_skipCode == -1) {
                 int ch = b[off] & 0xff;
-                if ((ch >= 0x20 && ch <= 0x7f) || (ch >= 0xa0 && ch <= 0xff)) {
+                if (ch >= 0x20 && ch <= 0x7f || ch >= 0xa0) {
                     // ISO 8859-1
                     if (!skip) {
                         hook.append((char)ch);
@@ -425,7 +424,7 @@ public class BookReader<T> {
                     }
                 } else if (high > 0xa0 && high < 0xff
                            && low > 0x20 && low < 0x7f) {
-                    // 外字
+                    // GAIJI
                     int code2 = ByteUtil.getInt2(b, off);
                     if (!skip) {
                         hook.append(code2);
