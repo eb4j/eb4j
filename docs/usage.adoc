@@ -15,7 +15,7 @@ EB4J can understand `appendix` that eb library utility generated.
 It provide following items.
 
 - Seperator character code.
-- Alternative string for external fonts
+- Alternative string for external fonts(EUC-JP and/or Unicode escape sequence)
 
 It provides alternative strings for external fonts defined in EPWING data.
 It also provides hint information for seperator of article, that is ordinally detect automatically
@@ -23,11 +23,11 @@ but not implicitly defined in EPWING data. Otherwise, the hint provides hint wha
 Following is same description in Japanese.
 
 appendix (付録) とは CD-ROM 書籍の補助データの ことです。
-appendix は CD-ROM 書籍の出版社から提供されているものではなく、 EB ライブラリに固有のものです。
+appendix は CD-ROM 書籍の出版社から提供されているものではなく、 EB および EB4J ライブラリに固有のものです。
 EB4Jは、このデータを解釈利用することができます。
 
 - 本文の区切りコード
-- 外字の代替文字列
+- 外字の代替文字列(EUC-JPおよび Unicode escape sequence)
 
 appendix のレイアウトは CD-ROM 書籍のものとよく似ています。
 トップディレクトリには catalog もしくは catalogs ファイルが存在し、各副本のデータは対応する サブディレクトリに配置されています。
@@ -37,6 +37,12 @@ to get alternative string for external font griff codepoint.
 
 * link:https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/Appendix.html[JavadDoc for Appendix class]
 
+
+It accept Unicode escape sequences, such as '\u00E1', and  '\U001F401' form.
+The appendix can be produced by eb4j-tools appendix subcommand.
+
+オリジナルのEBライブラリは、EUC-JPで代替文字列を生成します。EB4J-toolsのappendixコマンドは、
+ASCII文字およびUnicode escape sequenceを生成します。
 
 ==== Unicode map file
 

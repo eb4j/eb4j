@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Proivde Unicode escaper/unescaper for appendix alternative characters
+
+### Changed
+- EB4j expects appendix alternative code from the original unicode escaper.
+  it expects '\u0000' for unicode BMP and '\U00000000' for SMP.
+
 ## [2.1.12] - 2021-8-27
 
 ### Fixed
