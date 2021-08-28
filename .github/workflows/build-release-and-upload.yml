@@ -47,13 +47,6 @@ jobs:
         ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_KEY_PASSPHARASE }}
         SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
         SONATYPE_PASS: ${{ secrets.SONATYPE_PASS }}
-    - name: Publish package to Github packages
-      uses: burrunan/gradle-cache-action@v1
-      with:
-        gradle-version: 6.8.3
-        arguments: publishMavenJavaPublicationToGitHubPackagesRepository
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Release Asset(zip)
       id: upload-release-lib-zip
       uses: actions/upload-release-asset@v1
