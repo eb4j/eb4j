@@ -3,8 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.2.0] - 2021-8-28
+
 ### Added
-- Proivde Unicode escaper/unescaper for appendix alternative characters
+- Provide Unicode escaper/unescaper for appendix alternative characters
 
 ### Changed
 - EB4j expects appendix alternative code from the original unicode escaper.
@@ -130,7 +132,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.1.12...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/eb4j/eb4j/compare/v2.1.12...v2.2.0
 [2.1.12]: https://github.com/eb4j/eb4j/compare/v2.1.11...v2.1.12
 [2.1.11]: https://github.com/eb4j/eb4j/compare/v2.1.10...v2.1.11
 [2.1.10]: https://github.com/eb4j/eb4j/compare/v2.1.9...v2.1.10
