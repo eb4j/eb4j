@@ -1,15 +1,15 @@
 package io.github.eb4j;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.github.eb4j.ext.UnicodeUnescaper;
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
-import org.apache.commons.text.translate.UnicodeUnescaper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +49,6 @@ public class SubAppendix {
             new HashMap<>(2, 1.0f);
 
     private final UnicodeUnescaper unescaper;
-
 
     /**
      * Construct object from appendix package and subbook path.
@@ -266,10 +265,11 @@ public class SubAppendix {
 
         try {
             String tmp = new String(b, "EUC-JP").trim();
+            // double unescape source, because of surrogate pair.
             ret = unescaper.translate(tmp);
             map.put(code, ret);
-        } catch (UnsupportedEncodingException ignore) {
-            LOGGER.warn("Appendix: Unsupported Encoding convversion error.");
+        } catch (IOException e) {
+            LOGGER.warn("Appendix: Unsupported Encoding conversion error: " + e.getMessage());
         }
         return ret;
     }

@@ -89,19 +89,30 @@ public class UnicodeMap {
                         String val = dataArray.get(1);
                         if ((key.startsWith("h") || key.startsWith("z"))) {
                             Integer keyNum = Integer.parseInt(key.substring(1, 5), 16);
-                            if (val.startsWith("u")) {
+                            if (val.startsWith("u") || val.startsWith("U")) {
                                 if (val.contains(",")) {
                                     StringBuilder sb = new StringBuilder();
                                     for (String item : val.split(",")) {
                                         if (item.startsWith("u")) {
                                             sb.append(Character.toChars(
                                                     Integer.valueOf(item.substring(1, 5), 16)));
+                                        } else if (item.startsWith("U")) {
+                                            sb.append(Character.toChars(
+                                                    Integer.valueOf(item.substring(1, 9), 16)));
+                                        } else {
+                                            sb.append(item);
                                         }
                                     }
                                     unicodeMap.put(keyNum, sb.toString());
                                 } else {
-                                    String uniValue = new String(Character.toChars(
-                                            Integer.valueOf(val.substring(1, 5), 16)));
+                                    String uniValue;
+                                    if (val.startsWith("u")) {
+                                         uniValue = new String(Character.toChars(
+                                                Integer.valueOf(val.substring(1, 5), 16)));
+                                    } else {
+                                        uniValue = new String(Character.toChars(
+                                                Integer.valueOf(val.substring(1, 9), 16)));
+                                    }
                                     unicodeMap.put(keyNum, uniValue);
                                 }
                             } else if (val.startsWith("-") && dataArray.size() == 3) {
