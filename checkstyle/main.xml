@@ -1,78 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="6.16.1">
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/Appendix.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/Appendix.java">
+<error line="45" column="8" severity="warning" message="Unused @param tag for &apos;path&apos;." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/Book.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/Book.java">
+<error line="436" column="37" severity="warning" message="Inner assignments should be avoided." source="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck"/>
+<error line="444" column="41" severity="warning" message="Inner assignments should be avoided." source="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck"/>
+<error line="450" column="41" severity="warning" message="Inner assignments should be avoided." source="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck"/>
+<error line="459" column="41" severity="warning" message="Inner assignments should be avoided." source="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck"/>
+<error line="465" column="41" severity="warning" message="Inner assignments should be avoided." source="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck"/>
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/DataFiles.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/DataFiles.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/EBException.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/EBException.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/ExtFont.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/ExtFont.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/GraphicData.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/GraphicData.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/IndexStyle.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/IndexStyle.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/MultiWordSearcher.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/MultiWordSearcher.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/NullSearcher.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/NullSearcher.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/Result.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/Result.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/Searcher.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/Searcher.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SingleWordSearcher.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/SingleWordSearcher.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SoundData.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/SoundData.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SubAppendix.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/SubAppendix.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SubBook.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/SubBook.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/SubBookBuilder.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/SubBookBuilder.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/ext/UnicodeMap.java">
-<error line="38" column="17" severity="warning" message="&apos;File&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck"/>
-<error line="63" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
-<error line="73" column="59" severity="warning" message="&apos;;&apos; is preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceBeforeCheck"/>
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/ext/UnicodeEscaper.java">
+<error line="9" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck"/>
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/hook/DefaultHook.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/ext/UnicodeMap.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/hook/Hook.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/ext/UnicodeUnescaper.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/hook/HookAdapter.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/hook/DefaultHook.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/BookInputStream.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/hook/Hook.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/BookReader.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/hook/HookAdapter.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EBFile.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/BookInputStream.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EBFormat.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/BookReader.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EBZipConstants.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/EBFile.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EBZipInputStream.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/EBFormat.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/EPWINGInputStream.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/EBZipConstants.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/FileInfo.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/EBZipInputStream.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/HuffmanNode.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/EPWINGInputStream.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/PlainInputStream.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/FileInfo.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/io/SEBXAInputStream.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/HuffmanNode.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/util/Bitmap.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/PlainInputStream.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/util/ByteUtil.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/io/SEBXAInputStream.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/util/CompareUtil.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/util/Bitmap.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/util/HexUtil.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/util/ByteUtil.java">
 </file>
-<file name="/home/runner/work/eb4j/eb4j/eb4j-core/src/main/java/io/github/eb4j/util/ImageUtil.java">
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/util/CompareUtil.java">
+</file>
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/util/HexUtil.java">
+</file>
+<file name="/home/runner/work/eb4j/eb4j/src/main/java/io/github/eb4j/util/ImageUtil.java">
 </file>
 </checkstyle>
