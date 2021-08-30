@@ -28,11 +28,6 @@ jobs:
           arguments: javadoc
         id: javadoc
       - uses: eskatos/gradle-command-action@v1
-        name: generate spotbug report
-        with:
-          arguments: spotbugsMain
-        id: spotbugs
-      - uses: eskatos/gradle-command-action@v1
         name: generate checkstyle report
         with:
           arguments: checkstyleMain
@@ -40,10 +35,8 @@ jobs:
       - name: gather document artifacts to ./public/
         run: |
           mkdir -p public
-          cp -r docs/build/docs/* public/
-          cp -r eb4j-core/build/docs/javadoc public/
-          cp -r eb4j-core/build/reports/spotbugs public/
-          cp -r eb4j-core/build/reports/checkstyle public/
+          cp -r build/docs/* public/
+          cp -r build/reports/checkstyle public/
       - name: Deploy documents to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
