@@ -2,8 +2,6 @@
 :version: 2.1.0-SNAPSHOT
 :project-name: eb4j
 
-=== link:http://eb4j.github.io/eb4j/spotbugs/main.html[Spotbugs report]
-
 === link:http://eb4j.github.io/eb4j/checkstyle/main.html[Checkstyle report]
 
 === link:http://eb4j.github.io/eb4j/javadoc/index.html[JavaDoc]
