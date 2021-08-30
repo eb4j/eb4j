@@ -9,7 +9,7 @@ You can obtain EB4J library from Github Packages.
 
 ```
 dependencies {
-    implementation 'io.github.eb4j:eb4j:2.1.10'
+    implementation 'io.github.eb4j:eb4j:2.2.0'
 }
 ```
 
@@ -17,7 +17,7 @@ dependencies {
 
 ```
 dependencies {
-    implementation('io.github.eb4j:eb4j:2.1.10')
+    implementation('io.github.eb4j:eb4j:2.2.0')
 }
 ```
 
@@ -28,7 +28,7 @@ dependencies {
     <dependency>
       <groupId>io.github.eb4j</groupId>
       <artifactId>eb4j</artifactId>
-      <version>2.1.5</version>
+      <version>2.2.0</version>
       <type>jar</type>
     </dependency>
     ...
