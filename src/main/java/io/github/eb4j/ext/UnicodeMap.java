@@ -21,7 +21,8 @@ import java.util.StringTokenizer;
  */
 public class UnicodeMap {
 
-    private HashMap<Integer, String> unicodeMap = new HashMap<>();
+    private HashMap<Integer, String> narrowMap = new HashMap<>();
+    private HashMap<Integer, String> wideMap = new HashMap<>();
 
     /**
      * Constructor.
@@ -56,11 +57,7 @@ public class UnicodeMap {
             }
         }
         if (!loaded) {
-            if (isUnno(title)) {
-                setUnnoMap();
-            } else {
-                throw new EBException(EBException.CANT_FIND_UNICODEMAP);
-            }
+            throw new EBException(EBException.CANT_FIND_UNICODEMAP);
         }
     }
 
@@ -80,8 +77,34 @@ public class UnicodeMap {
      * Simple map getter.
      * @return unmodifiable map.
      */
-    public Map<Integer, String> getMap() {
-        return Collections.unmodifiableMap(unicodeMap);
+    public Map<Integer, String> getNarrowMap() {
+        return Collections.unmodifiableMap(narrowMap);
+    }
+
+    /**
+     * Simple map getter.
+     * @return unmodifiable map.
+     */
+    public Map<Integer, String> getWideMap() {
+        return Collections.unmodifiableMap(wideMap);
+    }
+
+    /**
+     * Get unicode character code from narrow map.
+     * @param extCode to query.
+     * @return unicode string
+     */
+    public String getNarrow(final int extCode) {
+        return narrowMap.get(extCode);
+    }
+
+    /**
+     * Get unicode character code from wide map.
+     * @param extCode to query.
+     * @return unicode string
+     */
+    public String getWide(final int extCode) {
+        return wideMap.get(extCode);
     }
 
     /**
@@ -90,7 +113,11 @@ public class UnicodeMap {
      * @return unicode string
      */
     public String get(final int extCode) {
-        return unicodeMap.get(extCode);
+       if (narrowMap.containsKey(extCode)) {
+           return narrowMap.get(extCode);
+       } else {
+           return wideMap.get(extCode);
+       }
     }
 
     private void loadMap(final File file) throws EBException {
@@ -109,38 +136,16 @@ public class UnicodeMap {
                     String key = dataArray.get(0);
                     if (!key.startsWith("#")) {
                         String val = dataArray.get(1);
-                        if ((key.startsWith("h") || key.startsWith("z"))) {
+                        String alt = null;
+                        if (dataArray.size() == 3) {
+                            alt = dataArray.get(2);
+                        }
+                        if (key.startsWith("h")) {
                             Integer keyNum = Integer.parseInt(key.substring(1, 5), 16);
-                            if (val.startsWith("u") || val.startsWith("U")) {
-                                if (val.contains(",")) {
-                                    StringBuilder sb = new StringBuilder();
-                                    for (String item : val.split(",")) {
-                                        if (item.startsWith("u")) {
-                                            sb.append(Character.toChars(
-                                                    Integer.valueOf(item.substring(1, 5), 16)));
-                                        } else if (item.startsWith("U")) {
-                                            sb.append(Character.toChars(
-                                                    Integer.valueOf(item.substring(1, 9), 16)));
-                                        } else {
-                                            sb.append(item);
-                                        }
-                                    }
-                                    unicodeMap.put(keyNum, sb.toString());
-                                } else {
-                                    String uniValue;
-                                    if (val.startsWith("u")) {
-                                         uniValue = new String(Character.toChars(
-                                                Integer.valueOf(val.substring(1, 5), 16)));
-                                    } else {
-                                        uniValue = new String(Character.toChars(
-                                                Integer.valueOf(val.substring(1, 9), 16)));
-                                    }
-                                    unicodeMap.put(keyNum, uniValue);
-                                }
-                            } else if (val.startsWith("-") && dataArray.size() == 3) {
-                                String uniValue = dataArray.get(2);
-                                unicodeMap.put(keyNum, uniValue);
-                            }
+                            addEntry(keyNum, val, alt, false);
+                        } else if (key.startsWith("z")) {
+                            Integer keyNum = Integer.parseInt(key.substring(1, 5), 16);
+                            addEntry(keyNum, val, alt, true);
                         }
                     }
                 }
@@ -151,41 +156,47 @@ public class UnicodeMap {
         }
     }
 
-    private boolean isUnno(final String target) {
-        List<String> signature = new ArrayList<>();
-        signature.add("６ビ技実用英語　英和・和英６０２");
-        signature.add("６用例ファイル（ビ技実用英語）６０２");
-        signature.add("ビジネス技術実用英語大辞典Ｖ５　英和編＆和英編");
-        signature.add("用例ファイル（ビ技実用英語Ｖ５）");
-
-        for (String sig: signature) {
-            if (target.startsWith(sig)) {
-                return true;
+    private void addEntry(Integer keyNum, String val, String alt, boolean wide) {
+        if (val.startsWith("u") || val.startsWith("U")) {
+            if (val.contains(",")) {
+                StringBuilder sb = new StringBuilder();
+                for (String item : val.split(",")) {
+                    if (item.startsWith("u")) {
+                        sb.append(Character.toChars(
+                                Integer.valueOf(item.substring(1, 5), 16)));
+                    } else if (item.startsWith("U")) {
+                        sb.append(Character.toChars(
+                                Integer.valueOf(item.substring(1, 9), 16)));
+                    } else {
+                        sb.append(item);
+                    }
+                }
+                if (wide) {
+                    wideMap.put(keyNum, sb.toString());
+                } else {
+                    narrowMap.put(keyNum, sb.toString());
+                }
+            } else {
+                String uniValue;
+                if (val.startsWith("u")) {
+                    uniValue = new String(Character.toChars(
+                            Integer.valueOf(val.substring(1, 5), 16)));
+                } else {
+                    uniValue = new String(Character.toChars(
+                            Integer.valueOf(val.substring(1, 9), 16)));
+                }
+                if (wide) {
+                    wideMap.put(keyNum, uniValue);
+                } else {
+                    narrowMap.put(keyNum, uniValue);
+                }
+            }
+        } else if (val.equals("-") && alt != null) {
+            if (wide) {
+                wideMap.put(keyNum, alt);
+            } else {
+                narrowMap.put(keyNum, alt);
             }
         }
-        return false;
-    }
-
-    private void setUnnoMap() {
-        unicodeMap.put(0xA221, "\u00b0");
-        unicodeMap.put(0xA222, "\\");
-        unicodeMap.put(0xA223, "\u00e9");
-        unicodeMap.put(0xA224, "\u00e0");
-        unicodeMap.put(0xA225, "\u00e8");
-        unicodeMap.put(0xA226, "\u00ea");
-        unicodeMap.put(0xA227, "\u00e4");
-        unicodeMap.put(0xA228, "\u00eb");
-        unicodeMap.put(0xA229, "\u00f6");
-        unicodeMap.put(0xA22A, "\u00fc");
-        unicodeMap.put(0xA22B, "\u00f1");
-        unicodeMap.put(0xA22E, "\u00dc");
-        unicodeMap.put(0xA122, "\uff5f");
-        unicodeMap.put(0xA123, "\uff60");
-        unicodeMap.put(0xA126, "\u25b6");
-        unicodeMap.put(0xA127, "\u25cf");
-        unicodeMap.put(0xA128, "\u2713");
-        unicodeMap.put(0xA129, "\u00bd");
-        unicodeMap.put(0xA12A, "\u00dc");
-        unicodeMap.put(0xA12B, "\u00be");
     }
 }
