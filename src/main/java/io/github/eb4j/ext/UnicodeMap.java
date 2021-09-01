@@ -90,6 +90,24 @@ public class UnicodeMap {
     }
 
     /**
+     * Get unicode character code from narrow map.
+     * @param extCode to query.
+     * @return unicode string
+     */
+    public String getNarrow(final int extCode) {
+        return narrowMap.get(extCode);
+    }
+
+    /**
+     * Get unicode character code from wide map.
+     * @param extCode to query.
+     * @return unicode string
+     */
+    public String getWide(final int extCode) {
+        return wideMap.get(extCode);
+    }
+
+    /**
      * Get Unicode character code from map.
      * @param extCode to query
      * @return unicode string
@@ -97,10 +115,8 @@ public class UnicodeMap {
     public String get(final int extCode) {
        if (narrowMap.containsKey(extCode)) {
            return narrowMap.get(extCode);
-       } else if (wideMap.containsKey(extCode)) {
-           return wideMap.get(extCode);
        } else {
-           return null;
+           return wideMap.get(extCode);
        }
     }
 
