@@ -41,7 +41,7 @@ public class UnicodeMapTest {
      */
     @Test
     public void testGetCompound() {
-        String s = unicodeMap.get(0xA222);
+        String s = unicodeMap.getNarrow(0xA222);
         assertEquals(s, "\u028A\u0301");
     }
 
@@ -50,7 +50,7 @@ public class UnicodeMapTest {
      */
     @Test
     public void testGetAlt() {
-        String s = unicodeMap.get(0xA430);
+        String s = unicodeMap.getWide(0xA430);
         assertEquals(s, "X");
     }
 

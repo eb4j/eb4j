@@ -191,7 +191,12 @@ public class UnicodeMap {
                     narrowMap.put(keyNum, uniValue);
                 }
             }
+        } else if (val.equals("-")) {
+            if (wide) {
+                wideMap.put(keyNum, alt);
+            } else {
+                narrowMap.put(keyNum, alt);
+            }
         }
-
     }
 }
