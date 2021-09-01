@@ -35,6 +35,9 @@ class DataFiles {
         this.honmonFormat = format;
     }
 
+    DataFiles() {
+    }
+
     void setHonmon(final String filename, final EBFormat format) {
         this.honmonFileName = filename;
         this.honmonFormat = format;
@@ -46,6 +49,10 @@ class DataFiles {
 
     EBFormat getHonmonFormat() {
         return honmonFormat;
+    }
+
+    boolean hasHonmon() {
+        return honmonFileName != null;
     }
 
     void setGraphic(final String filename, final EBFormat format) {

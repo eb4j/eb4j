@@ -422,11 +422,11 @@ public class Book {
                     }
                     off += SIZE_DIRNAME;
                 }
-
-                // 副本のファイル名の取得
-                DataFiles files = new DataFiles("honmon", EBFormat.FORMAT_PLAIN);
-
-                if (_version != 1) {
+                DataFiles files = new DataFiles();
+                if (_version == 1) {
+                    // 副本のファイル名の取得
+                    files.setHonmon("honmon", EBFormat.FORMAT_PLAIN);
+                } else if (_version != 1) {
                     // 拡張情報の取得
                     bis.seek(16 + (subCount + i) * b.length);
                     bis.readFully(b, 0, b.length);
@@ -468,6 +468,10 @@ public class Book {
                             files.setSound(new String(b, 56, SIZE_DIRNAME, Charset.forName("ASCII"))
                                     .trim(), format);
                         }
+                    }
+                    if (!files.hasHonmon() && !files.hasGraphic() && !files.hasSound()) {
+                        // there is no subbook ext definitions, fall back to v1 default
+                        files.setHonmon("honmon", EBFormat.FORMAT_PLAIN);
                     }
                 }
                 // 副本オブジェクトの作成
