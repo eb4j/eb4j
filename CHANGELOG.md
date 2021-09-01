@@ -3,6 +3,21 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.2.1] - 2021-9-1
+
+### Fixed
+- Allow subbook that don't have honmon file(Kojien v4,v5)(#71)
+- Unicodemap: handle alternative ascii character properly(#73)
+
+### Added
+- UnicodeMap: simple constructor and map getter(#72)
+
+### Changed
+- UnicodeMap: handle narrow and wide alternative code(#73)
+
+### Deleted
+- Bundled Unno unicode map.(#73)
+
 ## [2.2.0] - 2021-8-28
 
 ### Added
@@ -132,7 +147,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.2.1...HEAD
+[2.2.1]: https://github.com/eb4j/eb4j/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/eb4j/eb4j/compare/v2.1.12...v2.2.0
 [2.1.12]: https://github.com/eb4j/eb4j/compare/v2.1.11...v2.1.12
 [2.1.11]: https://github.com/eb4j/eb4j/compare/v2.1.10...v2.1.11
