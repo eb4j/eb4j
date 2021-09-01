@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 
@@ -60,6 +62,26 @@ public class UnicodeMap {
                 throw new EBException(EBException.CANT_FIND_UNICODEMAP);
             }
         }
+    }
+
+    /**
+     * Simple constructor.
+     * @param mapFile map file.
+     * @throws EBException when loading error happened.
+     */
+    public UnicodeMap(final File mapFile) throws EBException {
+        if (!mapFile.isFile()) {
+            throw new EBException(EBException.FILE_NOT_FOUND);
+        }
+        loadMap(mapFile);
+    }
+
+    /**
+     * Simple map getter.
+     * @return unmodifiable map.
+     */
+    public Map<Integer, String> getMap() {
+        return Collections.unmodifiableMap(unicodeMap);
     }
 
     /**
