@@ -34,17 +34,18 @@ public class ExtFont {
     /** フォントサイズ */
     private static final int[][] FONT_SIZE = {
         // (FONT_WIDTH / 8) * FONT_HEIGHT
-        {32, 72, 120, 288}, {16, 48, 60, 144}};
+        {16, 48, 60, 144}, {32, 72, 120, 288}
+    };
     /** フォントの幅 */
     private static final int[][] FONT_WIDTH = {
-        {16, 24, 32, 48}, {8, 16, 16, 24}};
+        {8, 16, 16, 24}, {16, 24, 32, 48}};
     /** フォントの高さ */
     private static final int[] FONT_HEIGHT = {16, 24, 30, 48};
 
     /** 副本 */
-    private SubBook _sub = null;
+    private SubBook _sub;
     /** 外字の種類 */
-    private int _fontType = -1;
+    private int _fontType;
 
     /** 外字ファイル */
     private EBFile[] _file = new EBFile[2];
@@ -73,7 +74,7 @@ public class ExtFont {
         _sub = sub;
         if (type < FONT_16 || type > FONT_48) {
             throw new IllegalArgumentException("Illegal font type: "
-                                               + Integer.toString(type));
+                                               + type);
         }
         _fontType = type;
     }

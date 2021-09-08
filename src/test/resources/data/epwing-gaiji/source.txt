@@ -1,0 +1,2 @@
+dictionary, "❶辞典❷辞書"
+word, "WÒRD"
