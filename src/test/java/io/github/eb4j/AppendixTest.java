@@ -31,18 +31,18 @@ public class AppendixTest {
     }
 
 
-    @Test
+    @Test(dependsOnGroups = "init")
     void testGetAppendixType() {
         assertEquals(subAppendix.getAppendix().getAppendixType(), 1);
     }
 
-    @Test
+    @Test(dependsOnGroups = "init")
     void testGetSubAppendixCount() {
         assertEquals(subAppendix.getAppendix().getSubAppendixCount(), 1);
     }
 
-    @Test
+    @Test(dependsOnGroups = "init")
     void testGetAltFont() throws EBException {
-        assertEquals(subAppendix.getNarrowFontAlt(0xA43A), "―");
+        assertEquals(subAppendix.getWideFontAlt(0xA43A), "―");
     }
 }
