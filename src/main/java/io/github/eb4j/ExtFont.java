@@ -371,12 +371,9 @@ public class ExtFont {
                    + (index % (1024 / size)) * size);
 
         byte[] b = new byte[size];
-        BookInputStream bis = _file[kind].getInputStream();
-        try {
-            bis.seek(_page[kind]+1, off);
+        try (BookInputStream bis = _file[kind].getInputStream()) {
+            bis.seek(_page[kind] + 1, off);
             bis.readFully(b, 0, b.length);
-        } finally {
-            bis.close();
         }
         return b;
     }
