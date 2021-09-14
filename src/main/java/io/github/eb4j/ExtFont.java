@@ -3,6 +3,7 @@ package io.github.eb4j;
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
+import io.github.eb4j.util.ImageUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,10 +24,10 @@ import java.io.IOException;
 */
 public class ExtFont {
 
-    /** 全角フォントを示す定数 */
-    static final int WIDE = 1;
     /** 半角フォントを示す定数 */
     static final int NARROW = 0;
+    /** 全角フォントを示す定数 */
+    static final int WIDE = 1;
 
     /** 16ドットのフォントを示す定数 */
     public static final int FONT_16 = 0;
@@ -49,19 +50,19 @@ public class ExtFont {
     private static final int[] FONT_HEIGHT = {16, 24, 30, 48};
 
     /** 副本 */
-    private SubBook _sub;
+    private final SubBook _sub;
     /** 外字の種類 */
-    private int _fontType;
+    private final int _fontType;
 
     /** 外字ファイル */
-    private EBFile[] _file = new EBFile[2];
+    private final EBFile[] _file = new EBFile[2];
     /** 開始ページ */
-    private long[] _page = new long[2];
+    private final long[] _page = new long[2];
 
     /** 開始文字コード */
-    private int[] _start = new int[2];
+    private final int[] _start = new int[2];
     /** 終了文字コード */
-    private int[] _end = new int[2];
+    private final int[] _end = new int[2];
 
 
     /**
@@ -86,104 +87,6 @@ public class ExtFont {
     }
 
     /**
-     * Convert EB gaiji bitmap to BMP image format.
-     * @param data EB gaiji byte array.
-     * @param width width in pixel of gaiji
-     * @param height height in pixel of gaiji
-     * @return BMP format gaiji image.
-     */
-    protected byte[] bitmap2BMP(final byte[] data, final int width, final int height) {
-        final int BMP_PREAMBLE_LENGTH = 62;
-        final byte[] bmpPreamble = new byte[] {
-                // Type
-                'B', 'M',
-                // File size (set at run time)
-                0x00, 0x00, 0x00, 0x00,
-                // Reserved
-                0x00, 0x00, 0x00, 0x00,
-                // offset of bitmap bits part
-                0x3e, 0x00, 0x00, 0x00,
-                // size of bitmap info part
-                0x28, 0x00, 0x00, 0x00,
-                // width (set at run time)
-                0x00, 0x00, 0x00, 0x00,
-                // height (set at run time)
-                0x00, 0x00, 0x00, 0x00,
-                // planes
-                0x01, 0x00,
-                // bits per pixsels
-                0x01, 0x00,
-                // compression mode
-                0x00, 0x00, 0x00, 0x00,
-                // size of bitmap bits part (set at run time)
-                0x00, 0x00, 0x00, 0x00,
-                // X pixels per meter
-                0x6d, 0x0b, 0x00, 0x00,
-                // Y pixels per meter
-                0x6d, 0x0b, 0x00, 0x00,
-                // Colors
-                0x02, 0x00, 0x00, 0x00,
-                // Important colors
-                0x02, 0x00, 0x00, 0x00,
-                // RGB quad of color 0   RGB quad of color 1
-                (byte)0xff, (byte)0xff, (byte)0xff, 0x00, 0x00, 0x00, 0x00, 0x00
-        };
-
-        int linePad;
-        if (width % 32 == 0) {
-            linePad = 0;
-        } else if (width % 32 <= 8) {
-            linePad = 3;
-        } else if (width % 32 <= 16) {
-            linePad = 2;
-        } else if (width % 32 <= 24) {
-            linePad = 1;
-        } else {
-            linePad = 0;
-        }
-
-        int dataSize = height * (width / 2 + linePad);
-        int fileSize = dataSize + BMP_PREAMBLE_LENGTH;
-
-        byte[] bmp = new byte[fileSize];
-        System.arraycopy(bmpPreamble, 0, bmp, 0, BMP_PREAMBLE_LENGTH);
-        //
-        bmp[2] = (byte) (fileSize & 0xff);
-        bmp[3] = (byte) ((byte) (fileSize >> 8) & 0xff);
-        bmp[4] = (byte) ((byte) (fileSize >> 16) & 0xff);
-        bmp[5] = (byte) ((byte) (fileSize >> 24) & 0xff);
-
-        bmp[18] = (byte) (width & 0xff);
-        bmp[19] = (byte) ((byte) (width >> 8) & 0xff);
-        bmp[20] = (byte) ((byte) (width >> 16) & 0xff);
-        bmp[21] = (byte) ((byte) (width >> 24) & 0xff);
-
-        bmp[22] = (byte) (height & 0xff);
-        bmp[23] = (byte) ((height >> 8) & 0xff);
-        bmp[24] = (byte) ((height >> 16) & 0xff);
-        bmp[25] = (byte) ((height >> 24) & 0xff);
-
-        bmp[34] = (byte)(dataSize & 0xff);
-        bmp[35] = (byte)((dataSize >> 8) & 0xff);
-        bmp[36] = (byte)((dataSize >> 16) & 0xff);
-        bmp[37] = (byte)((dataSize >> 24) & 0xff);
-
-        int bitmapLineLength = (width + 7) / 8;
-
-        int i = height -1;
-        int k = BMP_PREAMBLE_LENGTH;
-        while (i >= 0) {
-            System.arraycopy(data, bitmapLineLength * i, bmp, k, bitmapLineLength);
-            i--;
-            k += bitmapLineLength;
-            for (int j = 0; j < linePad; j++, k++) {
-                bmp[k]  = 0x00;
-            }
-        }
-        return bmp;
-    }
-
-    /**
      * Reading a gaiji properties.
      *
      * @param kind Narrow/Wide.
@@ -194,12 +97,9 @@ public class ExtFont {
     private void _loadFont(final int kind) throws EBException {
         byte[] b = new byte[16];
 
-        BookInputStream bis = _file[kind].getInputStream();
-        try {
+        try (BookInputStream bis = _file[kind].getInputStream()) {
             bis.seek(_page[kind], 0);
             bis.readFully(b, 0, b.length);
-        } finally {
-            bis.close();
         }
 
         int charCount = ByteUtil.getInt2(b, 12);
@@ -290,10 +190,7 @@ public class ExtFont {
      * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasFont() {
-        if (_file[NARROW] == null && _file[WIDE] == null) {
-            return false;
-        }
-        return true;
+        return _file[NARROW] != null || _file[WIDE] != null;
     }
 
     /**
@@ -302,10 +199,7 @@ public class ExtFont {
      * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasNarrowFont() {
-        if (_file[NARROW] == null) {
-            return false;
-        }
-        return true;
+        return _file[NARROW] != null;
     }
 
     /**
@@ -314,10 +208,7 @@ public class ExtFont {
      * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasWideFont() {
-        if (_file[WIDE] == null) {
-            return false;
-        }
-        return true;
+        return _file[WIDE] != null;
     }
 
     /**
@@ -421,7 +312,7 @@ public class ExtFont {
      * @throws EBException if file read error is happened.
      */
     public byte[] getNarrowFontBMP(final int code) throws EBException {
-        return bitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight());
+        return ImageUtil.ebBitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight());
     }
 
     /**
@@ -431,7 +322,7 @@ public class ExtFont {
      * @throws EBException if file read error is happened.
      */
     public byte[] getWideFontBMP(final int code) throws EBException {
-        return bitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight());
+        return ImageUtil.ebBitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight());
     }
 
     /**
@@ -441,12 +332,8 @@ public class ExtFont {
      * @throws EBException if file read error is happened.
      */
     public byte[] getNarrowFontPNG(final int code) throws EBException {
-        byte[] bmp = bitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight());
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            final BufferedImage res = ImageIO.read(new ByteArrayInputStream(bmp));
-            ImageIO.write(res, "png", baos);
-            baos.flush();
-            return baos.toByteArray();
+        try {
+            return ImageUtil.imageToPNG(ImageUtil.ebBitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight()));
         } catch (IOException e) {
             throw new EBException(EBException.FAILED_CONVERT_GAIJI);
         }
@@ -459,12 +346,8 @@ public class ExtFont {
      * @throws EBException if file read error is happened.
      */
     public byte[] getWideFontPNG(final int code) throws EBException {
-        byte[] bmp = bitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight());
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            final BufferedImage res = ImageIO.read(new ByteArrayInputStream(bmp));
-            ImageIO.write(res, "png", baos);
-            baos.flush();
-            return baos.toByteArray();
+        try {
+            return ImageUtil.imageToPNG(ImageUtil.ebBitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight()));
         } catch (IOException e) {
             throw new EBException(EBException.FAILED_CONVERT_GAIJI);
         }
@@ -530,12 +413,9 @@ public class ExtFont {
                    + (index % (1024 / size)) * size);
 
         byte[] b = new byte[size];
-        BookInputStream bis = _file[kind].getInputStream();
-        try {
-            bis.seek(_page[kind]+1, off);
+        try (BookInputStream bis = _file[kind].getInputStream()) {
+            bis.seek(_page[kind] + 1, off);
             bis.readFully(b, 0, b.length);
-        } finally {
-            bis.close();
         }
         return b;
     }
