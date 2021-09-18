@@ -3,6 +3,13 @@ package io.github.eb4j;
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
+import io.github.eb4j.util.ImageUtil;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * ifeval::["{lang}" == "en"]
@@ -17,10 +24,10 @@ import io.github.eb4j.util.ByteUtil;
 */
 public class ExtFont {
 
-    /** 全角フォントを示す定数 */
-    static final int WIDE = 1;
     /** 半角フォントを示す定数 */
     static final int NARROW = 0;
+    /** 全角フォントを示す定数 */
+    static final int WIDE = 1;
 
     /** 16ドットのフォントを示す定数 */
     public static final int FONT_16 = 0;
@@ -43,19 +50,19 @@ public class ExtFont {
     private static final int[] FONT_HEIGHT = {16, 24, 30, 48};
 
     /** 副本 */
-    private SubBook _sub;
+    private final SubBook _sub;
     /** 外字の種類 */
-    private int _fontType;
+    private final int _fontType;
 
     /** 外字ファイル */
-    private EBFile[] _file = new EBFile[2];
+    private final EBFile[] _file = new EBFile[2];
     /** 開始ページ */
-    private long[] _page = new long[2];
+    private final long[] _page = new long[2];
 
     /** 開始文字コード */
-    private int[] _start = new int[2];
+    private final int[] _start = new int[2];
     /** 終了文字コード */
-    private int[] _end = new int[2];
+    private final int[] _end = new int[2];
 
 
     /**
@@ -79,7 +86,6 @@ public class ExtFont {
         _fontType = type;
     }
 
-
     /**
      * Reading a gaiji properties.
      *
@@ -91,12 +97,9 @@ public class ExtFont {
     private void _loadFont(final int kind) throws EBException {
         byte[] b = new byte[16];
 
-        BookInputStream bis = _file[kind].getInputStream();
-        try {
+        try (BookInputStream bis = _file[kind].getInputStream()) {
             bis.seek(_page[kind], 0);
             bis.readFully(b, 0, b.length);
-        } finally {
-            bis.close();
         }
 
         int charCount = ByteUtil.getInt2(b, 12);
@@ -187,10 +190,7 @@ public class ExtFont {
      * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasFont() {
-        if (_file[NARROW] == null && _file[WIDE] == null) {
-            return false;
-        }
-        return true;
+        return _file[NARROW] != null || _file[WIDE] != null;
     }
 
     /**
@@ -199,10 +199,7 @@ public class ExtFont {
      * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasNarrowFont() {
-        if (_file[NARROW] == null) {
-            return false;
-        }
-        return true;
+        return _file[NARROW] != null;
     }
 
     /**
@@ -211,10 +208,7 @@ public class ExtFont {
      * @return true if gaiji font is exist, otherwise false.
      */
     public boolean hasWideFont() {
-        if (_file[WIDE] == null) {
-            return false;
-        }
-        return true;
+        return _file[WIDE] != null;
     }
 
     /**
@@ -309,6 +303,54 @@ public class ExtFont {
      */
     public int getWideFontSize() {
         return FONT_SIZE[WIDE][_fontType];
+    }
+
+    /**
+     * Returns a BMP image data of half-width Gaiji.
+     * @param code gaiji code.
+     * @return BMP data of half-width Gaiji.
+     * @throws EBException if file read error is happened.
+     */
+    public byte[] getNarrowFontBMP(final int code) throws EBException {
+        return ImageUtil.ebBitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight());
+    }
+
+    /**
+     * Returns a BMP image data of full-width Gaiji.
+     * @param code gaiji code.
+     * @return BMP data of full-width Gaiji.
+     * @throws EBException if file read error is happened.
+     */
+    public byte[] getWideFontBMP(final int code) throws EBException {
+        return ImageUtil.ebBitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight());
+    }
+
+    /**
+     * Returns a PNG image data of half-width Gaiji.
+     * @param code gaiji code.
+     * @return PNG data of half-width Gaiji.
+     * @throws EBException if file read error is happened.
+     */
+    public byte[] getNarrowFontPNG(final int code) throws EBException {
+        try {
+            return ImageUtil.imageToPNG(ImageUtil.ebBitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight()));
+        } catch (IOException e) {
+            throw new EBException(EBException.FAILED_CONVERT_GAIJI);
+        }
+    }
+
+    /**
+     * Returns a PNG image data of full-width Gaiji.
+     * @param code gaiji code.
+     * @return PNG data of full-width Gaiji.
+     * @throws EBException if file read error is happened.
+     */
+    public byte[] getWideFontPNG(final int code) throws EBException {
+        try {
+            return ImageUtil.imageToPNG(ImageUtil.ebBitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight()));
+        } catch (IOException e) {
+            throw new EBException(EBException.FAILED_CONVERT_GAIJI);
+        }
     }
 
     /**

@@ -30,6 +30,8 @@ public class EBException extends Exception {
     public static final int FAILED_SEEK_FILE = 6;
     /** Error code: cannot find unicode map. */
     public static final int CANT_FIND_UNICODEMAP = 7;
+    /** Error code: failed to convert gaiji image. */
+    public static final int FAILED_CONVERT_GAIJI = 8;
 
     /** Error messages */
     private static final String[] ERR_MSG = {

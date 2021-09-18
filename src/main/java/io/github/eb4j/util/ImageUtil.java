@@ -1,18 +1,26 @@
 package io.github.eb4j.util;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.zip.CRC32;
 import java.util.zip.Deflater;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+
 /**
  * Image manipulation utility.
  *
  * @author Hisaya FUKUMOTO
+ * @author Hiroshi Miura
  */
 public final class ImageUtil {
 
@@ -60,6 +68,22 @@ public final class ImageUtil {
         super();
     }
 
+    /**
+     * Convert image data (PNG, BMP, JPEG) to PNG data.
+     * @param b
+     * @return
+     */
+    public static byte[] imageToPNG(final byte[] b) throws IOException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            final BufferedImage res = ImageIO.read(new ByteArrayInputStream(b));
+            Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("png");
+            ImageWriter writer = writers.next();
+            writer.setOutput(baos);
+            writer.write(res);
+            baos.flush();
+            return baos.toByteArray();
+        }
+    }
 
     /**
      * デフォルトの圧縮レベル、前景色を黒、背景色を白、無透過で
@@ -113,36 +137,36 @@ public final class ImageUtil {
                                      final Color foreground, final Color background,
                                      final boolean transparent, final int level) {
         byte[] fRGB = new byte[4];
-        fRGB[0] = (byte)foreground.getRed();
-        fRGB[1] = (byte)foreground.getGreen();
-        fRGB[2] = (byte)foreground.getBlue();
-        fRGB[3] = (byte)0xff;
+        fRGB[0] = (byte) foreground.getRed();
+        fRGB[1] = (byte) foreground.getGreen();
+        fRGB[2] = (byte) foreground.getBlue();
+        fRGB[3] = (byte) 0xff;
         byte[] bRGB = new byte[4];
-        bRGB[0] = (byte)background.getRed();
-        bRGB[1] = (byte)background.getGreen();
-        bRGB[2] = (byte)background.getBlue();
+        bRGB[0] = (byte) background.getRed();
+        bRGB[1] = (byte) background.getGreen();
+        bRGB[2] = (byte) background.getBlue();
         if (transparent) {
-            bRGB[3] = (byte)0x00;
+            bRGB[3] = (byte) 0x00;
         } else {
-            bRGB[3] = (byte)0xff;
+            bRGB[3] = (byte) 0xff;
         }
 
         // イメージデータの作成
-        byte[] image = new byte[(width*4+1)*height];
-        Arrays.fill(image, (byte)0x00);
+        byte[] image = new byte[(width * 4 + 1) * height];
+        Arrays.fill(image, (byte) 0x00);
 
         int offi = 0;
         int offb = 0;
-        byte[] c = null;
-        for (int y=0; y<height; y++) {
+        byte[] c;
+        for (int y = 0; y < height; y++) {
             image[offi++] = 0x00; // filter type
-            for (int x=0; x<width; x+=8) {
+            for (int x = 0; x < width; x += 8) {
                 int cnt = 8;
-                if (x+8 > width) {
+                if (x + 8 > width) {
                     cnt = width - x;
                 }
                 int mask = 0x80;
-                for (int i=0; i<cnt; i++) {
+                for (int i = 0; i < cnt; i++) {
                     if ((b[offb] & mask) > 0) {
                         c = fRGB;
                     } else {
@@ -451,6 +475,104 @@ public final class ImageUtil {
         System.arraycopy(PNG_FOOTER, 0, png, off, PNG_FOOTER.length);
 
         return png;
+    }
+
+    /**
+     * Convert EB gaiji bitmap to BMP image format.
+     * @param data EB gaiji byte array.
+     * @param width width in pixel of gaiji
+     * @param height height in pixel of gaiji
+     * @return BMP format gaiji image.
+     */
+    public static byte[] ebBitmap2BMP(final byte[] data, final int width, final int height) {
+        final int BMP_PREAMBLE_LENGTH = 62;
+        final byte[] bmpPreamble = new byte[] {
+                // Type
+                'B', 'M',
+                // File size (set at run time)
+                0x00, 0x00, 0x00, 0x00,
+                // Reserved
+                0x00, 0x00, 0x00, 0x00,
+                // offset of bitmap bits part
+                0x3e, 0x00, 0x00, 0x00,
+                // size of bitmap info part
+                0x28, 0x00, 0x00, 0x00,
+                // width (set at run time)
+                0x00, 0x00, 0x00, 0x00,
+                // height (set at run time)
+                0x00, 0x00, 0x00, 0x00,
+                // planes
+                0x01, 0x00,
+                // bits per pixsels
+                0x01, 0x00,
+                // compression mode
+                0x00, 0x00, 0x00, 0x00,
+                // size of bitmap bits part (set at run time)
+                0x00, 0x00, 0x00, 0x00,
+                // X pixels per meter
+                0x6d, 0x0b, 0x00, 0x00,
+                // Y pixels per meter
+                0x6d, 0x0b, 0x00, 0x00,
+                // Colors
+                0x02, 0x00, 0x00, 0x00,
+                // Important colors
+                0x02, 0x00, 0x00, 0x00,
+                // RGB quad of color 0   RGB quad of color 1
+                (byte)0xff, (byte)0xff, (byte)0xff, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
+
+        int linePad;
+        if (width % 32 == 0) {
+            linePad = 0;
+        } else if (width % 32 <= 8) {
+            linePad = 3;
+        } else if (width % 32 <= 16) {
+            linePad = 2;
+        } else if (width % 32 <= 24) {
+            linePad = 1;
+        } else {
+            linePad = 0;
+        }
+
+        int dataSize = height * (width / 2 + linePad);
+        int fileSize = dataSize + BMP_PREAMBLE_LENGTH;
+
+        byte[] bmp = new byte[fileSize];
+        System.arraycopy(bmpPreamble, 0, bmp, 0, BMP_PREAMBLE_LENGTH);
+        //
+        bmp[2] = (byte) (fileSize & 0xff);
+        bmp[3] = (byte) ((byte) (fileSize >> 8) & 0xff);
+        bmp[4] = (byte) ((byte) (fileSize >> 16) & 0xff);
+        bmp[5] = (byte) ((byte) (fileSize >> 24) & 0xff);
+
+        bmp[18] = (byte) (width & 0xff);
+        bmp[19] = (byte) ((byte) (width >> 8) & 0xff);
+        bmp[20] = (byte) ((byte) (width >> 16) & 0xff);
+        bmp[21] = (byte) ((byte) (width >> 24) & 0xff);
+
+        bmp[22] = (byte) (height & 0xff);
+        bmp[23] = (byte) ((height >> 8) & 0xff);
+        bmp[24] = (byte) ((height >> 16) & 0xff);
+        bmp[25] = (byte) ((height >> 24) & 0xff);
+
+        bmp[34] = (byte)(dataSize & 0xff);
+        bmp[35] = (byte)((dataSize >> 8) & 0xff);
+        bmp[36] = (byte)((dataSize >> 16) & 0xff);
+        bmp[37] = (byte)((dataSize >> 24) & 0xff);
+
+        int bitmapLineLength = (width + 7) / 8;
+
+        int i = height -1;
+        int k = BMP_PREAMBLE_LENGTH;
+        while (i >= 0) {
+            System.arraycopy(data, bitmapLineLength * i, bmp, k, bitmapLineLength);
+            i--;
+            k += bitmapLineLength;
+            for (int j = 0; j < linePad; j++, k++) {
+                bmp[k]  = 0x00;
+            }
+        }
+        return bmp;
     }
 }
 
