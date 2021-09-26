@@ -534,7 +534,8 @@ public final class ImageUtil {
             linePad = 0;
         }
 
-        int dataSize = height * (width / 2 + linePad);
+        int bitmapLineLength = (width + 7) / 8;
+        int dataSize = height * (bitmapLineLength + linePad);
         int fileSize = dataSize + BMP_PREAMBLE_LENGTH;
 
         byte[] bmp = new byte[fileSize];
@@ -559,8 +560,6 @@ public final class ImageUtil {
         bmp[35] = (byte)((dataSize >> 8) & 0xff);
         bmp[36] = (byte)((dataSize >> 16) & 0xff);
         bmp[37] = (byte)((dataSize >> 24) & 0xff);
-
-        int bitmapLineLength = (width + 7) / 8;
 
         int i = height -1;
         int k = BMP_PREAMBLE_LENGTH;
