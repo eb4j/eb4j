@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.3.0] - 2021-9-27
+
+### Added
+- ExtFont#get(Narrow|Wide)Font(BMP|PNG) functions(#77)
+- ImageUtil#ebBitmap2BMP utility function for font and graphic conversion
+
 ## [2.2.2] - 2021-9-8
 
 ### Fixed
@@ -157,7 +163,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.2.2...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/eb4j/eb4j/compare/v2.2.2...v2.3.0
 [2.2.2]: https://github.com/eb4j/eb4j/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/eb4j/eb4j/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/eb4j/eb4j/compare/v2.1.12...v2.2.0
