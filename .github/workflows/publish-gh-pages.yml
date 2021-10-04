@@ -17,17 +17,17 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '8'
-      - uses: eskatos/gradle-command-action@v1
+      - uses: eskatos/gradle-command-action@v2
         name: generate asciidoc
         with:
           arguments: asciidoctor
         id: asciidoc
-      - uses: eskatos/gradle-command-action@v1
+      - uses: eskatos/gradle-command-action@v2
         name: generate javadoc
         with:
           arguments: javadoc
         id: javadoc
-      - uses: eskatos/gradle-command-action@v1
+      - uses: eskatos/gradle-command-action@v2
         name: generate checkstyle report
         with:
           arguments: checkstyleMain
