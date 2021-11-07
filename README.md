@@ -16,7 +16,7 @@ dependencies {
 
 ```
 dependencies {
-    implementation('io.github.eb4j:eb4j:2.3.0')
+    implementation("io.github.eb4j:eb4j:2.3.0")
 }
 ```
 
