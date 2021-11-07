@@ -1,7 +1,6 @@
 # EB4j
 
 EPWING/Ebook access library.
-You can obtain EB4J library from Github Packages.
 
 ## Use eb4j library for your project
 
