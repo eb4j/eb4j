@@ -355,7 +355,7 @@ public class SingleWordSearcher implements Searcher {
 
                 _logger.debug("page=0x" + HexUtil.toHexString(_page)
                               + ", ID=0x" + HexUtil.toHexString(_pageID));
-                // リーフインデックスに達っしたらループ終了
+                // リーフインデックスに達したらループ終了
                 if (_isLeafLayer(_pageID)) {
                     break;
                 }
