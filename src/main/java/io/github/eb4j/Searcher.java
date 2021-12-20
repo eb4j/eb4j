@@ -10,8 +10,8 @@ public interface Searcher {
     /**
      * Returns a next search result.
      *
-     * @return a search result or null when no valude to return.
-     * @exception EBException if error happended.
+     * @return a search result or null when no value to return.
+     * @exception EBException if error happened.
      */
     Result getNextResult() throws EBException;
 }
