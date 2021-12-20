@@ -17,21 +17,10 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '8'
-      - uses: eskatos/gradle-command-action@v2
-        name: generate asciidoc
-        with:
-          arguments: asciidoctor
-        id: asciidoc
-      - uses: eskatos/gradle-command-action@v2
-        name: generate javadoc
-        with:
-          arguments: javadoc
-        id: javadoc
-      - uses: eskatos/gradle-command-action@v2
-        name: generate checkstyle report
-        with:
-          arguments: checkstyleMain
-        id: checkstyle
+      - uses: gradle/gradle-builld-action@v2.0.1
+      - run: ./gradlew asciidoctor
+      - run: ./gradlew javadoc
+      - run: ./gradlew checkstyleMain
       - name: gather document artifacts to ./public/
         run: |
           mkdir -p public

@@ -14,8 +14,20 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '8'
-      - uses: eskatos/gradle-command-action@v2
+      - uses: gradle/gradle-build-action@v2.0.1
         name: gradle check
         with:
           arguments: check
         id: gradle
+      - name: "Comment build scan url"
+        uses: actions/github-script@v5
+        if: github.event_name == 'pull_request' && failure()
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
+            })
