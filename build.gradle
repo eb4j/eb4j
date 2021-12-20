@@ -134,10 +134,10 @@ distributions {
 
 // docs - github pages generation
 asciidoctor {
-    sourceDir  file('docs')
     sources {
-        include 'index.adoc', 'about.adoc', 'links.adoc', 'reports.adoc'
+        include 'index.adoc'
     }
+    baseDir file('src/docs/asciidoc')
     outputDir  file('build/docs')
     attributes 'build-gradle': file('build.gradle'),
             'endpoint-url': 'http://eb4j.github.io/eb4j/',

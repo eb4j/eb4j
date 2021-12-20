@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'docs/**'
+      - 'src/docs/**'
       - '.github/workflows/publish-gh-pages.yml'
 
 jobs:
