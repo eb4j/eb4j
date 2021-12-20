@@ -3,7 +3,7 @@ name: Run Gradle(docs) on PRs
 on:
   pull_request:
     paths:
-      - 'docs/**'
+      - 'src/docs/**'
 
 jobs:
   gradle:
