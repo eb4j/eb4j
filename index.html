@@ -437,14 +437,41 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
 <h1>EB4J</h1>
 <div class="details">
-<span id="revnumber">version 9158c2</span>
+<span id="revnumber">version 8aadbf</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#about-eb4j">About eb4j</a></li>
+<li><a href="#how-to-install-the-library">How to install the library</a></li>
+<li><a href="#contacts">Contacts</a></li>
+<li><a href="#usage">Usage</a>
+<ul class="sectlevel2">
+<li><a href="#library-api">Library API</a></li>
+<li><a href="#library-extensions-against-standard">Library: extensions against standard</a></li>
+<li><a href="#utility-commands">Utility commands</a></li>
+</ul>
+</li>
+<li><a href="#copyright">Copyright</a></li>
+<li><a href="#technical-references-技術資料">Technical references 技術資料</a></li>
+<li><a href="#reference-software-参考ソフトウェア">Reference Software 参考ソフトウェア</a></li>
+<li><a href="#projects-who-use-eb4j-2-0-0-and-later">Projects who use EB4J 2.0.0 and later</a></li>
+<li><a href="#code-references">Code references</a>
+<ul class="sectlevel2">
+<li><a href="#checkstyle-report">Checkstyle report</a></li>
+<li><a href="#javadoc">JavaDoc</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -458,27 +485,548 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="about-eb4j">About eb4j</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::about.adoc[]</p>
+<p>eb4j is a 100% pure Java library to access electric dictionaries and eBooks based on
+<a href="http://www.sra.co.jp/people/m-kasahr/eb/index.html">EB library</a>.</p>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::usage.adoc[]</p>
+<p>eb4j library bundles utility commands
+(ebinfo, ebzip, ebdump).</p>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::copyright.adoc[]</p>
+<p>Original author is Hisaya FUKUMOTO and original eb4j is distributed on eb4j.sourceforge.jp
+The original development and versions had stopped in 2010.</p>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::links.adoc[]</p>
+<p>Here is a fork and active development version.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="how-to-install-the-library">How to install the library</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can install the library from bintray maven repository.</p>
 </div>
 <div class="paragraph">
-<p>Unresolved directive in index.adoc - include::reports.adoc[]</p>
+<p><a href="https://bintray.com/beta/#/eb4j/maven/eb4j-core?tab=overview" class="bare">https://bintray.com/beta/#/eb4j/maven/eb4j-core?tab=overview</a></p>
+</div>
+<div class="paragraph">
+<p>You need to add a above repository to your project.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example for configurations;</p>
+</div>
+<div class="paragraph">
+<p>For Gradle;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>repositories {
+    maven {
+        url &quot;https://dl.bintray.com/eb4j/maven/&quot;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>then</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>implementation 'io.github.eb4j:eb4j:2.0.0'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For adding repository with Maven;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;settings xmlns='http://maven.apache.org/SETTINGS/1.0.0' xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'&gt;
+  &lt;profiles&gt; &lt;profile&gt;
+      &lt;repositories&gt; &lt;repository&gt;
+          &lt;snapshots&gt; &lt;enabled&gt; false &lt;/enabled&gt; &lt;/snapshots&gt;
+          &lt;id&gt; bintray-eb4j-maven &lt;/id&gt;
+          &lt;name&gt; bintray &lt;/name&gt;
+          &lt;url&gt; https://dl.bintray.com/eb4j/maven &lt;/url&gt;
+      &lt;/repository&gt; &lt;/repositories&gt;
+      &lt;pluginRepositories&gt; &lt;pluginRepository&gt;
+          &lt;snapshots&gt; &lt;enabled&gt; false &lt;/enabled&gt; &lt;/snapshots&gt;
+          &lt;id&gt; bintray-eb4j-maven &lt;/id&gt;
+          &lt;name&gt; bintray-plugins &lt;/name&gt;
+          &lt;url&gt; https://dl.bintray.com/eb4j/maven &lt;/url&gt;
+      &lt;/pluginRepository&gt; &lt;/pluginRepositories&gt;
+      &lt;id&gt; bintray &lt;/id&gt;
+  &lt;/profile&gt; &lt;/profiles&gt;
+  &lt;activeProfiles&gt; &lt;activeProfile&gt; bintray &lt;/activeProfile&gt; &lt;/activeProfiles&gt;
+&lt;/settings&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To use with Maven:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;dependency&gt;
+        &lt;groupId&gt;io.github.eb4j&lt;/groupId&gt;
+        &lt;artifactId&gt;eb4j&lt;/artifactId&gt;
+        &lt;version&gt;2.0.0&lt;/version&gt;
+        &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contacts">Contacts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You are welcome to make questions, join developments and add documents on wiki!
+You can reach us at;</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Project home: <a href="https://github.com/eb4j/eb4j" class="bare">https://github.com/eb4j/eb4j</a></p>
+</li>
+<li>
+<p>Issues: <a href="https://github.com/eb4j/eb4j/issues" class="bare">https://github.com/eb4j/eb4j/issues</a></p>
+</li>
+<li>
+<p>Wiki: <a href="https://github.com/eb4j/eb4j/wiki" class="bare">https://github.com/eb4j/eb4j/wiki</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="usage">Usage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here is a some usage information for EB4J library.</p>
+</div>
+<div class="sect2">
+<h3 id="library-api">Library API</h3>
+<div class="paragraph">
+<p>See javadoc <a href="https://eb4j.github.io/eb4j/javadoc/index.html" class="bare">https://eb4j.github.io/eb4j/javadoc/index.html</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="library-extensions-against-standard">Library: extensions against standard</h3>
+<div class="sect3">
+<h4 id="appendix">appendix</h4>
+<div class="paragraph">
+<p>The <code>appendix</code> is an amendment data for CD-ROM book, which is specific for eb library.
+EB4J can understand <code>appendix</code> that eb library utility generated.
+It provide following items.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Seperator character code.</p>
+</li>
+<li>
+<p>Alternative string for external fonts(EUC-JP and/or Unicode escape sequence)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It provides alternative strings for external fonts defined in EPWING data.
+It also provides hint information for seperator of article, that is ordinally detect automatically
+but not implicitly defined in EPWING data. Otherwise, the hint provides hint what character is a seperator.
+Following is same description in Japanese.</p>
+</div>
+<div class="paragraph">
+<p>appendix (付録) とは CD-ROM 書籍の補助データの ことです。
+appendix は CD-ROM 書籍の出版社から提供されているものではなく、 EB および EB4J ライブラリに固有のものです。
+EB4Jは、このデータを解釈利用することができます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>本文の区切りコード</p>
+</li>
+<li>
+<p>外字の代替文字列(EUC-JPおよび Unicode escape sequence)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>appendix のレイアウトは CD-ROM 書籍のものとよく似ています。
+トップディレクトリには catalog もしくは catalogs ファイルが存在し、各副本のデータは対応する サブディレクトリに配置されています。</p>
+</div>
+<div class="paragraph">
+<p>EB4J can handle the appendix contents and provide an API
+to get alternative string for external font griff codepoint.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/Appendix.html">JavadDoc for Appendix class</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It accept Unicode escape sequences, such as '\u00E1', and  '\U001F401' form.
+The appendix can be produced by eb4j-tools appendix subcommand.</p>
+</div>
+<div class="paragraph">
+<p>オリジナルのEBライブラリは、EUC-JPで代替文字列を生成します。EB4J-toolsのappendixコマンドは、
+ASCII文字およびUnicode escape sequenceを生成します。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="unicode-map-file">Unicode map file</h4>
+<div class="paragraph">
+<p>Unicode map file is an amendment data for CD-ROM book, which is produced by EBStudio2 authoring tool.
+EBStudio2 generates external fonts codepoints for unicode characters, and also generate <code>.map</code> file
+which describe mapping between external fonts codepoints to unicode characters.</p>
+</div>
+<div class="paragraph">
+<p>The <code>.map</code> file should be a TSV: tab-separated value text file, and WBWin4 EBook reader bundles <code>.map</code> files with applicaiton.</p>
+</div>
+<div class="paragraph">
+<p>EB4J use <code>.map</code> file and provides API to get Unicode charecter code from external font codepoint.
+User can put <code>.map</code> file on a same directory with dictionary CATALOG file.</p>
+</div>
+<div class="paragraph">
+<p>Following is same description in Japanese.</p>
+</div>
+<div class="paragraph">
+<p>Unicode mapファイルは、CDROM電子書籍のデータに追加するデータです。
+EPWING形式の書籍をオーサリングするツールである、EBStudio2は、EPWINGでストレートに表現できないUnicodeの 文字を、
+自動的に外字定義として変換する機能を有しています。そのとき同時に、外字とUnicode文字コードポイントの対応関係を
+<code>.map</code> という拡張子のファイルに生成します。</p>
+</div>
+<div class="paragraph">
+<p>`.map`ファイルは、TSV: タブ区切り値テキスト ファイルである必要があります。
+通常、EBStudio2の作者が配布している 電子書籍リーダーであるEBWin4に同梱されており、インストールされた
+アプリケーションのフォルダーにいくつかの著名な辞書のためのファイルが格納されています。</p>
+</div>
+<div class="paragraph">
+<p>ユーザが、電子辞書のCATALOGファイルとおなじフォルダに、対応する`.map`ファイルを格納することで、
+EB4Jは、自動的にそのファイルをよみこんで、処理します。
+EB4Jには、この値を取得するための拡張されたAPIがあります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://eb4j.github.io/eb4j/javadoc/io/github/eb4j/ext/UnicodeMap.html">JavaDoc for UnicodeMap class</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="utility-commands">Utility commands</h3>
+<div class="sect3">
+<h4 id="ebdump">EBDUMP</h4>
+<div class="paragraph">
+<p><strong>EBDump</strong> - dump dictionary data</p>
+</div>
+<div class="paragraph">
+<p><strong>SYNOPSIS</strong>  java -jar EBDump.jar [OPTION] [BOOK directory]</p>
+</div>
+<div class="paragraph">
+<p><strong>DESCRIPTION</strong></p>
+</div>
+<div class="paragraph">
+<p>Extract book data to console.
+If a BOOK directory is not specified, EBDump use current directory as
+a book directory(A CATALOG file exist.)</p>
+</div>
+<div class="paragraph">
+<p>-s --subbook  subbook index number</p>
+</div>
+<div class="paragraph">
+<p>-p --page  page number(HEX)</p>
+</div>
+<div class="paragraph">
+<p>-o --offset offset number(HEX)</p>
+</div>
+<div class="paragraph">
+<p>-p --position position(HEX)</p>
+</div>
+<div class="paragraph">
+<p>-d --dump  dump size(HEX)</p>
+</div>
+<div class="paragraph">
+<p>-h --help  display help message</p>
+</div>
+<div class="paragraph">
+<p>-v --version display version</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ebinfo">EBINFO</h4>
+<div class="paragraph">
+<p><strong>EBInfo</strong> - display book information</p>
+</div>
+<div class="paragraph">
+<p><strong>SYNOPSIS</strong> java -jar EBInfo.jar [OPTION] [BOOK directory]</p>
+</div>
+<div class="paragraph">
+<p>Display book information to console.
+If a BOOK directory is omitted, EBInfo use current directory as a book.</p>
+</div>
+<div class="paragraph">
+<p>-m --multi-search  display multi-search information</p>
+</div>
+<div class="paragraph">
+<p>-h --help display help message</p>
+</div>
+<div class="paragraph">
+<p>-v --version display version</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ebzip">EBZIP</h4>
+<div class="paragraph">
+<p><strong>EBZip</strong> - Compress dictionary</p>
+</div>
+<div class="paragraph">
+<p><strong>SYNOPSIS</strong> java -jar EBZip.jar [OPTION] [BOOK directory]</p>
+</div>
+<div class="paragraph">
+<p>Compress/decompress dictionary file with EBZip (.ebz)</p>
+</div>
+<div class="paragraph">
+<p>-f --force-overwerite force overwrite output file</p>
+</div>
+<div class="paragraph">
+<p>-n --no-overwrite  prohibit overwrite of output file</p>
+</div>
+<div class="paragraph">
+<p>-i --information  list information of compressed file</p>
+</div>
+<div class="paragraph">
+<p>-k --keep  keep (don&#8217;t delete) original file</p>
+</div>
+<div class="paragraph">
+<p>-l --level  compression level</p>
+</div>
+<div class="paragraph">
+<p>-o --output-directory  output file to a specified directory</p>
+</div>
+<div class="paragraph">
+<p>-q --quiet   suppress all warnings</p>
+</div>
+<div class="paragraph">
+<p>-s --skip-content  [font [, sound [, [grahpic [, movie]]]   skip specified content</p>
+</div>
+<div class="paragraph">
+<p>-S --subbook  target subbook</p>
+</div>
+<div class="paragraph">
+<p>-z --compress  compress files</p>
+</div>
+<div class="paragraph">
+<p>-u --uncompress  uncompress files</p>
+</div>
+<div class="paragraph">
+<p>-t --test   only check input files</p>
+</div>
+<div class="paragraph">
+<p>-h --help  display help message</p>
+</div>
+<div class="paragraph">
+<p>-v --version  display version</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="copyright">Copyright</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>EB4J - EPWING/Ebook access library and utilities.</p>
+</div>
+<div class="paragraph">
+<p>Copyright&#169; 2020 Hiroshi Miura</p>
+</div>
+<div class="paragraph">
+<p>Copyright&#169; 2016 Hiroshi Miura, Aaron Madlon-Kay</p>
+</div>
+<div class="paragraph">
+<p>Copyright&#169; 2003-2010 Hisaya FUKUMOTO</p>
+</div>
+<div class="paragraph">
+<p>This library is free software; you can redistribute it and/or modify it under
+the terms of the GNU Lesser General Public License as published by the Free
+Software Foundation; either version 2.1 of the License, or (at your option) any
+later version.</p>
+</div>
+<div class="paragraph">
+<p>This library is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.</p>
+</div>
+<div class="paragraph">
+<p>You should have received a copy of the GNU Lesser General Public License along
+with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="technical-references-技術資料">Technical references 技術資料</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.nerimadors.or.jp/~jiro/cdrom2/doc/spec">12cmＣＤ(EPWING)と、電子ブック(EB)のデータ構造について</a></p>
+</li>
+<li>
+<p><a href="https://www.jisc.go.jp/app/jis/general/GnrJISNumberNameSearchList?show&amp;jisStdNo=X4081">JIS X 4081</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="reference-software-参考ソフトウェア">Reference Software 参考ソフトウェア</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/mistydemeo/eb">EBライブラリ</a></p>
+</li>
+<li>
+<p><a href="http://openlab.ring.gr.jp/edict/fpw/">FreePWING</a></p>
+</li>
+<li>
+<p><a href="https://ebstudio.hatenablog.com/entry/20171018/p1">EBstudio Unicodeマッピング</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="projects-who-use-eb4j-2-0-0-and-later">Projects who use EB4J 2.0.0 and later</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/miurahr/omegat-plugin-epwing">OmegaT CAT tool plugin for EPWING dictionary</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="code-references">Code references</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="checkstyle-report"><a href="http://eb4j.github.io/eb4j/checkstyle/main.html">Checkstyle report</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="javadoc"><a href="http://eb4j.github.io/eb4j/javadoc/index.html">JavaDoc</a></h3>
+
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 9158c2<br>
-Last updated 2021-12-20 03:46:07 UTC
+Version 8aadbf<br>
+Last updated 2021-12-20 04:48:27 UTC
 </div>
 </div>
+<style>
+/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
+pre.CodeRay{background:#f7f7f8}
+.CodeRay .line-numbers{border-right:1px solid currentColor;opacity:.35;padding:0 .5em 0 0}
+.CodeRay span.line-numbers{display:inline-block;margin-right:.75em}
+.CodeRay .line-numbers strong{color:#000}
+table.CodeRay{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.CodeRay td{vertical-align:top;line-height:inherit}
+table.CodeRay td.line-numbers{text-align:right}
+table.CodeRay td.code{padding:0 0 0 .75em}
+.CodeRay .debug{color:#fff !important;background:#000080 !important}
+.CodeRay .annotation{color:#007}
+.CodeRay .attribute-name{color:#000080}
+.CodeRay .attribute-value{color:#700}
+.CodeRay .binary{color:#509}
+.CodeRay .comment{color:#998;font-style:italic}
+.CodeRay .char{color:#04d}
+.CodeRay .char .content{color:#04d}
+.CodeRay .char .delimiter{color:#039}
+.CodeRay .class{color:#458;font-weight:bold}
+.CodeRay .complex{color:#a08}
+.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
+.CodeRay .color{color:#099}
+.CodeRay .class-variable{color:#369}
+.CodeRay .decorator{color:#b0b}
+.CodeRay .definition{color:#099}
+.CodeRay .delimiter{color:#000}
+.CodeRay .doc{color:#970}
+.CodeRay .doctype{color:#34b}
+.CodeRay .doc-string{color:#d42}
+.CodeRay .escape{color:#666}
+.CodeRay .entity{color:#800}
+.CodeRay .error{color:#808}
+.CodeRay .exception{color:inherit}
+.CodeRay .filename{color:#099}
+.CodeRay .function{color:#900;font-weight:bold}
+.CodeRay .global-variable{color:#008080}
+.CodeRay .hex{color:#058}
+.CodeRay .integer,.CodeRay .float{color:#099}
+.CodeRay .include{color:#555}
+.CodeRay .inline{color:#000}
+.CodeRay .inline .inline{background:#ccc}
+.CodeRay .inline .inline .inline{background:#bbb}
+.CodeRay .inline .inline-delimiter{color:#d14}
+.CodeRay .inline-delimiter{color:#d14}
+.CodeRay .important{color:#555;font-weight:bold}
+.CodeRay .interpreted{color:#b2b}
+.CodeRay .instance-variable{color:#008080}
+.CodeRay .label{color:#970}
+.CodeRay .local-variable{color:#963}
+.CodeRay .octal{color:#40e}
+.CodeRay .predefined{color:#369}
+.CodeRay .preprocessor{color:#579}
+.CodeRay .pseudo-class{color:#555}
+.CodeRay .directive{font-weight:bold}
+.CodeRay .type{font-weight:bold}
+.CodeRay .predefined-type{color:inherit}
+.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
+.CodeRay .key{color:#808}
+.CodeRay .key .delimiter{color:#606}
+.CodeRay .key .char{color:#80f}
+.CodeRay .value{color:#088}
+.CodeRay .regexp .delimiter{color:#808}
+.CodeRay .regexp .content{color:#808}
+.CodeRay .regexp .modifier{color:#808}
+.CodeRay .regexp .char{color:#d14}
+.CodeRay .regexp .function{color:#404;font-weight:bold}
+.CodeRay .string{color:#d20}
+.CodeRay .string .string .string{background:#ffd0d0}
+.CodeRay .string .content{color:#d14}
+.CodeRay .string .char{color:#d14}
+.CodeRay .string .delimiter{color:#d14}
+.CodeRay .shell{color:#d14}
+.CodeRay .shell .delimiter{color:#d14}
+.CodeRay .symbol{color:#990073}
+.CodeRay .symbol .content{color:#a60}
+.CodeRay .symbol .delimiter{color:#630}
+.CodeRay .tag{color:#008080}
+.CodeRay .tag-special{color:#d70}
+.CodeRay .variable{color:#036}
+.CodeRay .insert{background:#afa}
+.CodeRay .delete{background:#faa}
+.CodeRay .change{color:#aaf;background:#007}
+.CodeRay .head{color:#f8f;background:#505}
+.CodeRay .insert .insert{color:#080}
+.CodeRay .delete .delete{color:#800}
+.CodeRay .change .change{color:#66f}
+.CodeRay .head .head{color:#f4f}
+</style>
 </body>
 </html>
