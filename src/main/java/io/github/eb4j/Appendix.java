@@ -33,19 +33,10 @@ public class Appendix {
 
 
     /**
-     * ifeval::["{lang}" == "en"]
      * = Initialize new appendix object indicated by String path.
      *
      * @param path Path of appendix package in String.
      * @exception EBException when error on initialization.
-     *
-     * endif::[]
-     * ifeval::["{lang}" == "ja"]
-     * = コンストラクタ。
-     * @param path 付録パッケージのパス
-     * @exception EBException 初期化中にエラーが発生した場合
-     *
-     * endif::[]
      */
     public Appendix(final String path) throws EBException {
         this(new File(path));

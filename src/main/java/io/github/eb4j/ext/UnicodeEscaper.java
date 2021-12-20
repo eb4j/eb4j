@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.Writer;
 
 
+/**
+ * Escape Unicode values to the form  UTF16 \\u\d\d\d\d or UTF32 \\u\d\d\d\d\d\d\d\d forme.
+ */
 public class UnicodeEscaper extends CodePointTranslator {
 
     private static final char[] HEX_DIGITS = new char[] {'0', '1', '2', '3',

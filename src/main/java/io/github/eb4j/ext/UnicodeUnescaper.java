@@ -7,8 +7,7 @@ import java.io.Writer;
 
 
 /**
- * Translates escaped Unicode values of the form  UTF16 \\u\d\d\d\d or
- * UTF32 \\u\d\d\d\d\d\d\d\d back to Unicode.
+ * Translates escaped values of the form  UTF16 \\u\d\d\d\d or UTF32 \\u\d\d\d\d\d\d\d\d to Unicode.
  */
 public class UnicodeUnescaper extends CharSequenceTranslator {
 

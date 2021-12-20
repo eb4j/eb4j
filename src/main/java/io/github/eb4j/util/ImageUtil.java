@@ -59,6 +59,9 @@ public final class ImageUtil {
         (byte)0xae, 0x42, 0x60, (byte)0x82
     };
 
+    /** bmp header size */
+    private static final int BMP_PREAMBLE_LENGTH = 62;
+
 
     /**
      * コンストラクタ。
@@ -70,8 +73,9 @@ public final class ImageUtil {
 
     /**
      * Convert image data (PNG, BMP, JPEG) to PNG data.
-     * @param b
-     * @return
+     * @param b image data
+     * @return PNG data
+     * @throws IOException when conversion error happened.
      */
     public static byte[] imageToPNG(final byte[] b) throws IOException {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -485,7 +489,6 @@ public final class ImageUtil {
      * @return BMP format gaiji image.
      */
     public static byte[] ebBitmap2BMP(final byte[] data, final int width, final int height) {
-        final int BMP_PREAMBLE_LENGTH = 62;
         final byte[] bmpPreamble = new byte[] {
                 // Type
                 'B', 'M',

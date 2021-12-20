@@ -156,7 +156,7 @@ public class UnicodeMap {
         }
     }
 
-    private void addEntry(Integer keyNum, String val, String alt, boolean wide) {
+    private void addEntry(final Integer keyNum, final String val, final String alt, final boolean wide) {
         if (val.startsWith("u") || val.startsWith("U")) {
             if (val.contains(",")) {
                 StringBuilder sb = new StringBuilder();

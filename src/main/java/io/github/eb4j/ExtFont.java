@@ -5,10 +5,6 @@ import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 import io.github.eb4j.util.ImageUtil;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -333,7 +329,8 @@ public class ExtFont {
      */
     public byte[] getNarrowFontPNG(final int code) throws EBException {
         try {
-            return ImageUtil.imageToPNG(ImageUtil.ebBitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight()));
+            return ImageUtil.imageToPNG(
+                    ImageUtil.ebBitmap2BMP(_getFont(NARROW, code), getNarrowFontWidth(), getFontHeight()));
         } catch (IOException e) {
             throw new EBException(EBException.FAILED_CONVERT_GAIJI);
         }
@@ -347,7 +344,8 @@ public class ExtFont {
      */
     public byte[] getWideFontPNG(final int code) throws EBException {
         try {
-            return ImageUtil.imageToPNG(ImageUtil.ebBitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight()));
+            return ImageUtil.imageToPNG(
+                    ImageUtil.ebBitmap2BMP(_getFont(WIDE, code), getWideFontWidth(), getFontHeight()));
         } catch (IOException e) {
             throw new EBException(EBException.FAILED_CONVERT_GAIJI);
         }

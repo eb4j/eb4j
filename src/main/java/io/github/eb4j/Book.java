@@ -432,8 +432,8 @@ public class Book {
                     bis.readFully(b, 0, b.length);
                     if ((b[4] & 0xff) != 0) {
                         // 本文テキストファイル名
-                        EBFormat format;
-                        if ((format = getFormat(b[55] & 0xff)) == EBFormat.FORMAT_UNKNOWN) {
+                        EBFormat format = getFormat(b[55] & 0xff);
+                        if (format == EBFormat.FORMAT_UNKNOWN) {
                             throw new EBException(EBException.UNEXP_FILE, file.getPath());
                         }
                         files.setHonmon(new String(b, 4, SIZE_DIRNAME, Charset.forName("ASCII"))
@@ -441,13 +441,15 @@ public class Book {
                         int dataType = ByteUtil.getInt2(b, 41);
                         // 画像ファイル名
                         if ((dataType & 0x03) == 0x02) {
-                            if ((format = getFormat(b[54] & 0xff)) == EBFormat.FORMAT_UNKNOWN) {
+                            format = getFormat(b[54] & 0xff);
+                            if (format == EBFormat.FORMAT_UNKNOWN) {
                                 throw new EBException(EBException.UNEXP_FILE, file.getPath());
                             }
                             files.setGraphic(new String(b, 44, SIZE_DIRNAME,
                                     Charset.forName("ASCII")).trim(), format);
                         } else if (((dataType>>>8) & 0x03) == 0x02) {
-                            if ((format = getFormat(b[53] & 0xff)) == EBFormat.FORMAT_UNKNOWN) {
+                            format = getFormat(b[53] & 0xff);
+                            if (format == EBFormat.FORMAT_UNKNOWN) {
                                 throw new EBException(EBException.UNEXP_FILE, file.getPath());
                             }
                             files.setGraphic(new String(b, 56, SIZE_DIRNAME,
@@ -456,13 +458,15 @@ public class Book {
 
                         // 音声ファイル名
                         if ((dataType & 0x03) == 0x01) {
-                            if ((format = getFormat(b[54] & 0xff)) == EBFormat.FORMAT_UNKNOWN) {
+                            format = getFormat(b[54] & 0xff);
+                            if (format == EBFormat.FORMAT_UNKNOWN) {
                                 throw new EBException(EBException.UNEXP_FILE, file.getPath());
                             }
                             files.setSound(new String(b, 44, SIZE_DIRNAME, Charset.forName("ASCII"))
                                     .trim(), format);
                         } else if (((dataType>>>8) & 0x03) == 0x01) {
-                            if ((format = getFormat(b[53] & 0xff)) == EBFormat.FORMAT_UNKNOWN) {
+                            format = getFormat(b[53] & 0xff);
+                            if (format == EBFormat.FORMAT_UNKNOWN) {
                                 throw new EBException(EBException.UNEXP_FILE, file.getPath());
                             }
                             files.setSound(new String(b, 56, SIZE_DIRNAME, Charset.forName("ASCII"))
