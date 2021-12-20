@@ -13,8 +13,8 @@ import static org.testng.Assert.assertNotNull;
  */
 public class AppendixTest {
 
-    Book book;
-    SubAppendix subAppendix;
+    private Book book;
+    private SubAppendix subAppendix;
 
     /**
      * Test to read unicode map file(.map).
