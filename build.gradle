@@ -38,11 +38,9 @@ configurations {
 }
 
 dependencies {
-    api 'org.slf4j:slf4j-api:1.7.32'
     doclet 'org.asciidoctor:asciidoclet:1.5.6'
     implementation 'org.apache.commons:commons-lang3:3.11'
     implementation 'org.apache.commons:commons-text:1.9'
-    testImplementation 'org.slf4j:slf4j-simple:1.7.32'
     testImplementation 'org.testng:testng:7.4.0'
 }
 test.useTestNG()

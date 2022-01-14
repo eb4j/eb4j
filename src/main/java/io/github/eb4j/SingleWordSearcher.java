@@ -1,15 +1,9 @@
 package io.github.eb4j;
 
-import java.io.UnsupportedEncodingException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
 import io.github.eb4j.util.CompareUtil;
-import io.github.eb4j.util.HexUtil;
 
 /**
  * Search class for searching with a single word.
@@ -38,9 +32,6 @@ public class SingleWordSearcher implements Searcher {
     private static final int VARIABLE = 0;
     /** 項目の配置スタイル */
     private static final int FIXED = 1;
-
-    /** ログ */
-    private Logger _logger = null;
 
     /** 副本 */
     private SubBook _sub = null;
@@ -99,7 +90,6 @@ public class SingleWordSearcher implements Searcher {
      */
     protected SingleWordSearcher(final SubBook sub, final IndexStyle style, final int type) {
         super();
-        _logger = LoggerFactory.getLogger(getClass());
         _sub = sub;
         _file = sub.getTextFile();
         _style = style;
@@ -138,11 +128,6 @@ public class SingleWordSearcher implements Searcher {
                 ByteUtil.reverseWord(_word);
                 ByteUtil.reverseWord(_canonical);
             }
-        }
-        try {
-            _logger.debug("search word: '" + new String(_word, "x-JIS0208") + "'");
-            _logger.debug("search canonical word: '" + new String(_canonical, "x-JIS0208") + "'");
-        } catch (UnsupportedEncodingException e) {
         }
     }
 
@@ -183,12 +168,6 @@ public class SingleWordSearcher implements Searcher {
             default:
                 comp = CompareUtil.compareToByte(key, pattern, true);
                 break;
-        }
-        try {
-            _logger.debug("compare key word: (" + comp + ") '"
-                          + new String(key, "x-JIS0208") + "' '"
-                          + new String(pattern, "x-JIS0208") + "'");
-        } catch (UnsupportedEncodingException e) {
         }
         return comp;
     }
@@ -258,12 +237,6 @@ public class SingleWordSearcher implements Searcher {
                 }
                 break;
         }
-        try {
-            _logger.debug("compare key word: (" + comp + ") '"
-                          + new String(key, "x-JIS0208") + "' '"
-                          + new String(pattern, "x-JIS0208") + "'");
-        } catch (UnsupportedEncodingException e) {
-        }
         return comp;
     }
 
@@ -313,12 +286,6 @@ public class SingleWordSearcher implements Searcher {
                 }
                 break;
         }
-        try {
-            _logger.debug("compare key word: (" + comp + ") '"
-                          + new String(key, "x-JIS0208") + "' '"
-                          + new String(pattern, "x-JIS0208") + "'");
-        } catch (UnsupportedEncodingException e) {
-        }
         return comp;
     }
 
@@ -353,8 +320,6 @@ public class SingleWordSearcher implements Searcher {
                 _entryCount = ByteUtil.getInt2(_cache, 2);
                 _off = 4;
 
-                _logger.debug("page=0x" + HexUtil.toHexString(_page)
-                              + ", ID=0x" + HexUtil.toHexString(_pageID));
                 // リーフインデックスに達したらループ終了
                 if (_isLeafLayer(_pageID)) {
                     break;
@@ -523,8 +488,6 @@ public class SingleWordSearcher implements Searcher {
                 _entryCount = ByteUtil.getInt2(_cache, 2);
                 _entryIndex = 0;
                 _off = 4;
-                _logger.debug("page=0x" + HexUtil.toHexString(_page)
-                              + ", ID=0x" + HexUtil.toHexString(_pageID));
             }
         }
     }

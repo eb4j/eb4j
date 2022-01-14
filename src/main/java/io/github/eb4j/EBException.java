@@ -32,6 +32,8 @@ public class EBException extends Exception {
     public static final int CANT_FIND_UNICODEMAP = 7;
     /** Error code: failed to convert gaiji image. */
     public static final int FAILED_CONVERT_GAIJI = 8;
+    /** Error code: failed to convert image data */
+    public static final int FAILED_CONVERT_IMAGE = 9;
 
     /** Error messages */
     private static final String[] ERR_MSG = {

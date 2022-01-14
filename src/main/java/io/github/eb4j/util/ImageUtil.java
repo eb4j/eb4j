@@ -1,5 +1,7 @@
 package io.github.eb4j.util;
 
+import io.github.eb4j.EBException;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -10,11 +12,10 @@ import java.util.Iterator;
 import java.util.zip.CRC32;
 import java.util.zip.Deflater;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
+
+import static io.github.eb4j.EBException.FAILED_CONVERT_IMAGE;
 
 /**
  * Image manipulation utility.
@@ -23,9 +24,6 @@ import javax.imageio.ImageWriter;
  * @author Hiroshi Miura
  */
 public final class ImageUtil {
-
-    /** ログ */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImageUtil.class);
 
     /** PNGヘッダ */
     private static final byte[] PNG_HEADER = {
@@ -195,8 +193,9 @@ public final class ImageUtil {
      *
      * @param b DIBデータ
      * @return PNGデータ
+     * @throws EBException when image conversion error occurred.
      */
-    public static byte[] dibToPNG(final byte[] b) {
+    public static byte[] dibToPNG(final byte[] b) throws EBException {
         return dibToPNG(b, Deflater.DEFAULT_COMPRESSION);
     }
 
@@ -207,24 +206,23 @@ public final class ImageUtil {
      * @param b DIBデータ
      * @param level 圧縮レベル (0-9)
      * @return PNGデータ
+     * @throws EBException when image conversion error occurred.
      */
-    public static byte[] dibToPNG(final byte[] b, final int level) {
+    public static byte[] dibToPNG(final byte[] b, final int level) throws EBException {
         Bitmap bitmap;
         byte[] image;
 
         try {
             bitmap = new Bitmap(b);
         } catch (IOException e) {
-            LOGGER.info(e.getMessage());
-            return new byte[0];
+            throw new EBException(FAILED_CONVERT_IMAGE, e);
         }
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         try {
             image = bitmap.getImageData();
         } catch (IOException e) {
-            LOGGER.info(e.getMessage());
-            return new byte[0];
+            throw new EBException(FAILED_CONVERT_IMAGE, e);
         }
         return _encodePNG(width, height, image, level);
     }
