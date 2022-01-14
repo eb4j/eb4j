@@ -38,7 +38,7 @@ configurations {
 }
 
 dependencies {
-    api 'org.slf4j:slf4j-api:1.7.32'
+    api 'org.slf4j:slf4j-api:1.7.33'
     doclet 'org.asciidoctor:asciidoclet:1.5.6'
     implementation 'org.apache.commons:commons-lang3:3.11'
     implementation 'org.apache.commons:commons-text:1.9'
