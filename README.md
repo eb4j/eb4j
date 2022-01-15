@@ -8,7 +8,7 @@ EPWING/Ebook access library.
 
 ```
 dependencies {
-    implementation 'io.github.eb4j:eb4j:2.3.0'
+    implementation 'io.github.eb4j:eb4j:2.3.1'
 }
 ```
 
@@ -16,7 +16,7 @@ dependencies {
 
 ```
 dependencies {
-    implementation("io.github.eb4j:eb4j:2.3.0")
+    implementation("io.github.eb4j:eb4j:2.3.1")
 }
 ```
 
@@ -27,7 +27,7 @@ dependencies {
     <dependency>
       <groupId>io.github.eb4j</groupId>
       <artifactId>eb4j</artifactId>
-      <version>2.3.0</version>
+      <version>2.3.1</version>
       <type>jar</type>
     </dependency>
     ...
@@ -65,7 +65,7 @@ Copyright(C) 2003-2010 Hisaya FUKUMOTO
 
 Copyright(C) 2016 Hiroshi Miura, Aaron Madlon-Kay
 
-Copyright(C) 2020-2021 Hiroshi Miura
+Copyright(C) 2020-2022 Hiroshi Miura
 
 This library is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free
