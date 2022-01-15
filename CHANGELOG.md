@@ -3,6 +3,20 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.3.1] - 2022-1-18
+
+### Fixed
+- Web site documentation and reorganize document directory
+- README example for kotlin DSL
+
+### Changed
+- Drop dependency for SLF4j
+- Bump versions
+  - testng@7.5
+  - actions/github-script@5
+  - actions/setup-java@2.5.0
+  - actions/gradle-build-action@2.1.0
+ 
 ## [2.3.0] - 2021-9-27
 
 ### Added
@@ -163,7 +177,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Import from eb4j-1.0.5
 
-[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/eb4j/eb4j/compare/v2.3.1...HEAD
+[2.3.1]: https://github.com/eb4j/eb4j/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/eb4j/eb4j/compare/v2.2.2...v2.3.0
 [2.2.2]: https://github.com/eb4j/eb4j/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/eb4j/eb4j/compare/v2.2.0...v2.2.1
