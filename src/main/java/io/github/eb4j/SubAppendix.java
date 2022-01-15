@@ -10,8 +10,6 @@ import io.github.eb4j.io.EBFile;
 import io.github.eb4j.io.EBFormat;
 import io.github.eb4j.io.BookInputStream;
 import io.github.eb4j.util.ByteUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Subbook class for Appendix package.
@@ -20,8 +18,6 @@ import org.slf4j.LoggerFactory;
  * @author Hiroshi Miura
  */
 public class SubAppendix {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubAppendix.class.getName());
 
     /** 最大代替文字長 */
     private static final int ALTERNATION_TEXT_LENGTH = 31;
@@ -229,8 +225,8 @@ public class SubAppendix {
         }
 
         if (start[kind] == -1 || code < start[kind] || code > end[kind]) {
-            LOGGER.warn(String.format("Appendix: request code %d to get out of range(%d, %d).",
-                    code, start[kind], end[kind]));
+            // LOGGER.warn(String.format("Appendix: request code %d to get out of range(%d, %d).",
+            // code, start[kind], end[kind]));
             return null;
         }
 
@@ -243,14 +239,14 @@ public class SubAppendix {
         int index;
         if (charCode == Book.CHARCODE_ISO8859_1) {
             if ((code & 0xff) < 0x01 || (code & 0xff) > 0xfe) {
-                LOGGER.warn("Appendix: request to get wrong code.");
+                // LOGGER.warn("Appendix: request to get wrong code.");
                 return null;
             }
             index = ((code >>> 8) - (start[kind] >>> 8)) * 0xfe
                 + ((code & 0xff) - (start[kind] & 0xff));
         } else {
             if ((code & 0xff) < 0x21 || (code & 0xff) > 0x7e) {
-                LOGGER.warn("Appendix: request to get wrong code.");
+                // LOGGER.warn("Appendix: request to get wrong code.");
                 return null;
             }
             index = ((code >>> 8) - (start[kind] >>> 8)) * 0x5e
@@ -269,7 +265,7 @@ public class SubAppendix {
             ret = unescaper.translate(tmp);
             map.put(code, ret);
         } catch (IOException e) {
-            LOGGER.warn("Appendix: Unsupported Encoding conversion error: " + e.getMessage());
+            // LOGGER.warn("Appendix: Unsupported Encoding conversion error: " + e.getMessage());
         }
         return ret;
     }
