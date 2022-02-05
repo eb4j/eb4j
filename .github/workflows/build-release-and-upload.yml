@@ -23,7 +23,7 @@ jobs:
         echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
     - uses: burrunan/gradle-cache-action@v1
       with:
-        gradle-version: 6.8.3
+        gradle-version: wrapper
         arguments: build
       env:
         ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SECRET_KEY }}
@@ -41,7 +41,7 @@ jobs:
     - name: Publish package to OSSRH
       uses: burrunan/gradle-cache-action@v1
       with:
-        gradle-version: 6.8.3
+        gradle-version: wrapper
         arguments: publishToSonatype
       env:
         ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SECRET_KEY }}
