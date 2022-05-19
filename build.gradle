@@ -41,7 +41,7 @@ dependencies {
     doclet 'org.asciidoctor:asciidoclet:1.5.6'
     implementation 'org.apache.commons:commons-lang3:3.11'
     implementation 'org.apache.commons:commons-text:1.9'
-    testImplementation 'org.testng:testng:7.5'
+    testImplementation 'org.testng:testng:7.6.0'
 }
 test.useTestNG()
 
